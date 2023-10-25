@@ -7,6 +7,10 @@
     </style>
 </head>
 <body>
+<form action="/logout" method="post">
+    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+    <input type="submit" value="Sign Out"/>
+</form>
 <div class="centered-text">
     <h3>"Good Big Company Family"</h3>
 </div>
@@ -21,6 +25,7 @@
             <input type="text" name="phone" placeholder="Input phone."/>
             <input type="text" name="additionalPhone" placeholder="Input additional phone."/>
 
+            <input type="hidden" name="_csrf" value="${_csrf.token}" />
             <button type="submit">Add employee</button>
         </div>
     </form>
@@ -29,6 +34,7 @@
 <div>
     <form method="post" action="filter">
         <input type="text" name="lastName" />
+        <input type="hidden" name="_csrf" value="${_csrf.token}" />
         <button type="submit">Find by last name</button>
     </form>
 </div>

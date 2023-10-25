@@ -15,14 +15,8 @@ public class GreetingController {
         this.employeeRepository = employeeRepository;
     }
 
-    @GetMapping("/greeting")
-    public String greeting(
-            @RequestParam(name="name", required=false, defaultValue="World")
-            String name,
-            Model model
-    ) {
-        model.addAttribute("name", name);
-
+    @GetMapping("/")
+    public String greeting() {
         return "greeting";
     }
 
@@ -32,7 +26,7 @@ public class GreetingController {
     ) {
 
         Iterable<Employee> listOfEmployees = employeeRepository.findAll();
-        model.addAttribute("users", listOfEmployees);
+        model.addAttribute("employees", listOfEmployees);
 
         return "main";
     }
@@ -56,10 +50,9 @@ public class GreetingController {
 
         employeeRepository.save(newEmployee);
 
-        //список всіх співробітників після додавання нового
+        //list of all employees after added new
         Iterable<Employee> listOfEmployees = employeeRepository.findAll();
 
-        //список співробітників до моделі
         model.addAttribute("employees", listOfEmployees);
 
         return "main";
