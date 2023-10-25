@@ -47,16 +47,18 @@
         </tr>
         </thead>
         <tbody class="centered-text">
-        <#list employees as employee>
-            <tr> <!-- string -->
-                    <td>${employee.id}</td>
-                    <td>${employee.firstName}</td> <!-- column -->
-                    <td>${employee.secondName}</td>
-                    <td>${employee.lastName}</td>
-                    <td>${employee.phone}</td>
-                    <td>${employee.additionalPhone}</td>
-            </tr>
-        </#list>
+        <#if employees??>
+            <#list employees as employee>
+                <tr> <!-- string -->
+                        <td>${employee.id}</td>
+                        <td>${employee.firstName}</td> <!-- column -->
+                        <td>${employee.secondName}</td>
+                        <td>${employee.lastName}</td>
+                        <td>${employee.phone}</td>
+                        <td>${employee.additionalPhone}</td>
+                </tr>
+            </#list>
+        </#if>
         </tbody>
     </table>
 </div>
