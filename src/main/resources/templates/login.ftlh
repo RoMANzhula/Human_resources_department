@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" >
-<head>
-    <title>Spring Security Example </title>
-</head>
-<body>
+<#import "blocks/general.ftlh" as g>
+<#import "blocks/login.ftlh" as l>
+
+<@g.page>
 Login page
-<form action="/login" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <input type="hidden" name="_csrf" value="${_csrf.token}" />
-    <div><input type="submit" value="Sign In"/></div>
-</form>
+<@l.login "/login" />
 <a href="/registration">Add new HR-manager</a>
-</body>
-</html>
+</@g.page>

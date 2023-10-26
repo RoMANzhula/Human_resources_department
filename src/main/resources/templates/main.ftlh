@@ -1,22 +1,14 @@
-<html>
-<head>
-    <style>
-        .centered-text {
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-<form action="/logout" method="post">
-    <input type="hidden" name="_csrf" value="${_csrf.token}" />
-    <input type="submit" value="Sign Out"/>
-</form>
-<div class="centered-text">
+<#import "blocks/general.ftlh" as g>
+<#import "blocks/login.ftlh" as l>
+
+<@g.page>
+
+<div class="container text-center">
     <h3>"Good Big Company Family"</h3>
 </div>
 
-<div>
-    <div>Add new employee</div>
+<div class="container text-center">
+    <div class="mb-2">Add new employee</div>
     <form method="post" action="main">
         <div>
             <input type="text" name="firstName" placeholder="Input firs name."/>
@@ -30,17 +22,19 @@
         </div>
     </form>
 </div>
-
-<div>
-    <form method="post" action="filter">
-        <input type="text" name="lastName" />
-        <input type="hidden" name="_csrf" value="${_csrf.token}" />
+<div class="ms-4 mt-2">
+    <form method="get" action="/main">
+        <input type="text" name="lastNameFilter" value="${lastNameFilter}" />
         <button type="submit">Find by last name</button>
     </form>
 </div>
 
-<div class="centered-text">List of employee</div>
-<div>
+<div class="ms-4 mt-2">
+    <@l.logout />
+</div>
+
+<div class="container text-center">List of employee</div>
+<div class="container text-center">
     <table>
         <thead>
         <tr>
@@ -52,7 +46,7 @@
             <th>Additional phone</th>
         </tr>
         </thead>
-        <tbody class="centered-text">
+        <tbody class="">
         <#if employees??>
             <#list employees as employee>
                 <tr> <!-- string -->
@@ -63,12 +57,12 @@
                         <td>${employee.phone}</td>
                         <td>${employee.additionalPhone}</td>
                 </tr>
+            <#else>
+                No employees
             </#list>
         </#if>
         </tbody>
     </table>
 </div>
 
-</body>
-
-</html>
+</@g.page>
