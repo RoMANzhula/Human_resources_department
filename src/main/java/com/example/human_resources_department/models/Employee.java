@@ -3,6 +3,9 @@ package com.example.human_resources_department.models;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+import java.util.Set;
+
 @Entity
 @Table(name = "employee")
 public class Employee {
@@ -15,6 +18,15 @@ public class Employee {
     private String lastName;
     private String phone;
     private String additionalPhone;
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "employee_role", joinColumns = @JoinColumn(name = "employee_id"))
+    @Enumerated(EnumType.STRING) //зберігаємо у вигляді строки до БД
+    private Set<Role> roles;
+
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(name = "reg_date", nullable = false)
+    private Date dateOfRegistration;
 
     private boolean active; //or released
 
@@ -83,5 +95,21 @@ public class Employee {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Date getDateOfRegistration() {
+        return dateOfRegistration;
+    }
+
+    public void setDateOfRegistration(Date dateOfRegistration) {
+        this.dateOfRegistration = dateOfRegistration;
     }
 }

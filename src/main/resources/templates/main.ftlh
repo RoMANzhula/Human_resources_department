@@ -8,8 +8,8 @@
 </div>
 
 <div class="container text-center">
-    <div class="mb-2">Add new employee</div>
-    <form method="post" action="main">
+    <div class="mb-2"><h4>Add new employee</h4></div>
+    <form method="post">
         <div>
             <input type="text" name="firstName" placeholder="Input firs name."/>
             <input type="text" name="secondName" placeholder="Input second name."/>
@@ -24,7 +24,11 @@
 </div>
 <div class="ms-4 mt-2">
     <form method="get" action="/main">
-        <input type="text" name="lastNameFilter" value="${lastNameFilter}" />
+        <#if lastNameFilter??>
+            <input type="text" name="lastNameFilter" value="${lastNameFilter}" />
+        <#else>
+            Last name not found
+        </#if>
         <button type="submit">Find by last name</button>
     </form>
 </div>
@@ -33,9 +37,12 @@
     <@l.logout />
 </div>
 
-<div class="container text-center">List of employee</div>
 <div class="container text-center">
-    <table>
+<#--    <button type="button" onclick="window.location.href='/employee'">List of employees</button>-->
+    <label><a href="/employee">List of employees</a></label>
+</div>
+<div class="container text-center">
+    <table class="table table-success table-sm">
         <thead>
         <tr>
             <th>Id employee</th>

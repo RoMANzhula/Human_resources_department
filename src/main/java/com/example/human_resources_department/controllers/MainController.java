@@ -2,16 +2,19 @@ package com.example.human_resources_department.controllers;
 
 import com.example.human_resources_department.models.Employee;
 import com.example.human_resources_department.repositories.EmployeeRepository;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
+
 @Controller
-public class GreetingController {
-    private EmployeeRepository employeeRepository;
-    public GreetingController(EmployeeRepository employeeRepository) {
+public class MainController {
+    private final EmployeeRepository employeeRepository;
+    public MainController(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 
@@ -41,9 +44,10 @@ public class GreetingController {
 
     @PostMapping("/main")
     public String addEmployee(
+            @AuthenticationPrincipal
             @RequestParam String firstName,
             @RequestParam String secondName,
-            @RequestParam String lastNameFilter,
+            @RequestParam String lastName,
             @RequestParam String phone,
             @RequestParam String additionalPhone,
             Model model
@@ -51,10 +55,12 @@ public class GreetingController {
         Employee newEmployee = new Employee(
                 firstName,
                 secondName,
-                lastNameFilter,
+                lastName,
                 phone,
                 additionalPhone
         );
+
+        newEmployee.setDateOfRegistration(new Date()); //install date of registration
 
         employeeRepository.save(newEmployee);
 

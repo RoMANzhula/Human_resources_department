@@ -24,7 +24,7 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public String registration() {
-        return "/registration";
+        return "registration";
     }
 
     @PostMapping("/registration")
@@ -32,7 +32,6 @@ public class RegistrationController {
             User user,
             Model model
     ) {
-        User userFromDB = userRepository.findByUsername(user.getUsername());
 
         if (!userService.addUser(user)) {
             model.addAttribute("message", "User already exists!");
