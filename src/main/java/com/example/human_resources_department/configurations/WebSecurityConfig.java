@@ -47,8 +47,7 @@ public class WebSecurityConfig {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userService) //info about user from DB
-//                .passwordEncoder(passwordEncoder.userPasswordEncoder())
-                .passwordEncoder(NoOpPasswordEncoder.getInstance()) // DON'T use NoOpPasswordEncoder in production
+                .passwordEncoder(passwordEncoder.userPasswordEncoder())
 
         ;
     }
