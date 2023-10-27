@@ -3,7 +3,7 @@ package com.example.human_resources_department.models;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    USER,
+    ADMIN,
     HR_MANAGER,
     JAVA_DEVELOPER,
     JAVASCRIPT_DEVELOPER,

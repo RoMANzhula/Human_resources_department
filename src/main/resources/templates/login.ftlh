@@ -4,5 +4,5 @@
 <@g.page>
 Login page
 <@l.login "/login" />
-<a href="/registration">Add new HR-manager</a>
+<#--<a href="/registration">Add new HR-manager</a>-->
 </@g.page>
