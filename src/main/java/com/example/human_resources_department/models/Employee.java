@@ -33,6 +33,7 @@ public class Employee {
     private Date dateOfRegistration;
 
     private boolean active; //or released
+    private String filePhoto;
 
     public Employee() {
     }
@@ -44,6 +45,10 @@ public class Employee {
         this.phone = phone;
         this.email = email;
         this.recruiter = recruiter;
+    }
+
+    public String getRecruiterName() { //if recruiter will be
+        return recruiter != null ? recruiter.getUsername() : "<unknown>";
     }
 
     public Long getId() {
@@ -124,5 +129,13 @@ public class Employee {
 
     public void setRecruiter(User recruiter) {
         this.recruiter = recruiter;
+    }
+
+    public String getFilePhoto() {
+        return filePhoto;
+    }
+
+    public void setFilePhoto(String filePhoto) {
+        this.filePhoto = filePhoto;
     }
 }

@@ -3,20 +3,28 @@ package com.example.human_resources_department.controllers;
 import com.example.human_resources_department.models.Employee;
 import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.repositories.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/employee")
 //@PreAuthorize("hasAuthority('HR_MANAGER')")
 public class EmployeeController {
+    @Value("${upload.path}")
+    private String uploadPath;
+
     private final EmployeeRepository employeeRepository;
 
     public EmployeeController(EmployeeRepository employeeRepository) {
@@ -60,8 +68,9 @@ public class EmployeeController {
             @RequestParam String secondName,
             @RequestParam String lastName,
             @RequestParam Map<String, String> form,
-            @RequestParam("employeeId") Employee employee
-    ) {
+            @RequestParam("employeeId") Employee employee,
+            @RequestParam("filePhoto") MultipartFile filePhoto
+            ) throws IOException {
         employee.setActive(isActive);
         employee.setFirstName(firstName);
         employee.setSecondName(secondName);
@@ -79,6 +88,22 @@ public class EmployeeController {
             if (roles.contains(check)) {
                 employee.getRoles().add(Role.valueOf(check));
             }
+        }
+
+        if (filePhoto != null && !filePhoto.getOriginalFilename().isEmpty()) {
+            File uploadDirect = new File(uploadPath);
+
+            if (!uploadDirect.exists()) {
+                uploadDirect.mkdir();
+            }
+
+            String uuidFileName = UUID.randomUUID().toString();
+            String fileNameEncoded = uuidFileName + "." + filePhoto.getOriginalFilename();
+
+            //loading file
+            filePhoto.transferTo(new File(uploadPath + "/" + fileNameEncoded));
+
+            employee.setFilePhoto(fileNameEncoded);
         }
 
         employeeRepository.save(employee);

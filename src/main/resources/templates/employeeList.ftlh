@@ -16,6 +16,7 @@
         </form>
     </div>
 
+    <div class="container text-center">
     <table class="table table-striped-columns">
         <thead>
             <tr>
@@ -40,6 +41,7 @@
             </#list>
         </tbody>
     </table>
+    </div>
 
     <div>
         <button class="ms-3" type="button" onclick="window.location.href='/main'">Go to Main page</button>
