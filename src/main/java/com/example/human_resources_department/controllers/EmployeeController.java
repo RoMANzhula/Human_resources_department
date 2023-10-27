@@ -4,7 +4,6 @@ import com.example.human_resources_department.models.Employee;
 import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

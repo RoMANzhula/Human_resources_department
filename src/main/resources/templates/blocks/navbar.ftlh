@@ -51,7 +51,11 @@
     </div>
 
     <div class="navbar-text me-2">
-        ${name}
+        <#if user??>
+            ${name}
+        <#else>
+            Login
+        </#if>
     </div>
 
     <div class="me-2">
