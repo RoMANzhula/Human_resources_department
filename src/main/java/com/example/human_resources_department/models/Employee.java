@@ -17,7 +17,11 @@ public class Employee {
     private String secondName;
     private String lastName;
     private String phone;
-    private String additionalPhone;
+    private String email;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "recruiter_id")
+    private User recruiter;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "employee_role", joinColumns = @JoinColumn(name = "employee_id"))
@@ -33,12 +37,13 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String firstName, String secondName, String lastName, String phone, String additionalPhone) {
+    public Employee(String firstName, String secondName, String lastName, String phone, String email, User recruiter) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.lastName = lastName;
         this.phone = phone;
-        this.additionalPhone = additionalPhone;
+        this.email = email;
+        this.recruiter = recruiter;
     }
 
     public Long getId() {
@@ -81,12 +86,12 @@ public class Employee {
         this.phone = phone;
     }
 
-    public String getAdditionalPhone() {
-        return additionalPhone;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAdditionalPhone(String additionalPhone) {
-        this.additionalPhone = additionalPhone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public boolean isActive() {
@@ -111,5 +116,13 @@ public class Employee {
 
     public void setDateOfRegistration(Date dateOfRegistration) {
         this.dateOfRegistration = dateOfRegistration;
+    }
+
+    public User getRecruiter() {
+        return recruiter;
+    }
+
+    public void setRecruiter(User recruiter) {
+        this.recruiter = recruiter;
     }
 }

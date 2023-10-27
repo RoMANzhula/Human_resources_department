@@ -1,6 +1,5 @@
 package com.example.human_resources_department.controllers;
 
-import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.UserRepository;
 import com.example.human_resources_department.services.UserService;
@@ -9,11 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Collections;
-import java.util.Date;
-
 @Controller
-public class RegistrationController {
+public class RegistrationController { //for HR-managers registration
     private final UserRepository userRepository;
     private final UserService userService;
 

@@ -19,6 +19,7 @@
     <table class="table table-striped-columns">
         <thead>
             <tr>
+                <th>Active</th>
                 <th>First name</th>
                 <th>Second name</th>
                 <th>Last name</th>
@@ -29,6 +30,7 @@
         <tbody>
             <#list employees as employee>
                 <tr>
+                    <td>${employee.isActive()?string('yes', 'no')}</td>
                     <td>${employee.getFirstName()}</td>
                     <td>${employee.getSecondName()}</td>
                     <td>${employee.getLastName()}</td>

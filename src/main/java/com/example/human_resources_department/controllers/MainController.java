@@ -1,6 +1,7 @@
 package com.example.human_resources_department.controllers;
 
 import com.example.human_resources_department.models.Employee;
+import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.EmployeeRepository;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -44,12 +45,12 @@ public class MainController {
 
     @PostMapping("/main")
     public String addEmployee(
-            @AuthenticationPrincipal
+            @AuthenticationPrincipal User recruiter,
             @RequestParam String firstName,
             @RequestParam String secondName,
             @RequestParam String lastName,
             @RequestParam String phone,
-            @RequestParam String additionalPhone,
+            @RequestParam String email,
             Model model
     ) {
         Employee newEmployee = new Employee(
@@ -57,10 +58,13 @@ public class MainController {
                 secondName,
                 lastName,
                 phone,
-                additionalPhone
+                email,
+                recruiter
         );
 
         newEmployee.setDateOfRegistration(new Date()); //install date of registration
+
+        newEmployee.setActive(true); //always with new employee
 
         employeeRepository.save(newEmployee);
 

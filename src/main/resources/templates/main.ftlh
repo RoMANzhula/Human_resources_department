@@ -11,11 +11,11 @@
     <div class="mb-2"><h4>Add new employee</h4></div>
     <form method="post">
         <div>
-            <input type="text" name="firstName" placeholder="Input firs name."/>
-            <input type="text" name="secondName" placeholder="Input second name."/>
-            <input type="text" name="lastName" placeholder="Input last name."/>
-            <input type="text" name="phone" placeholder="Input phone."/>
-            <input type="text" name="additionalPhone" placeholder="Input additional phone."/>
+            <input type="text" name="firstName" placeholder="Input firs name"/>
+            <input type="text" name="secondName" placeholder="Input second name"/>
+            <input type="text" name="lastName" placeholder="Input last name"/>
+            <input type="text" name="phone" placeholder="Input phone"/>
+            <input type="email" name="email" placeholder="Input email"/>
 
             <input type="hidden" name="_csrf" value="${_csrf.token}" />
             <button type="submit">Add employee</button>
@@ -50,7 +50,7 @@
             <th>Second name</th>
             <th>Last name</th>
             <th>Phone</th>
-            <th>Additional phone</th>
+            <th>Email</th>
         </tr>
         </thead>
         <tbody class="">
@@ -62,7 +62,7 @@
                         <td>${employee.secondName}</td>
                         <td>${employee.lastName}</td>
                         <td>${employee.phone}</td>
-                        <td>${employee.additionalPhone}</td>
+                        <td>${employee.email}</td>
                 </tr>
             <#else>
                 No employees

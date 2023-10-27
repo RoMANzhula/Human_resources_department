@@ -55,12 +55,14 @@ public class EmployeeController {
 
     @PostMapping
     public String employeeEditorSave(
+            @RequestParam Boolean isActive,
             @RequestParam String firstName,
             @RequestParam String secondName,
             @RequestParam String lastName,
             @RequestParam Map<String, String> form,
             @RequestParam("employeeId") Employee employee
     ) {
+        employee.setActive(isActive);
         employee.setFirstName(firstName);
         employee.setSecondName(secondName);
         employee.setLastName(lastName);
