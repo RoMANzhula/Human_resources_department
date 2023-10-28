@@ -23,9 +23,12 @@
                         <a class="nav-link" href="/employee">All Employees</a>
                     </li>
                 </#if>
-                <li class="nav-item">
-                    <a class="nav-link" href="/registration">Add new HR-manager</a>
-                </li>
+                    <#if !isHR_Manager>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/registration">Registration</a>
+                    </li>
+                </#if>
+
 
 
 <#--                <li class="nav-item dropdown">-->
