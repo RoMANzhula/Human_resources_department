@@ -3,10 +3,10 @@
 
 <@g.page>
     <div class="container text-center mb-3 mt-3">
-        <h4>Greeting deer friend! And welcome in our HR Department!</h4>
+        <h4>Greeting deer friend! And welcome in our Big Family!</h4>
     </div>
 ${message?ifExists}
 
-    <@l.login "/registration" true />
+<@l.login "/registration" true />
 
 </@g.page>
