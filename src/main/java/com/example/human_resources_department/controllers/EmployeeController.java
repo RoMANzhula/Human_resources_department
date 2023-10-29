@@ -2,31 +2,25 @@ package com.example.human_resources_department.controllers;
 
 import com.example.human_resources_department.models.Employee;
 import com.example.human_resources_department.models.Role;
-import com.example.human_resources_department.repositories.EmployeeRepository;
-import org.springframework.beans.factory.annotation.Value;
+import com.example.human_resources_department.services.EmployeeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/employee")
 public class EmployeeController {
-    @Value("${upload.path}")
-    private String uploadPath;
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(
+            EmployeeService employeeService
+    ) {
+        this.employeeService = employeeService;
     }
 
     @GetMapping
@@ -34,13 +28,7 @@ public class EmployeeController {
             @RequestParam(required = false, defaultValue = "") String lastNameFilter,
             Model model
     ) {
-        Iterable<Employee> listOfEmployees;
-
-        if (lastNameFilter != null && !lastNameFilter.isEmpty()) {
-            listOfEmployees = employeeRepository.findByLastName(lastNameFilter);
-        } else {
-            listOfEmployees = employeeRepository.findAll();
-        }
+        Iterable<Employee> listOfEmployees = employeeService.getEmployees(lastNameFilter);
 
         model.addAttribute("employees", listOfEmployees);
         model.addAttribute("lastNameFilter", lastNameFilter);
@@ -48,11 +36,12 @@ public class EmployeeController {
         return "employeeList";
     }
 
-    @GetMapping("{employee}")
+    @GetMapping("{employeeId}")
     public String employeeEditForm(
-            @PathVariable Employee employee,
+            @PathVariable("employeeId") Long employeeId,
             Model model
     ) {
+        Employee employee = employeeService.getEmployeeById(employeeId);
         model.addAttribute("employee", employee);
         model.addAttribute("roles", Role.values());
 
@@ -61,52 +50,18 @@ public class EmployeeController {
 
     @PostMapping
     public String employeeEditorSave(
-            @RequestParam Boolean isActive,
-            @RequestParam String firstName,
-            @RequestParam String secondName,
-            @RequestParam String lastName,
+            @RequestParam(value = "isActive", required = false) Boolean isActive,
+            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value = "secondName", required = false) String secondName,
+            @RequestParam(value = "lastName", required = false) String lastName,
             @RequestParam Map<String, String> form,
-            @RequestParam("employeeId") Employee employee,
+            @RequestParam("employeeId") Long employeeId,
             @RequestParam("filePhoto") MultipartFile filePhoto
-            ) throws IOException {
-        employee.setActive(isActive);
-        employee.setFirstName(firstName);
-        employee.setSecondName(secondName);
-        employee.setLastName(lastName);
+    ) throws IOException {
+        Employee employee = employeeService.getEmployeeById(employeeId);
 
-        //get all roles as String
-        Set<String> roles = Arrays.stream(Role.values())
-                .map(Role::name)
-                .collect(Collectors.toSet());
-
-        employee.getEmployeeRoles().clear();
-
-        //for check and role's name in line
-        for (String check : form.keySet()) {
-            if (roles.contains(check)) {
-                employee.getEmployeeRoles().add(Role.valueOf(check));
-            }
-        }
-
-        if (filePhoto != null && !filePhoto.getOriginalFilename().isEmpty()) {
-            File uploadDirect = new File(uploadPath);
-
-            if (!uploadDirect.exists()) {
-                uploadDirect.mkdir();
-            }
-
-            String uuidFileName = UUID.randomUUID().toString();
-            String fileNameEncoded = uuidFileName + "." + filePhoto.getOriginalFilename();
-
-            //loading file
-            filePhoto.transferTo(new File(uploadPath + "/" + fileNameEncoded));
-
-            employee.setFilePhoto(fileNameEncoded);
-        }
-
-        employeeRepository.save(employee);
+        employeeService.updateEmployee(employee, isActive, firstName, secondName, lastName, form, filePhoto);
 
         return "redirect:/employee";
     }
-
 }

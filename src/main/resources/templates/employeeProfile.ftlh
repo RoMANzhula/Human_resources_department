@@ -41,7 +41,13 @@
         <strong>${employee.getRecruiterName()}</strong>
         <strong>--${employee.getDateOfRegistration()}</strong>
         <div>
-            <strong>secret code: ${employee.getSecretCodeForRole()}</strong>
+            <strong>secret code:
+                <#if employee.secretCodeForRole??>
+                    ${employee.secretCodeForRole}
+                <#else>
+                    <!-- Якщо значення null або відсутнє, ви можете встановити дефолтне значення або залишити порожньою строку, в залежності від вашого варіанта використання. -->
+                    No Secret Code
+                </#if></strong>
         </div>
     </div>
 </@g.page>

@@ -21,19 +21,20 @@
         </div>
     </form>
 </div>
-<div class="ms-4 mt-2">
-    <form method="get" action="/main">
-        <#if lastNameFilter??>
-            <input type="text" name="lastNameFilter" value="${lastNameFilter}" />
-        <#else>
-            Last name not found
-        </#if>
-        <button type="submit">Find by last name</button>
-    </form>
-</div>
 
-<div class="container text-center">
-<#--    <button type="button" onclick="window.location.href='/employee'">List of employees</button>-->
+<#--&lt;#&ndash;    block for search by filter&ndash;&gt;-->
+<#--<div class="ms-4 mt-2">-->
+<#--    <form method="get" action="/main">-->
+<#--        <#if lastNameFilter??>-->
+<#--            <input type="text" name="lastNameFilter" value="${lastNameFilter}" />-->
+<#--        <#else>-->
+<#--            Last name not found-->
+<#--        </#if>-->
+<#--        <button type="submit">Find by last name</button>-->
+<#--    </form>-->
+<#--</div>-->
+
+<div class="container text-center mt-3">
     <label><a href="/employee">List of employees</a></label>
 </div>
 <div class="container text-center">

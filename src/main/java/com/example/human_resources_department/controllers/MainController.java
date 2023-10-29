@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
     private final EmployeeService employeeService;
     private final EmployeeRepository employeeRepository;
-    public MainController(EmployeeService employeeService, EmployeeRepository employeeRepository) {
+    public MainController(
+            EmployeeService employeeService,
+            EmployeeRepository employeeRepository
+    ) {
         this.employeeService = employeeService;
         this.employeeRepository = employeeRepository;
     }

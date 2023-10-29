@@ -5,17 +5,40 @@ import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.EmployeeRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
+    private final LocalFileStorageService localFileStorageService;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+
+    public EmployeeService(
+            EmployeeRepository employeeRepository,
+            LocalFileStorageService localFileStorageService
+    ) {
         this.employeeRepository = employeeRepository;
+        this.localFileStorageService = localFileStorageService;
+    }
+
+    public Iterable<Employee> getEmployees(String lastNameFilter) {
+        if (lastNameFilter != null && !lastNameFilter.isEmpty()) {
+            return employeeRepository.findByLastName(lastNameFilter);
+        } else {
+            return employeeRepository.findAll();
+        }
+    }
+
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.findById(id).orElse(null);
+    }
+
+    public Employee saveEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 
     public boolean addEmployee(
@@ -42,14 +65,6 @@ public class EmployeeService {
         return true;
     }
 
-    public Iterable<Employee> getFilteredEmployees(String lastNameFilter) {
-        if (lastNameFilter != null && !lastNameFilter.isEmpty()) {
-            return employeeRepository.findByLastName(lastNameFilter);
-        } else {
-            return employeeRepository.findAll();
-        }
-    }
-
     public Set<Role> getRolesBySecretCode(String secretCode) {
         Employee employee = employeeRepository.findBySecretCodeForRole(secretCode);
 
@@ -60,4 +75,53 @@ public class EmployeeService {
         }
     }
 
+    public Iterable<Employee> getFilteredEmployees(String lastNameFilter) {
+        if (lastNameFilter != null && !lastNameFilter.isEmpty()) {
+            return employeeRepository.findByLastName(lastNameFilter);
+        } else {
+            return employeeRepository.findAll();
+        }
+    }
+
+    public void updateEmployee(
+            Employee employee,
+            Boolean isActive,
+            String firstName,
+            String secondName,
+            String lastName,
+            Map<String, String> form,
+            MultipartFile filePhoto
+    ) throws IOException {
+        if (isActive != null) {
+            employee.setActive(isActive);
+        }
+        if (firstName != null) {
+            employee.setFirstName(firstName);
+        }
+        if (secondName != null) {
+            employee.setSecondName(secondName);
+        }
+        if (lastName != null) {
+            employee.setLastName(lastName);
+        }
+
+        Set<String> roles = Arrays.stream(Role.values())
+                .map(Role::name)
+                .collect(Collectors.toSet());
+
+        employee.getEmployeeRoles().clear();
+
+        for (String check : form.keySet()) {
+            if (roles.contains(check)) {
+                employee.getEmployeeRoles().add(Role.valueOf(check));
+            }
+        }
+
+        if (filePhoto != null && !filePhoto.getOriginalFilename().isEmpty()) {
+            String uniqueFileName = localFileStorageService.storeFile(filePhoto);
+            employee.setFilePhoto(uniqueFileName);
+        }
+
+        employeeRepository.save(employee);
+    }
 }

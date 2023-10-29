@@ -1,8 +1,10 @@
 package com.example.human_resources_department.services;
 
 import com.example.human_resources_department.configurations.EncodersConfig;
+import com.example.human_resources_department.models.Employee;
 import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.models.User;
+import com.example.human_resources_department.repositories.EmployeeRepository;
 import com.example.human_resources_department.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,17 +22,20 @@ public class UserService implements UserDetailsService {
     @Value("${hostname}")
     private String hostname;
 
+    private final EmployeeRepository employeeRepository;
     private final EmployeeService employeeService;
     private final UserRepository userRepository;
     private final EncodersConfig passwordEncoder;
     private final MailSenderService mailSenderService;
 
     public UserService(
+            EmployeeRepository employeeRepository,
             EmployeeService employeeService,
             UserRepository userRepository,
             EncodersConfig encodersConfig,
             MailSenderService mailSenderService
     ) {
+        this.employeeRepository = employeeRepository;
         this.employeeService = employeeService;
         this.userRepository = userRepository;
         this.passwordEncoder = encodersConfig;
@@ -102,5 +107,10 @@ public class UserService implements UserDetailsService {
         User foundUser = userRepository.findBySecretCodeWithRegistration(secretCode);
 
         return foundUser == null;
+    }
+
+    public boolean isSecretCodeValid(String secretCode) {
+        Employee employee = employeeRepository.findBySecretCodeForRole(secretCode);
+        return employee != null;
     }
 }
