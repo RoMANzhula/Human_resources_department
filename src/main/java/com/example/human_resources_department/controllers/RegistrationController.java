@@ -1,7 +1,8 @@
 package com.example.human_resources_department.controllers;
 
+import com.example.human_resources_department.models.Employee;
 import com.example.human_resources_department.models.User;
-import com.example.human_resources_department.services.EmployeeService;
+import com.example.human_resources_department.repositories.EmployeeRepository;
 import com.example.human_resources_department.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class RegistrationController {
-    private final EmployeeService employeeService;
+    private final EmployeeRepository employeeRepository;
     private final UserService userService;
 
-    public RegistrationController(EmployeeService employeeService, UserService userService) {
-        this.employeeService = employeeService;
+    public RegistrationController(
+            EmployeeRepository employeeRepository,
+            UserService userService
+    ) {
+        this.employeeRepository = employeeRepository;
         this.userService = userService;
     }
 
@@ -36,7 +40,9 @@ public class RegistrationController {
             return "registration";
         }
 
-        if (!userService.findSecretCodeInDataBase(secretCode)) {
+        Employee employee = employeeRepository.findBySecretCodeForRole(secretCode);
+        //secret is not in usr and it's in employee
+        if (!userService.findSecretCodeInDataBase(secretCode) || employee == null) {
             model.addAttribute("message", "Your code is wrong! Please try again or contact the HR-manager!");
             return "registration";
         }
