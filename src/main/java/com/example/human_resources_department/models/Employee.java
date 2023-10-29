@@ -4,7 +4,9 @@ package com.example.human_resources_department.models;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "employee")
@@ -26,7 +28,7 @@ public class Employee {
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "employee_role", joinColumns = @JoinColumn(name = "employee_id"))
     @Enumerated(EnumType.STRING) //зберігаємо у вигляді строки до БД
-    private Set<Role> roles;
+    private Set<Role> employeeRoles = new HashSet<>();
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "reg_date", nullable = false)
@@ -34,6 +36,8 @@ public class Employee {
 
     private boolean active; //or released
     private String filePhoto;
+    @Column(name = "secret_code_for_role")
+    private String secretCodeForRole;
 
     public Employee() {
     }
@@ -107,12 +111,24 @@ public class Employee {
         this.active = active;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public void generateSecretCode() {
+        secretCodeForRole = UUID.randomUUID().toString().replace("-", "");
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public String getSecretCodeForRole() {
+        return secretCodeForRole;
+    }
+
+    public void setSecretCodeForRole(String secretCodeForRole) {
+        this.secretCodeForRole = secretCodeForRole;
+    }
+
+    public Set<Role> getEmployeeRoles() {
+        return employeeRoles;
+    }
+
+    public void setEmployeeRoles(Set<Role> employeeRoles) {
+        this.employeeRoles = employeeRoles;
     }
 
     public Date getDateOfRegistration() {

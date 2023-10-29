@@ -37,6 +37,9 @@
     <label><a href="/employee">List of employees</a></label>
 </div>
 <div class="container text-center">
+    <#if message??>
+        <div class="alert alert-info">${message}</div>
+    </#if>
     <table class="table table-success table-sm">
         <thead>
         <tr>

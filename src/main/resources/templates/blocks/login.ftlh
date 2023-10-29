@@ -9,7 +9,7 @@
         <#if isRegisterForm>
             <div><label> Phone: <input type="text" name="phone"/> </label></div>
             <div><label> Email: <input type="email" name="email"/> </label></div>
-            <div><label> Special Code: <input type="text" name="inviteCode"/> </label></div>
+            <div><label> Special Code: <input type="text" name="secretCode"/> </label></div>
         </#if>
 
         <div class="container text-center" data-bs-theme="dark">

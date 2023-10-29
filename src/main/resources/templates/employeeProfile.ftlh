@@ -18,7 +18,7 @@
                 <#list roles as role>
                     <label>
                         <input type="checkbox" name="${role}"
-                        ${employee.roles?seq_contains(role)?string("checked", "")} />${role}<#sep>,
+                        ${employee.employeeRoles?seq_contains(role)?string("checked", "")} />${role}<#sep>,
                     </label>
                 </#list>
             </div>
@@ -39,5 +39,9 @@
     <div>
         <h>Recruiter: </h>
         <strong>${employee.getRecruiterName()}</strong>
+        <strong>--${employee.getDateOfRegistration()}</strong>
+        <div>
+            <strong>secret code: ${employee.getSecretCodeForRole()}</strong>
+        </div>
     </div>
 </@g.page>

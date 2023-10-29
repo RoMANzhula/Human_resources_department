@@ -11,19 +11,27 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Collections;
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
     @Value("${hostname}")
     private String hostname;
+
+    private final EmployeeService employeeService;
     private final UserRepository userRepository;
     private final EncodersConfig passwordEncoder;
     private final MailSenderService mailSenderService;
 
-    public UserService(UserRepository userRepository, EncodersConfig encodersConfig, MailSenderService mailSenderService) {
+    public UserService(
+            EmployeeService employeeService,
+            UserRepository userRepository,
+            EncodersConfig encodersConfig,
+            MailSenderService mailSenderService
+    ) {
+        this.employeeService = employeeService;
         this.userRepository = userRepository;
         this.passwordEncoder = encodersConfig;
         this.mailSenderService = mailSenderService;
@@ -38,18 +46,24 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public boolean addUser(User user) {
-        User userHR_ManagerFromDB = userRepository.findByUsername(user.getUsername());
+    public boolean addNewUser(User user, String secretCode) {
+        User userFromDB = userRepository.findByUsername(user.getUsername());
 
-        if (userHR_ManagerFromDB != null) { //if user didn't add
+        if (userFromDB != null) { //if user didn't add
             return false;
         }
 
         user.setActive(true); //come as active user
-        user.setRoles(Collections.singleton(Role.HR_MANAGER)); //only for hr-manager
         user.setDateOfRegistration(new Date()); //install date of registration
         user.setActivationCode(UUID.randomUUID().toString()); //for mail activations
         user.setPassword(passwordEncoder.userPasswordEncoder().encode(user.getPassword())); //encryption
+        user.setSecretCodeWithRegistration(secretCode);
+
+        Set<Role> roles = employeeService.getRolesBySecretCode(secretCode);
+
+        user.getUserRoles().clear();
+
+        user.getUserRoles().addAll(roles);
 
         userRepository.save(user);
 
@@ -69,6 +83,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+
     public boolean activateUserByActivationCode(String activationCode) {
         User user = userRepository.findByActivationCode(activationCode);
 
@@ -81,5 +96,11 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
 
         return true;
+    }
+
+    public boolean findSecretCodeInDataBase(String secretCode) {
+        User foundUser = userRepository.findBySecretCodeWithRegistration(secretCode);
+
+        return foundUser == null;
     }
 }

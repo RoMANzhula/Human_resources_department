@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/employee")
-//@PreAuthorize("hasAuthority('HR_MANAGER')")
 public class EmployeeController {
     @Value("${upload.path}")
     private String uploadPath;
@@ -80,12 +79,12 @@ public class EmployeeController {
                 .map(Role::name)
                 .collect(Collectors.toSet());
 
-        employee.getRoles().clear();
+        employee.getEmployeeRoles().clear();
 
         //for check and role's name in line
         for (String check : form.keySet()) {
             if (roles.contains(check)) {
-                employee.getRoles().add(Role.valueOf(check));
+                employee.getEmployeeRoles().add(Role.valueOf(check));
             }
         }
 

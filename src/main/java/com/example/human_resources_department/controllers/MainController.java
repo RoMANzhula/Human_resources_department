@@ -3,6 +3,7 @@ package com.example.human_resources_department.controllers;
 import com.example.human_resources_department.models.Employee;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.EmployeeRepository;
+import com.example.human_resources_department.services.EmployeeService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,12 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Date;
 
 @Controller
 public class MainController {
+    private final EmployeeService employeeService;
     private final EmployeeRepository employeeRepository;
-    public MainController(EmployeeRepository employeeRepository) {
+    public MainController(EmployeeService employeeService, EmployeeRepository employeeRepository) {
+        this.employeeService = employeeService;
         this.employeeRepository = employeeRepository;
     }
 
@@ -25,18 +27,11 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(
+    public String mainPage(
             @RequestParam(required = false, defaultValue = "") String lastNameFilter,
             Model model
     ) {
-        Iterable<Employee> listOfEmployees;
-
-        if (lastNameFilter != null && !lastNameFilter.isEmpty()) {
-            listOfEmployees = employeeRepository.findByLastName(lastNameFilter);
-        } else {
-            listOfEmployees = employeeRepository.findAll();
-        }
-
+        Iterable<Employee> listOfEmployees = employeeService.getFilteredEmployees(lastNameFilter);
         model.addAttribute("employees", listOfEmployees);
         model.addAttribute("lastNameFilter", lastNameFilter);
 
@@ -44,7 +39,7 @@ public class MainController {
     }
 
     @PostMapping("/main")
-    public String addEmployee(
+    public String addEmployeeByHR(
             @AuthenticationPrincipal User recruiter,
             @RequestParam String firstName,
             @RequestParam String secondName,
@@ -53,25 +48,17 @@ public class MainController {
             @RequestParam String email,
             Model model
     ) {
-        Employee newEmployee = new Employee(
-                firstName,
-                secondName,
-                lastName,
-                phone,
-                email,
-                recruiter
-        );
 
-        newEmployee.setDateOfRegistration(new Date()); //install date of registration
-
-        newEmployee.setActive(true); //always with new employee
-
-        employeeRepository.save(newEmployee);
-
-        //list of all employees after added new
-        Iterable<Employee> listOfEmployees = employeeRepository.findAll();
-
-        model.addAttribute("employees", listOfEmployees);
+        Employee existingEmployee = employeeRepository.findByPhone(phone);
+        if (existingEmployee != null) {
+            model.addAttribute("message", "Employee with this phone already exists.");
+        } else {
+            if (employeeService.addEmployee(recruiter, firstName, secondName, lastName, phone, email)) {
+                //employee was added successfully
+                Iterable<Employee> listOfEmployees = employeeRepository.findAll();
+                model.addAttribute("employees", listOfEmployees);
+            }
+        }
 
         return "main";
     }

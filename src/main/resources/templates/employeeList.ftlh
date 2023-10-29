@@ -35,7 +35,7 @@
                     <td>${employee.getFirstName()}</td>
                     <td>${employee.getSecondName()}</td>
                     <td>${employee.getLastName()}</td>
-                    <td><#list employee.roles as role>${role}<#sep>, </#list></td>
+                    <td><#list employee.employeeRoles as role>${role}<#sep>, </#list></td>
                     <td><a href="/employee/${employee.id}">profile_page</a></td>
                 </tr>
             </#list>

@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -24,10 +25,12 @@ public class User implements UserDetails {
     private boolean active;
     private String activationCode;
 
+    private String secretCodeWithRegistration;
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING) //зберігаємо у вигляді строки до БД
-    private Set<Role> roles;
+    private Set<Role> userRoles = new HashSet<>();
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "reg_date", nullable = false)
@@ -37,12 +40,12 @@ public class User implements UserDetails {
     }
 
     public boolean isHR_Manager() { //перевіряємо чи являється користувач hr manager
-        return roles.contains(Role.HR_MANAGER);
+        return userRoles.contains(Role.HR_MANAGER);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        return getUserRoles();
     }
 
     @Override
@@ -121,12 +124,12 @@ public class User implements UserDetails {
         this.activationCode = activationCode;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<Role> getUserRoles() {
+        return userRoles;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setUserRoles(Set<Role> userRoles) {
+        this.userRoles = userRoles;
     }
 
     public Date getDateOfRegistration() {
@@ -135,5 +138,13 @@ public class User implements UserDetails {
 
     public void setDateOfRegistration(Date dateOfRegistration) {
         this.dateOfRegistration = dateOfRegistration;
+    }
+
+    public String getSecretCodeWithRegistration() {
+        return secretCodeWithRegistration;
+    }
+
+    public void setSecretCodeWithRegistration(String secretCodeWithRegistration) {
+        this.secretCodeWithRegistration = secretCodeWithRegistration;
     }
 }
