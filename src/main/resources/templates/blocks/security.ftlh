@@ -8,12 +8,14 @@
         name = user.getUsername()
         isHR_Manager = user.isHR_Manager()
         currentUserId = user.getId()
+        isAdmin = user.isAdmin()
     >
 
 <#else>
     <#assign
         name = "forbidden"
         isHR_Manager = false
+        isAdmin = false
         currentUserId = -1
     >
 </#if>

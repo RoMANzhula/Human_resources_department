@@ -4,8 +4,7 @@ import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.UserRepository;
 import com.example.human_resources_department.services.UserService;
-import org.springframework.context.support.BeanDefinitionDsl;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +13,12 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/coworker")
+//@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HR_MANAGER')")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
-    private final UserRepository userRepository;
-
     private final UserService userService;
 
-    public UserController(UserRepository userRepository, UserService userService) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

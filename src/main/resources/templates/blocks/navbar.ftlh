@@ -27,10 +27,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/registration">Registration</a>
                     </li>
+                <#elseif isAdmin>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/coworker">All coworkers</a>
+                    </li>
                 </#if>
-                <li class="nav-item">
-                    <a class="nav-link" href="/coworker">All coworkers</a>
-                </li>
 
 
 <#--                <li class="nav-item dropdown">-->
