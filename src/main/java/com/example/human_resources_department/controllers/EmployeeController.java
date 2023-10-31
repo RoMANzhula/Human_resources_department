@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Map;
 
 @Controller
@@ -24,24 +23,24 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public String employeeList(
+    public String filterEmployeeList(
             @RequestParam(required = false, defaultValue = "") String lastNameFilter,
             Model model
     ) {
-        Iterable<Employee> listOfEmployees = employeeService.getEmployees(lastNameFilter);
+        Iterable<Employee> listOfEmployeesByFilter = employeeService.getEmployees(lastNameFilter);
 
-        model.addAttribute("employees", listOfEmployees);
+        model.addAttribute("employees", listOfEmployeesByFilter);
         model.addAttribute("lastNameFilter", lastNameFilter);
 
         return "employeeList";
     }
 
-    @GetMapping("{employeeId}")
-    public String employeeEditForm(
-            @PathVariable("employeeId") Long employeeId,
+    @GetMapping("/{employeeId}")
+    public String employeeProfileEditor(
+            @PathVariable("employeeId") Employee employeeId,
             Model model
     ) {
-        Employee employee = employeeService.getEmployeeById(employeeId);
+        Employee employee = employeeService.getEmployeeById(employeeId.getId());
         model.addAttribute("employee", employee);
         model.addAttribute("roles", Role.values());
 
@@ -49,7 +48,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public String employeeEditorSave(
+    public String employeeProfileEditorSave(
             @RequestParam(value = "isActive", required = false) Boolean isActive,
             @RequestParam(value = "firstName", required = false) String firstName,
             @RequestParam(value = "secondName", required = false) String secondName,
@@ -57,7 +56,7 @@ public class EmployeeController {
             @RequestParam Map<String, String> form,
             @RequestParam("employeeId") Long employeeId,
             @RequestParam("filePhoto") MultipartFile filePhoto
-    ) throws IOException {
+    ) {
         Employee employee = employeeService.getEmployeeById(employeeId);
 
         employeeService.updateEmployee(employee, isActive, firstName, secondName, lastName, form, filePhoto);

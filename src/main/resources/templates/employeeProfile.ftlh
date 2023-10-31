@@ -22,7 +22,7 @@
                     </label>
                 </#list>
             </div>
-            <input type="hidden" name="employeeId" value="${employee.id}" />
+            <input type="hidden" name="employeeId" value="${employee.id?c}" />
             <input type="hidden" name="_csrf" value="${_csrf.token}" />
             <button type="submit">Save changed information</button>
         </div>
@@ -45,7 +45,6 @@
                 <#if employee.secretCodeForRole??>
                     ${employee.secretCodeForRole}
                 <#else>
-                    <!-- Якщо значення null або відсутнє, ви можете встановити дефолтне значення або залишити порожньою строку, в залежності від вашого варіанта використання. -->
                     No Secret Code
                 </#if></strong>
         </div>

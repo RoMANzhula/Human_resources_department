@@ -13,9 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -113,4 +112,48 @@ public class UserService implements UserDetailsService {
         Employee employee = employeeRepository.findBySecretCodeForRole(secretCode);
         return employee != null;
     }
+
+    public Iterable<User> getUsersByUsername(String usernameFilter) {
+        if (usernameFilter != null && !usernameFilter.isEmpty()) {
+            return userRepository.findAllByUsername(usernameFilter);
+        } else {
+            return userRepository.findAll();
+        }
+    }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public void updateCoworker(
+            User coworker,
+            Boolean isActive,
+            String username,
+            Map<String, String> form
+    ) {
+
+        if (isActive != null) {
+            coworker.setActive(isActive);
+        }
+        if (username != null) {
+            coworker.setUsername(username);
+        }
+
+        if (!form.isEmpty()) {
+            Set<String> roles = Arrays.stream(Role.values())
+                    .map(Role::name)
+                    .collect(Collectors.toSet());
+
+            coworker.getUserRoles().clear();
+
+            for (String check : form.keySet()) {
+                if (roles.contains(check)) {
+                    coworker.getUserRoles().add(Role.valueOf(check));
+                }
+            }
+        }
+
+        userRepository.save(coworker);
+    }
+
 }

@@ -7,7 +7,6 @@ import com.example.human_resources_department.repositories.EmployeeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -91,7 +90,7 @@ public class EmployeeService {
             String lastName,
             Map<String, String> form,
             MultipartFile filePhoto
-    ) throws IOException {
+    ) {
         if (isActive != null) {
             employee.setActive(isActive);
         }
