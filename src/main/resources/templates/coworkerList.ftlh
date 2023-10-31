@@ -1,4 +1,5 @@
 <#import "blocks/general.ftlh" as g>
+<#include "blocks/security.ftlh">
 
 <@g.page>
     <div class="container text-center">
@@ -23,7 +24,9 @@
                 <th>Active</th>
                 <th>Worker name</th>
                 <th>Profession</th>
-                <th>Go to profile</th>
+                <#if isAdmin>
+                    <th>Go to profile</th>
+                </#if>
             </tr>
             </thead>
             <tbody>
@@ -32,7 +35,9 @@
                     <td>${coworker.isActive()?string('yes', 'no')}</td>
                     <td>${coworker.getUsername()}</td>
                     <td><#list coworker.userRoles as role>${role}<#sep>, </#list></td>
-                    <td><a href="/coworker/${coworker.id?c}">profile_page</a></td>
+                    <#if isAdmin>
+                        <td><a href="/coworker/${coworker.id?c}">profile_page</a></td>
+                    </#if>
                 </tr>
             </#list>
             </tbody>

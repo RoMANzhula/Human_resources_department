@@ -13,8 +13,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/coworker")
-//@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HR_MANAGER')")
-@PreAuthorize("hasAuthority('ADMIN')")
+@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HR_MANAGER')")
 public class UserController {
     private final UserService userService;
 

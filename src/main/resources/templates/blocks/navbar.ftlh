@@ -27,7 +27,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/registration">Registration</a>
                     </li>
-                <#elseif isAdmin>
+                <#elseif isAdmin || isHR_Manager>
                     <li class="nav-item">
                         <a class="nav-link" href="/coworker">All coworkers</a>
                     </li>
