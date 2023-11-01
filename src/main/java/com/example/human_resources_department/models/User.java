@@ -36,6 +36,10 @@ public class User implements UserDetails {
     @Column(name = "reg_date", nullable = false)
     private Date dateOfRegistration;
 
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Collection<Message> messages;
+
     public User() {
     }
 
@@ -150,5 +154,13 @@ public class User implements UserDetails {
 
     public void setSecretCodeWithRegistration(String secretCodeWithRegistration) {
         this.secretCodeWithRegistration = secretCodeWithRegistration;
+    }
+
+    public Collection<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Collection<Message> messages) {
+        this.messages = messages;
     }
 }
