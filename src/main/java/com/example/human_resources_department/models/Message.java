@@ -10,7 +10,7 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    private String topic;
     private String text;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -26,7 +26,8 @@ public class Message {
     public Message() {
     }
 
-    public Message(String text, User author) {
+    public Message(String topic, String text, User author) {
+        this.topic = topic;
         this.text = text;
         this.author = author;
     }
@@ -41,6 +42,14 @@ public class Message {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public String getText() {
