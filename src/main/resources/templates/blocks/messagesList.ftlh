@@ -28,17 +28,16 @@
                                     ${message.authorName} -- "${message.getDateOfRegistration()}
                                 </p>
                             </small>
-<#--                            <#if message.author.id?c == currentUserId?c>-->
-<#--                                <a class="col btn btn-sm ms-5 mb-1"-->
-<#--&lt;#&ndash;                                   href="/coworker-messages/${message.author.id?c}?message=${message.id?c}">&ndash;&gt;-->
-<#--                                   href="/coworker-messages/${message.authorName}">-->
-<#--                                    Edit-->
-<#--                                </a>-->
-<#--                                <a class="col btn btn-outline-danger btn-sm me-1 ms-1 mb-1"-->
-<#--                                   href="/del-coworker-messages/${message.author.id?c}?message=${message.id?c}">-->
-<#--                                    Delete-->
-<#--                                </a>-->
-<#--                            </#if>-->
+                            <#if message.author.id?c == currentUserId?c>
+                                <a class="col btn btn-outline-info btn-sm me-1 ms-1 mb-1"
+                                   href="/coworker-messages/${message.id?c}">
+                                    Edit
+                                </a>
+                                <a class="col btn btn-outline-danger btn-sm me-1 ms-1 mb-1"
+                                   href="/del-user-messages/${message.id?c}">
+                                    Delete
+                                </a>
+                            </#if>
                         </div>
                     </div>
                 </div>

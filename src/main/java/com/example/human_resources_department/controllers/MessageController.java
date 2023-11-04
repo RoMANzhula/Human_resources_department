@@ -1,27 +1,24 @@
 package com.example.human_resources_department.controllers;
 
-import com.example.human_resources_department.models.Employee;
 import com.example.human_resources_department.models.Message;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.MessageRepository;
-import com.example.human_resources_department.repositories.UserRepository;
 import com.example.human_resources_department.services.MessageService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class MessageController {
-    private final UserRepository userRepository;
     private final MessageRepository messageRepository;
     private final MessageService messageService;
 
-    public MessageController(UserRepository userRepository, MessageRepository messageRepository, MessageService messageService) {
-        this.userRepository = userRepository;
+    public MessageController(MessageRepository messageRepository, MessageService messageService) {
         this.messageRepository = messageRepository;
         this.messageService = messageService;
     }
@@ -72,4 +69,38 @@ public class MessageController {
         return "allMessages";
     }
 
+    @GetMapping("/coworker-messages/{messageId}")
+    public String messagesEditorForm(
+            @PathVariable Long messageId,
+            Model model
+    ) {
+        Message message = messageService.findById(messageId);
+
+        model.addAttribute("message", message);
+
+        return "messageEditor";
+    }
+
+    @PostMapping("/coworker-messages")
+    public String saveMessageAfterEdit(
+            @RequestParam String topic,
+            @RequestParam String text,
+            @RequestParam MultipartFile file,
+            @RequestParam Long messageId
+    ) {
+        Message message = messageService.findById(messageId);
+
+        messageService.updateMessage(message, topic, text, file);
+
+        return "redirect:/messages";
+    }
+
+
+    @GetMapping("/del-user-messages/{messageId}")
+    public String deleteMessage(
+            @PathVariable Long messageId
+    ) {
+        messageRepository.deleteById(messageId);
+        return "redirect:/messages";
+    }
 }

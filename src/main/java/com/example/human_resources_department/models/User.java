@@ -37,7 +37,7 @@ public class User implements UserDetails {
     private Date dateOfRegistration;
 
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Collection<Message> messages;
 
     public User() {

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
-//this class will be Entity for messages between company employees
 @Entity
 public class Message {
     @Id

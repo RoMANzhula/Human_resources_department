@@ -55,4 +55,23 @@ public class MessageService {
             return messageRepository.findAll();
         }
     }
+
+    public Message findById(Long messageId) {
+        return messageRepository.findById(messageId).orElse(null);
+    }
+
+    public void updateMessage(Message message, String topic, String text, MultipartFile file) {
+
+        message.setDateOfRegistration(new Date());
+
+        message.setTopic(topic);
+        message.setText(text);
+
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            String uniqueFileName = localFileStorageService.storeFile(file);
+            message.setFileName(uniqueFileName);
+        }
+
+        messageRepository.save(message);
+    }
 }
