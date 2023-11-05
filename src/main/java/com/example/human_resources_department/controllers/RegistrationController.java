@@ -1,9 +1,8 @@
 package com.example.human_resources_department.controllers;
 
+import com.example.human_resources_department.dto.ReCaptchaResponseDto;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.services.UserService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,26 +10,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Map;
+import java.util.Collections;
 
 @Controller
 public class RegistrationController {
-    @Value("${reCaptchaSecretSecretKey}")
-    private String reCaptchaSecretSecretKey;
+    @Value("${reCaptchaSecretKey}")
+    private String reCaptchaSecretKey;
+
+    private final static String RECAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
 
     private final UserService userService;
 
+    private final RestTemplate restTemplate;
+
     public RegistrationController(
-            UserService userService)
+            UserService userService,
+            RestTemplate restTemplate)
     {
         this.userService = userService;
+        this.restTemplate = restTemplate;
     }
 
     @GetMapping("/registration")
@@ -42,9 +42,17 @@ public class RegistrationController {
     public String addNewUser(
             User user,
             @RequestParam String secretCode,
-            @RequestParam("g-recaptcha-response") String recaptchaResponse,
+            @RequestParam("g-recaptcha-response") String reCaptchaResponse,
             Model model
     ) {
+        String totalUrlReCaptcha = String.format(RECAPTCHA_URL, reCaptchaSecretKey, reCaptchaResponse);
+        ReCaptchaResponseDto reCaptchaResponseDto = restTemplate.postForObject(
+                totalUrlReCaptcha, Collections.emptyList(), ReCaptchaResponseDto.class);
+
+        if (reCaptchaResponseDto == null || !reCaptchaResponseDto.isSuccess()) {
+            model.addAttribute("reCaptchaError", "reCAPTCHA is empty! Fill it, please.");
+        }
+
         if (secretCode == null || secretCode.isEmpty()) {
             model.addAttribute("message", "Please, input secret code from HR-manager!");
             return "registration";
@@ -53,13 +61,6 @@ public class RegistrationController {
         //secret is not in usr and it's in employee
         if (!userService.findSecretCodeInDataBase(secretCode) || !userService.isSecretCodeValid(secretCode)) {
             model.addAttribute("message", "Your code is wrong! Please try again or contact the HR-manager!");
-            return "registration";
-        }
-
-        boolean isRecaptchaValid = verifyRecaptcha(recaptchaResponse);
-
-        if (!isRecaptchaValid) {
-            model.addAttribute("message", "reCAPTCHA verification failed. Please complete the reCAPTCHA.");
             return "registration";
         }
 
@@ -91,49 +92,6 @@ public class RegistrationController {
         }
 
         return "login";
-    }
-
-    private boolean verifyRecaptcha(String recaptchaResponse) {
-        try {
-            String url = "https://www.google.com/recaptcha/api/siteverify";
-            String params = "secret=" + reCaptchaSecretSecretKey + "&response=" + recaptchaResponse;
-            String json = HttpUtils.sendPost(url, params);
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> response = objectMapper.readValue(json, new TypeReference<>() {
-            });
-
-            return (boolean) response.get("success");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-    public class HttpUtils {
-        public static String sendPost(String url, String params) throws IOException {
-            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoOutput(true);
-
-            try (OutputStream os = connection.getOutputStream()) {
-                byte[] input = params.getBytes("UTF-8");
-                os.write(input, 0, input.length);
-            }
-
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"))) {
-                StringBuilder response = new StringBuilder();
-                String responseLine;
-
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
-
-                return response.toString();
-            } finally {
-                connection.disconnect();
-            }
-        }
     }
 
 }

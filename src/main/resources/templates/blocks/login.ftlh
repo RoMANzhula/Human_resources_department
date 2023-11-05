@@ -11,6 +11,11 @@
             <div><label> Email: <input type="email" name="email"/> </label></div>
             <div><label> Special Code: <input type="text" name="secretCode"/> </label></div>
             <div class="g-recaptcha" data-sitekey="6Len5PkoAAAAAN39WA1nZO5Rf4bhIKbvor5Cn5bp"></div>
+            <#if reCaptchaError??>
+                <div class="alert alert-danger" role="alert">
+                    ${reCaptchaError}
+                </div>
+            </#if>
         </#if>
 
         <div class="container text-center" data-bs-theme="dark">
