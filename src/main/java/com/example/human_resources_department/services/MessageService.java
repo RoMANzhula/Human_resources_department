@@ -74,4 +74,8 @@ public class MessageService {
 
         messageRepository.save(message);
     }
+
+    public Iterable<Message> messagesListForCurrentUser(User author) {
+        return messageRepository.findByAuthor(author);
+    }
 }

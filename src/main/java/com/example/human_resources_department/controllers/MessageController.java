@@ -103,4 +103,17 @@ public class MessageController {
         messageRepository.deleteById(messageId);
         return "redirect:/messages";
     }
+
+    @GetMapping("/coworker-messages-list/{userId}")
+    public String coworkerMessages(
+            @AuthenticationPrincipal User currentUser,
+            @PathVariable User userId,
+            Model model
+    ) {
+        Iterable<Message> userMessages = messageService.messagesListForCurrentUser(currentUser);
+
+        model.addAttribute("messages", userMessages);
+
+        return "coworkerMessages";
+    }
 }

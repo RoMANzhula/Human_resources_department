@@ -37,7 +37,7 @@
                         <a class="nav-link" href="/messages">All messages</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/coworker-messages/${currentUserId}">My messages</a>
+                        <a class="nav-link" href="/coworker-messages-list/${currentUserId}">My messages</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/new-message">New message</a>
