@@ -114,6 +114,6 @@ public class MessageController {
 
         model.addAttribute("messages", userMessages);
 
-        return "coworkerMessages";
+        return "myMessages";
     }
 }
