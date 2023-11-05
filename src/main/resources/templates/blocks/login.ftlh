@@ -10,6 +10,7 @@
             <div><label> Phone: <input type="text" name="phone"/> </label></div>
             <div><label> Email: <input type="email" name="email"/> </label></div>
             <div><label> Special Code: <input type="text" name="secretCode"/> </label></div>
+            <div class="g-recaptcha" data-sitekey="6Len5PkoAAAAAN39WA1nZO5Rf4bhIKbvor5Cn5bp"></div>
         </#if>
 
         <div class="container text-center" data-bs-theme="dark">
@@ -17,11 +18,6 @@
             <button type="submit" class="btn btn-dark col-2 mt-4"><#if isRegisterForm>Create<#else>Sign_in</#if></button>
         </div>
 
-<#--        <#if !isRegisterForm>-->
-<#--            <div class="container text-center mt-3">-->
-<#--                <a class="btn btn-info" href="/registration">Registration</a>-->
-<#--            </div>-->
-<#--        </#if>-->
     </form>
 </#macro>
 
