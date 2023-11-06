@@ -21,6 +21,7 @@
         <table class="table table-striped-columns">
             <thead>
             <tr>
+                <th>Date of registration</th>
                 <th>Active</th>
                 <th>Worker name</th>
                 <th>Profession</th>
@@ -32,6 +33,7 @@
             <tbody>
             <#list coworkers as coworker>
                 <tr>
+                    <td>${coworker.getDateOfRegistration()}</td>
                     <td>${coworker.isActive()?string('yes', 'no')}</td>
                     <td>${coworker.getUsername()}</td>
                     <td><#list coworker.userRoles as role>${role}<#sep>, </#list></td>
