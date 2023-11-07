@@ -2,7 +2,13 @@ package com.example.human_resources_department.controllers;
 
 import com.example.human_resources_department.models.Employee;
 import com.example.human_resources_department.models.Role;
+import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.services.EmployeeService;
+import com.example.human_resources_department.services.MailSenderService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +19,15 @@ import java.util.Map;
 @Controller
 @RequestMapping("/employee")
 public class EmployeeController {
-
+    @Value("${hostname}")
+    private String hostname;
+    private final MailSenderService mailSenderService;
     private final EmployeeService employeeService;
 
     public EmployeeController(
-            EmployeeService employeeService
+            MailSenderService mailSenderService, EmployeeService employeeService
     ) {
+        this.mailSenderService = mailSenderService;
         this.employeeService = employeeService;
     }
 
@@ -63,4 +72,27 @@ public class EmployeeController {
 
         return "redirect:/employee";
     }
+
+    @PostMapping("/sendActivationCode")
+    public String sendActivationCodeEmail(
+            @RequestParam("employeeId") Long employeeId
+    ) {
+        Employee employee = employeeService.getEmployeeById(employeeId);
+
+        if (employee != null) {
+            String activationCode = employee.getSecretCodeForRole();
+
+            if (activationCode != null) {
+                String emailSubject = "Activation Code";
+                String emailText = "Your activation code is: " + activationCode +
+                        ". Visit this site for registration: http://" + hostname;
+                mailSenderService.sendByMail(employee.getEmail(), emailSubject, emailText);
+
+                System.out.println("Activation code email sent successfully.");
+            }
+        }
+
+        return "redirect:/employee";
+    }
+
 }

@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div>
+    <div class="ms-3">
         <h>Recruiter: </h>
         <strong>${employee.getRecruiterName()}</strong>
         <strong>--${employee.getDateOfRegistration()}</strong>
@@ -49,4 +49,13 @@
                 </#if></strong>
         </div>
     </div>
+
+    <form action="/employee/sendActivationCode" method="post">
+        <div class="ms-3">
+            <input type="hidden" name="employeeId" value="${employee.id?c}" />
+            <input type="hidden" name="_csrf" value="${_csrf.token}" />
+            <button type="submit">Send Activation Code</button>
+        </div>
+    </form>
+
 </@g.page>
