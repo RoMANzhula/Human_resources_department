@@ -2,13 +2,9 @@ package com.example.human_resources_department.controllers;
 
 import com.example.human_resources_department.models.Employee;
 import com.example.human_resources_department.models.Role;
-import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.services.EmployeeService;
 import com.example.human_resources_department.services.MailSenderService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -85,7 +81,7 @@ public class EmployeeController {
             if (activationCode != null) {
                 String emailSubject = "Activation Code";
                 String emailText = "Your activation code is: " + activationCode +
-                        ". Visit this site for registration: http://" + hostname;
+                        ". Visit this site for registration: " + hostname;
                 mailSenderService.sendByMail(employee.getEmail(), emailSubject, emailText);
 
                 System.out.println("Activation code email sent successfully.");

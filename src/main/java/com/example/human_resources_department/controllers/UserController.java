@@ -2,7 +2,7 @@ package com.example.human_resources_department.controllers;
 
 import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.models.User;
-import com.example.human_resources_department.repositories.UserRepository;
+import com.example.human_resources_department.services.MessageService;
 import com.example.human_resources_department.services.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -57,5 +57,22 @@ public class UserController {
         userService.updateCoworker(coworker, isActive, username, form);
 
         return "redirect:/coworker";
+    }
+
+    @GetMapping("/coworker-page/{coworkerId}")
+    public String coworkerPage(
+            @PathVariable Long coworkerId,
+            Model model
+    ) {
+        // Отримати інформацію про коворкера за його ID з сервісу
+        User coworker = userService.getUserById(coworkerId);
+
+        if (coworker != null) {
+            // Передати інформацію про коворкера на сторінку
+            model.addAttribute("coworker", coworker);
+            return "pageOfUserWeClickOn";
+        } else {
+            return "allMessages";
+        }
     }
 }

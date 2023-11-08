@@ -75,7 +75,7 @@ public class UserService implements UserDetailsService {
             String message = String.format(
                     "Good day, %s! \n" +
                             "Welcome to our big family <Name Company>! \n" +
-                            "Please, visit this link: http://%s/activate/%s",
+                            "Please, visit this link: %s/activate/%s",
                     user.getUsername(),
                     hostname,
                     user.getActivationCode()

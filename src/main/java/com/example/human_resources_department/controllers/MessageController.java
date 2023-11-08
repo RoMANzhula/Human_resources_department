@@ -105,7 +105,7 @@ public class MessageController {
     }
 
     @GetMapping("/coworker-messages-list/{userId}")
-    public String coworkerMessages(
+    public String myMessages(
             @AuthenticationPrincipal User currentUser,
             @PathVariable User userId,
             Model model

@@ -25,7 +25,8 @@
                         <div class="card-footer">
                             <small class="text-body-secondary">
                                 <p>
-                                    ${message.authorName} -- "${message.getDateOfRegistration()}
+                                    <a href="/coworker/coworker-page/${message.author.id?c}">${message.authorName}</a>
+                                    -- "${message.getDateOfRegistration()}
                                 </p>
                             </small>
                             <#if message.author.id?c == currentUserId?c>
