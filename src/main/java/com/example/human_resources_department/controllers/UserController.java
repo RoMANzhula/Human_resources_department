@@ -1,5 +1,6 @@
 package com.example.human_resources_department.controllers;
 
+import com.example.human_resources_department.models.Message;
 import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.services.MessageService;
@@ -9,20 +10,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/coworker")
-@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HR_MANAGER')")
 public class UserController {
+    private final MessageService messageService;
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(MessageService messageService, UserService userService) {
+        this.messageService = messageService;
         this.userService = userService;
     }
 
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HR_MANAGER')")
     public String filterCoworkerList(
             @RequestParam(required = false, defaultValue = "") String usernameFilter,
             Model model
@@ -36,6 +41,7 @@ public class UserController {
     }
 
     @GetMapping("{coworker}")
+    @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HR_MANAGER')")
     public String coworkersProfileEditor(
             @PathVariable User coworker,
             Model model
@@ -48,6 +54,7 @@ public class UserController {
 
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HR_MANAGER')")
     public String coworkerProfileEditorSave(
             @RequestParam Boolean isActive,
             @RequestParam String username,
@@ -67,9 +74,12 @@ public class UserController {
         // Отримати інформацію про коворкера за його ID з сервісу
         User coworker = userService.getUserById(coworkerId);
 
+        Iterable<Message> listOfMessagesThisCoworker = messageService.messagesListForCurrentUserById(coworkerId);
+
         if (coworker != null) {
             // Передати інформацію про коворкера на сторінку
             model.addAttribute("coworker", coworker);
+            model.addAttribute("messages", listOfMessagesThisCoworker);
             return "pageOfUserWeClickOn";
         } else {
             return "allMessages";

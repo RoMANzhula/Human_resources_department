@@ -1,11 +1,5 @@
 <#include "security.ftlh">
 
-<div class="ms-4 mt-2">
-    <form method="get" action="/message-filter">
-        <input type="text" name="filterByAuthor" value="${filterByAuthor?ifExists}" />
-        <button type="submit">Find by author</button>
-    </form>
-</div>
 
 <div class="row row-cols-1 row-cols-md-3 g-4 m-3">
     <#if messages??>

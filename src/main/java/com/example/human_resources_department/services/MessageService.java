@@ -5,6 +5,7 @@ import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.MessageRepository;
 import com.example.human_resources_department.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
@@ -25,6 +26,7 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
+    @Transactional
     public boolean saveNewMessage(
             User coworker, String topic,
             String text, MultipartFile fileForMessage
@@ -47,6 +49,7 @@ public class MessageService {
         return true;
     }
 
+    @Transactional(readOnly = true)
     public Iterable<Message> getEmployees(String filterByAuthor) {
         if (filterByAuthor != null && !filterByAuthor.isEmpty()) {
             User user = userRepository.findByUsername(filterByAuthor);
@@ -56,10 +59,12 @@ public class MessageService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Message findById(Long messageId) {
         return messageRepository.findById(messageId).orElse(null);
     }
 
+    @Transactional
     public void updateMessage(Message message, String topic, String text, MultipartFile file) {
 
         message.setDateOfRegistration(new Date());
@@ -75,8 +80,14 @@ public class MessageService {
         messageRepository.save(message);
     }
 
+    @Transactional(readOnly = true)
     public Iterable<Message> messagesListForCurrentUser(User currentUser) {
         return messageRepository.findByAuthor(currentUser);
 
+    }
+
+    @Transactional(readOnly = true)
+    public Iterable<Message> messagesListForCurrentUserById(Long coworkerId) {
+        return messageRepository.findByAuthorId(coworkerId);
     }
 }

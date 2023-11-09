@@ -9,4 +9,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     Iterable<Message> findByAuthor(User filterByAuthor);
 
     void deleteById(Long messageId);
+
+    Iterable<Message> findByAuthorId(Long coworkerId);
 }

@@ -5,6 +5,7 @@ import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.EmployeeRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
@@ -24,6 +25,7 @@ public class EmployeeService {
         this.localFileStorageService = localFileStorageService;
     }
 
+    @Transactional(readOnly = true)
     public Iterable<Employee> getEmployees(String lastNameFilter) {
         if (lastNameFilter != null && !lastNameFilter.isEmpty()) {
             return employeeRepository.findByLastName(lastNameFilter);
@@ -32,14 +34,17 @@ public class EmployeeService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Employee getEmployeeById(Long id) {
         return employeeRepository.findById(id).orElse(null);
     }
 
-    public Employee saveEmployee(Employee employee) {
-        return employeeRepository.save(employee);
-    }
+//    @Transactional
+//    public Employee saveEmployee(Employee employee) {
+//        return employeeRepository.save(employee);
+//    }
 
+    @Transactional
     public boolean addEmployee(
             User recruiter, String firstName,
             String secondName, String lastName,
@@ -65,6 +70,7 @@ public class EmployeeService {
         return true;
     }
 
+    @Transactional(readOnly = true)
     public Set<Role> getRolesBySecretCode(String secretCode) {
         Employee employee = employeeRepository.findBySecretCodeForRole(secretCode);
 
@@ -75,6 +81,7 @@ public class EmployeeService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Iterable<Employee> getFilteredEmployees(String lastNameFilter) {
         if (lastNameFilter != null && !lastNameFilter.isEmpty()) {
             return employeeRepository.findByLastName(lastNameFilter);
@@ -83,6 +90,7 @@ public class EmployeeService {
         }
     }
 
+    @Transactional
     public void updateEmployee(
             Employee employee,
             Boolean isActive,

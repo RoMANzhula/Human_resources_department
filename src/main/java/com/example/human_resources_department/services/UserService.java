@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -50,6 +51,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    @Transactional
     public boolean addNewUser(User user, String secretCode) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
@@ -87,7 +89,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-
+    @Transactional
     public boolean activateUserByActivationCode(String activationCode) {
         User user = userRepository.findByActivationCode(activationCode);
 
@@ -102,17 +104,20 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    @Transactional(readOnly = true)
     public boolean findSecretCodeInDataBase(String secretCode) {
         User foundUser = userRepository.findBySecretCodeWithRegistration(secretCode);
 
         return foundUser == null;
     }
 
+    @Transactional(readOnly = true)
     public boolean isSecretCodeValid(String secretCode) {
         Employee employee = employeeRepository.findBySecretCodeForRole(secretCode);
         return employee != null;
     }
 
+    @Transactional(readOnly = true)
     public Iterable<User> getUsersByUsername(String usernameFilter) {
         if (usernameFilter != null && !usernameFilter.isEmpty()) {
             return userRepository.findAllByUsername(usernameFilter);
@@ -121,10 +126,12 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    @Transactional(readOnly = true)
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public void updateCoworker(
             User coworker,
             Boolean isActive,
