@@ -1,8 +1,10 @@
 package com.example.human_resources_department.controllers;
 
+import com.example.human_resources_department.models.Employee;
 import com.example.human_resources_department.models.Message;
 import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.models.User;
+import com.example.human_resources_department.services.EmployeeService;
 import com.example.human_resources_department.services.MessageService;
 import com.example.human_resources_department.services.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,17 +12,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/coworker")
 public class UserController {
+    private final EmployeeService employeeService;
     private final MessageService messageService;
     private final UserService userService;
 
-    public UserController(MessageService messageService, UserService userService) {
+    public UserController(
+            EmployeeService employeeService,
+            MessageService messageService,
+            UserService userService
+    ) {
+        this.employeeService = employeeService;
         this.messageService = messageService;
         this.userService = userService;
     }
@@ -75,11 +81,15 @@ public class UserController {
         User coworker = userService.getUserById(coworkerId);
 
         Iterable<Message> listOfMessagesThisCoworker = messageService.messagesListForCurrentUserById(coworkerId);
+        Employee employee = employeeService
+                .findEmployBySecretCodeWithRegistration(coworker.getSecretCodeWithRegistration());
+        String employeeFullName = employee.getFirstName() + " " + employee.getSecondName();
 
         if (coworker != null) {
             // Передати інформацію про коворкера на сторінку
             model.addAttribute("coworker", coworker);
             model.addAttribute("messages", listOfMessagesThisCoworker);
+            model.addAttribute("employeeName", employeeFullName);
             return "pageOfUserWeClickOn";
         } else {
             return "allMessages";

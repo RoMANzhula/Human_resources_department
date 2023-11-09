@@ -132,4 +132,9 @@ public class EmployeeService {
 
         employeeRepository.save(employee);
     }
+
+    @Transactional(readOnly = true)
+    public Employee findEmployBySecretCodeWithRegistration(String secretCodeWithRegistration) {
+        return employeeRepository.findBySecretCodeForRole(secretCodeWithRegistration);
+    }
 }

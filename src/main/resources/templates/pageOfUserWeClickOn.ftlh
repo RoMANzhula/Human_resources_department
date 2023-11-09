@@ -5,7 +5,7 @@
 
     <div class="ms-3">
         <h4>User Details</h4>
-        <strong>User name: ${coworker.getUsername()}; </strong>
+        <strong>User name: ${employeeName}; </strong>
         <strong>User_Id: ${coworker.id?c}; </strong>
         <strong>Profession: <#list coworker.userRoles as role>${role}<#sep>, </#list>; </strong>
     </div>
