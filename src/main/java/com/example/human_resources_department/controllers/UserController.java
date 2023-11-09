@@ -77,12 +77,13 @@ public class UserController {
             @PathVariable Long coworkerId,
             Model model
     ) {
-        // Отримати інформацію про коворкера за його ID з сервісу
         User coworker = userService.getUserById(coworkerId);
 
         Iterable<Message> listOfMessagesThisCoworker = messageService.messagesListForCurrentUserById(coworkerId);
+
         Employee employee = employeeService
                 .findEmployBySecretCodeWithRegistration(coworker.getSecretCodeWithRegistration());
+
         String employeeFullName = employee.getFirstName() + " " + employee.getSecondName();
 
         if (coworker != null) {

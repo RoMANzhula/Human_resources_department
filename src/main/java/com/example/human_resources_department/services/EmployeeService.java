@@ -70,7 +70,7 @@ public class EmployeeService {
         return true;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Set<Role> getRolesBySecretCode(String secretCode) {
         Employee employee = employeeRepository.findBySecretCodeForRole(secretCode);
 
@@ -133,7 +133,7 @@ public class EmployeeService {
         employeeRepository.save(employee);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Employee findEmployBySecretCodeWithRegistration(String secretCodeWithRegistration) {
         return employeeRepository.findBySecretCodeForRole(secretCodeWithRegistration);
     }

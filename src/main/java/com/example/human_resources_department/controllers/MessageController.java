@@ -4,6 +4,7 @@ import com.example.human_resources_department.models.Message;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.MessageRepository;
 import com.example.human_resources_department.services.MessageService;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,7 +50,8 @@ public class MessageController {
     public String allMessages(
             Model model
     ) {
-        Iterable<Message> messages = messageRepository.findAll();
+        //reverse order for messages by date
+        Iterable<Message> messages = messageRepository.findAll(Sort.by(Sort.Order.desc("dateOfRegistration")));
 
         model.addAttribute("messages", messages);
 
