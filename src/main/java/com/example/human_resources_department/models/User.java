@@ -33,9 +33,11 @@ public class User implements UserDetails {
     @Column(name = "reg_date", nullable = false)
     private Date dateOfRegistration;
 
-
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Collection<Message> messages;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Collection<Scheduler> scheduler;
 
     public User() {
     }
@@ -159,5 +161,13 @@ public class User implements UserDetails {
 
     public void setMessages(Collection<Message> messages) {
         this.messages = messages;
+    }
+
+    public Collection<Scheduler> getScheduler() {
+        return scheduler;
+    }
+
+    public void setScheduler(Collection<Scheduler> scheduler) {
+        this.scheduler = scheduler;
     }
 }
