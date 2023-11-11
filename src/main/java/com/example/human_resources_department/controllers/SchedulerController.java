@@ -53,6 +53,7 @@ public class SchedulerController {
             @RequestParam boolean isCompleted
     ) {
         schedulerService.updateTaskStatus(taskId, isCompleted);
+
         return "redirect:/scheduler";
     }
 

@@ -43,6 +43,11 @@ public class SchedulerService {
         if (optionalTask.isPresent()) {
             Scheduler task = optionalTask.get();
             task.setCompleted(isCompleted);
+
+            if (isCompleted) {
+                task.setDateOfCompletion(new Date());
+            }
+
             schedulerRepository.save(task);
         } else {
             System.out.println("Task is not found!");

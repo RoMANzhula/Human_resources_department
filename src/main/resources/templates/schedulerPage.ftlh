@@ -12,12 +12,14 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 m-3">
         <#if tasks??>
             <#list tasks as task>
-                <div class="card border-success me-2" style="max-width: 18rem;">
+                <#if task.completed>
+                    <div class="card border-danger me-2" style="max-width: 18rem;">
+                <#else>
+                    <div class="card border-success me-2" style="max-width: 18rem;">
+                </#if>
                     <div class="card-header bg-transparent border-success">
                         <small class="text-body-secondary">
-                            <p>
-                                Created -- "${task.getDateOfRegistration()}
-                            </p>
+                            Created -- ${task.getDateOfRegistration()}
                         </small>
                     </div>
                     <div class="card-body text-success">
@@ -27,17 +29,32 @@
                         -------------------------------
                         <p class="card-text">${task.deadline}</p>
                     </div>
-                    <div class="card-footer bg-transparent border-success">
-                        <div class="mb-2 mt-2">
-                            <form method="post" action="/scheduler/updateTask">
+                    <div class="card-footer bg-transparent border-success container">
+                        <form method="post" action="/scheduler/updateTask">
+                            <div class="row">
                                 <input type="hidden" name="taskId" value="${task.id}" />
-                                <label>
-                                    <input type="checkbox" name="isCompleted" ${task.completed?string("checked", "")} /> - Task solved
+                                <#if task.completed>
+                                    <input type="hidden" name="isCompleted" value="false" />
+                                </#if>
+
+                                <label class="col">
+                                    <input type="checkbox" name="isCompleted" ${task.completed?string("checked", "")} /> -Solved
                                 </label>
+
                                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                                <button type="submit">Save</button>
-                            </form>
-                        </div>
+                                <button class="btn btn-outline-info col-3" type="submit"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                    Save
+                                </button>
+                            </div>
+                            <div>
+                                <#if task.completed>
+                                    <small class="text-body-secondary">
+                                        <br/>Done -- ${task.dateOfCompletion?string("yyyy-MM-dd HH:mm:ss")}
+                                    </small>
+                                </#if>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </#list>

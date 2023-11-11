@@ -24,6 +24,10 @@ public class Scheduler {
     @JoinColumn(name = "user_id")
     private User author;
 
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(name = "completion_date")
+    private Date dateOfCompletion;
+
     public Scheduler() {
     }
 
@@ -81,5 +85,13 @@ public class Scheduler {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Date getDateOfCompletion() {
+        return dateOfCompletion;
+    }
+
+    public void setDateOfCompletion(Date dateOfCompletion) {
+        this.dateOfCompletion = dateOfCompletion;
     }
 }
