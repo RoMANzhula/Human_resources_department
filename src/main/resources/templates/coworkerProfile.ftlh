@@ -13,8 +13,8 @@
         <div class="mb-2 mt-2">
                 <#list roles as role>
                     <label>
-                    <input type="checkbox" name="${role}"
-                    ${coworker.userRoles?seq_contains(role)?string("checked", "")} />${role}<#sep>,
+                        <input type="checkbox" name="${role}"
+                        ${coworker.userRoles?seq_contains(role)?string("checked", "")} />${role}<#sep>,
                     </label>
                 </#list>
         </div>

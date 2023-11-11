@@ -42,6 +42,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/new-message">New message</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/scheduler">Scheduler</a>
+                    </li>
                 </#if>
 
 
