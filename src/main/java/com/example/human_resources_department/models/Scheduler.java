@@ -28,6 +28,8 @@ public class Scheduler {
     @Column(name = "completion_date")
     private Date dateOfCompletion;
 
+    private boolean reminderSent;
+
     public Scheduler() {
     }
 
@@ -93,5 +95,13 @@ public class Scheduler {
 
     public void setDateOfCompletion(Date dateOfCompletion) {
         this.dateOfCompletion = dateOfCompletion;
+    }
+
+    public boolean isReminderSent() {
+        return reminderSent;
+    }
+
+    public void setReminderSent(boolean reminderSent) {
+        this.reminderSent = reminderSent;
     }
 }
