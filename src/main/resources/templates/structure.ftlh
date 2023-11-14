@@ -3,15 +3,15 @@
 <@g.page>
 
     <div class="dropdown-center container text-center mt-5">
-        <a class="btn btn-info dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             Executive level (C-level)
-        </a>
+        </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">CEO (Chief Executive Officer)</a></li>
-            <li><a class="dropdown-item" href="#">CTO (Chief Technology Officer)</a></li>
-            <li><a class="dropdown-item" href="#">CFO (Chief Financial Officer)</a></li>
-            <li><a class="dropdown-item" href="#">CMO (Chief Marketing Officer)</a></li>
-            <li><a class="dropdown-item" href="#">COO (Chief Operating Officer)</a></li>
+            <li><a class="dropdown-item" href="/structure/position/CEO">CEO (Chief Executive Officer)</a></li>
+            <li><a class="dropdown-item" href="/structure/position/CTO">CTO (Chief Technology Officer)</a></li>
+            <li><a class="dropdown-item" href="/structure/position/CFO">CFO (Chief Financial Officer)</a></li>
+            <li><a class="dropdown-item" href="/structure/position/CMO">CMO (Chief Marketing Officer)</a></li>
+            <li><a class="dropdown-item" href="/structure/position/COO">COO (Chief Operating Officer)</a></li>
         </ul>
     </div>
 
@@ -23,11 +23,11 @@
                         Operating Department
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">COO (Chief Operating Officer)</a></li>
-                        <li><a class="dropdown-item" href="#">Project Manager</a></li>
-                        <li><a class="dropdown-item" href="#">DevOps Engineer</a></li>
-                        <li><a class="dropdown-item" href="#">Network and Systems Administrators</a></li>
-                        <li><a class="dropdown-item" href="#">Technical Support</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/CEO">COO (Chief Operating Officer)</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/PROJECT_MANAGER">Project Manager</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/DEVOPS_ENGINEER">DevOps Engineer</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/NETWORK_AND_SYSTEM_ADMIN">Network and Systems Administrators</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/TECHNICAL_SUPPORT">Technical Support</a></li>
                     </ul>
                 </div>
             </div>
@@ -39,13 +39,13 @@
                         Technical Department
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">CTO (Chief Technology Officer)</a></li>
-                        <li><a class="dropdown-item" href="#">Software Architect</a></li>
-                        <li><a class="dropdown-item" href="#">Project Manager</a></li>
-                        <li><a class="dropdown-item" href="#">Software Developer (Back-end)</a></li>
-                        <li><a class="dropdown-item" href="#">Software Developer (Front-end)</a></li>
-                        <li><a class="dropdown-item" href="#">QA Engineer</a></li>
-                        <li><a class="dropdown-item" href="#">UI/UX Designer</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/CTO">CTO (Chief Technology Officer)</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/SOFTWARE_ARCHITECT">Software Architect</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/PROJECT_MANAGER">Project Manager</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/JAVA_DEVELOPER">Software Developer (Back-end)</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/JAVASCRIPT_DEVELOPER">Software Developer (Front-end)</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/QA_ENGINEER">QA Engineer</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/UI_UX_DESIGNER">UI/UX Designer</a></li>
                     </ul>
                 </div>
             </div>
@@ -60,11 +60,11 @@
                         Marketing and Sales
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">CMO (Chief Marketing Officer)</a></li>
-                        <li><a class="dropdown-item" href="#">Sales Manager</a></li>
-                        <li><a class="dropdown-item" href="#">Marketing Manager</a></li>
-                        <li><a class="dropdown-item" href="#">Communications and PR Specialists</a></li>
-                        <li><a class="dropdown-item" href="#">Internet Marketer</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/CMO">CMO (Chief Marketing Officer)</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/SALES_MANAGER">Sales Manager</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/MARKETING_MANAGER">Marketing Manager</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/COMMUNICATIONS_AND_PR_SPECIALIST">Communications and PR Specialists</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/INTERNET_MARKETER">Internet Marketer</a></li>
                     </ul>
                 </div>
             </div>
@@ -76,10 +76,10 @@
                         Financial Department
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">CFO (Chief Financial Officer)</a></li>
-                        <li><a class="dropdown-item" href="#">Financial Analyst</a></li>
-                        <li><a class="dropdown-item" href="#">Accountant</a></li>
-                        <li><a class="dropdown-item" href="#">Financial Manager</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/CFO">CFO (Chief Financial Officer)</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/FINANCIAL_ANALYST">Financial Analyst</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/ACCOUNTANT">Accountant</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/FINANCIAL_MANAGER">Financial Manager</a></li>
                     </ul>
                 </div>
             </div>
@@ -87,15 +87,15 @@
     </div>
 
     <div class="dropdown-center container text-center mt-4">
-        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             Business Application Development Department
-        </a>
+        </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Project Manager</a></li>
-            <li><a class="dropdown-item" href="#">Business Analyst</a></li>
-            <li><a class="dropdown-item" href="#">Software Developer (Back-end)</a></li>
-            <li><a class="dropdown-item" href="#">Software Developer (Front-end)</a></li>
-            <li><a class="dropdown-item" href="#">QA Engineer</a></li>
+            <li><a class="dropdown-item" href="/structure/position/PROJECT_MANAGER">Project Manager</a></li>
+            <li><a class="dropdown-item" href="/structure/position/BUSINESS_ANALYST">Business Analyst</a></li>
+            <li><a class="dropdown-item" href="/structure/position/JAVA_DEVELOPER">Software Developer (Back-end)</a></li>
+            <li><a class="dropdown-item" href="/structure/position/JAVASCRIPT_DEVELOPER">Software Developer (Front-end)</a></li>
+            <li><a class="dropdown-item" href="/structure/position/QA_ENGINEER">QA Engineer</a></li>
         </ul>
     </div>
 
@@ -107,9 +107,9 @@
                         Human Resources Department
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Human Resources Director</a></li>
-                        <li><a class="dropdown-item" href="#">Recruiter</a></li>
-                        <li><a class="dropdown-item" href="#">HR Manager</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/HR_DIRECTOR">Human Resources Director</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/RECRUITER">Recruiter</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/HR_MANAGER">HR Manager</a></li>
                     </ul>
                 </div>
             </div>
@@ -121,9 +121,9 @@
                         Research and Development
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Research and Development Director</a></li>
-                        <li><a class="dropdown-item" href="#">Research and Development Specialist</a></li>
-                        <li><a class="dropdown-item" href="#">Product Architect</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/RESEARCH_AND_DEVELOPMENT_DIRECTOR">Research and Development Director</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/RESEARCH_AND_DEVELOPMENT_SPECIALIST">Research and Development Specialist</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/PRODUCT_ARCHITECT">Product Architect</a></li>
                     </ul>
                 </div>
             </div>
@@ -138,8 +138,8 @@
                         Legal Department
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Legal Director</a></li>
-                        <li><a class="dropdown-item" href="#">Lawyer</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/LEGAL_DIRECTOR">Legal Director</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/LAWYER">Lawyer</a></li>
                     </ul>
                 </div>
             </div>
@@ -151,8 +151,8 @@
                         IT Security
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">IT Security Director</a></li>
-                        <li><a class="dropdown-item" href="#">IT Security Specialist</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/SECURITY_DIRECTOR">IT Security Director</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/IT_SECURITY_SPECIALIST">IT Security Specialist</a></li>
                     </ul>
                 </div>
             </div>

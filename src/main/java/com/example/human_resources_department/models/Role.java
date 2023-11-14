@@ -33,6 +33,7 @@ public enum Role implements GrantedAuthority {
     PRODUCT_ARCHITECT,
     LAWYER,
     IT_SECURITY_SPECIALIST,
+    SECURITY_DIRECTOR,
     HR_MANAGER,
     JAVA_DEVELOPER,
     JAVASCRIPT_DEVELOPER,
