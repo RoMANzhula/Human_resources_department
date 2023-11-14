@@ -163,4 +163,16 @@ public class UserService implements UserDetailsService {
         userRepository.save(coworker);
     }
 
+    public List<User> findUsersByRole(Set<Role> roles) {
+        if (roles == null || roles.isEmpty()) {
+            // Ви можете обробляти це відповідним чином, наприклад, повернути всіх користувачів, якщо ролі не вказані.
+            return Collections.emptyList();
+        }
+        return userRepository.findByUserRoles(roles);
+    }
+
+    @Transactional
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
 }

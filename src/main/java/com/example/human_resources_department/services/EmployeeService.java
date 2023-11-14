@@ -39,10 +39,10 @@ public class EmployeeService {
         return employeeRepository.findById(id).orElse(null);
     }
 
-//    @Transactional
-//    public Employee saveEmployee(Employee employee) {
-//        return employeeRepository.save(employee);
-//    }
+    @Transactional
+    public Employee saveEmployee(Employee employee) {
+        return employeeRepository.save(employee);
+    }
 
     @Transactional
     public boolean addEmployee(
