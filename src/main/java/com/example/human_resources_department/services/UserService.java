@@ -7,7 +7,6 @@ import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.EmployeeRepository;
 import com.example.human_resources_department.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -164,6 +163,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(coworker);
     }
 
+    @Transactional(readOnly = true)
     public List<User> findUsersByRole(Role role) {
         if (role == null) {
             return Collections.emptyList();

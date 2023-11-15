@@ -23,7 +23,7 @@
                         Operating Department
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/structure/position/CEO">COO (Chief Operating Officer)</a></li>
+                        <li><a class="dropdown-item" href="/structure/position/COO">COO (Chief Operating Officer)</a></li>
                         <li><a class="dropdown-item" href="/structure/position/PROJECT_MANAGER">Project Manager</a></li>
                         <li><a class="dropdown-item" href="/structure/position/DEVOPS_ENGINEER">DevOps Engineer</a></li>
                         <li><a class="dropdown-item" href="/structure/position/NETWORK_AND_SYSTEM_ADMIN">Network and Systems Administrators</a></li>
@@ -158,6 +158,6 @@
             </div>
         </div>
     </div>
-
+</div>
 
 </@g.page>

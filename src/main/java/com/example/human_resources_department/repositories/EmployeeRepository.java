@@ -13,4 +13,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     Employee findBySecretCodeForRole(String secretCodeForRole);
 
+    Employee findEmployeeBySecretCodeForRole(String secretCodeWithRegistration);
 }

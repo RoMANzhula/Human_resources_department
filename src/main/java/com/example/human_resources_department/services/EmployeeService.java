@@ -137,4 +137,8 @@ public class EmployeeService {
     public Employee findEmployBySecretCodeWithRegistration(String secretCodeWithRegistration) {
         return employeeRepository.findBySecretCodeForRole(secretCodeWithRegistration);
     }
+    @Transactional(readOnly = true)
+    public Employee findEmployeeBySecretCodeForRole(User coworker) {
+        return employeeRepository.findEmployeeBySecretCodeForRole(coworker.getSecretCodeWithRegistration());
+    }
 }
