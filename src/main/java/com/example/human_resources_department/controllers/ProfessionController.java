@@ -23,7 +23,6 @@ public class ProfessionController {
     public String professionsPage(Model model) {
         List<Employee> employees = employeeRepository.findAll();
 
-        // Підрахунок кількості працівників для кожної ролі
         Map<String, Integer> professionCounts = new HashMap<>();
         for (Employee employee : employees) {
             for (Role role : employee.getEmployeeRoles()) {
@@ -33,6 +32,6 @@ public class ProfessionController {
         }
 
         model.addAttribute("professionCounts", professionCounts);
-        return "professions"; // Шлях до HTML-сторінки
+        return "professions";
     }
 }
