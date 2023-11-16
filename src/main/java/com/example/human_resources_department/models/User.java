@@ -39,6 +39,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Collection<Scheduler> scheduler;
 
+    @ManyToMany(mappedBy = "coworkers")
+    private Set<Project> projects;
+
     public User() {
     }
 
@@ -169,5 +172,13 @@ public class User implements UserDetails {
 
     public void setScheduler(Collection<Scheduler> scheduler) {
         this.scheduler = scheduler;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
     }
 }
