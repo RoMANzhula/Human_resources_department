@@ -1,5 +1,5 @@
 <#import "blocks/general.ftlh" as g>
-    <#include "blocks/security.ftlh">
+<#include "blocks/security.ftlh">
 
 <@g.page>
     <div class="container text-center">

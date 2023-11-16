@@ -35,6 +35,11 @@
                         <a class="nav-link" href="/professions">Staff schedule</a>
                     </li>
                 </#if>
+                <#if isAdmin || isHR_Manager || isProjectManager>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/projects">Projects</a>
+                    </li>
+                </#if>
                 <#if user??>
                     <li class="nav-item">
                         <a class="nav-link" href="/messages">All messages</a>

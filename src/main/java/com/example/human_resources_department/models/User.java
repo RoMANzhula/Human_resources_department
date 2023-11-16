@@ -34,13 +34,13 @@ public class User implements UserDetails {
     private Date dateOfRegistration;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<Message> messages;
+    private Collection<Message> messages = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<Scheduler> scheduler;
+    private Collection<Scheduler> scheduler = new ArrayList<>();
 
     @ManyToMany(mappedBy = "coworkers")
-    private Set<Project> projects;
+    private Set<Project> projects = new HashSet<>();
 
     public User() {
     }
@@ -48,6 +48,11 @@ public class User implements UserDetails {
     public boolean isHR_Manager() { //перевіряємо чи являється користувач hr manager
         return userRoles.contains(Role.HR_MANAGER);
     }
+
+    public boolean isProjectManager() { //перевіряємо чи являється користувач hr manager
+        return userRoles.contains(Role.PROJECT_MANAGER);
+    }
+
 
     public boolean isAdmin() {
         return userRoles.contains(Role.ADMIN);
