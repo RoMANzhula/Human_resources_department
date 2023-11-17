@@ -78,13 +78,15 @@ public class EmployeeController {
         if (employee != null) {
             String activationCode = employee.getSecretCodeForRole();
 
-            if (activationCode != null) {
+            if (activationCode != null && !employee.getEmployeeRoles().isEmpty()) {
                 String emailSubject = "Activation Code";
                 String emailText = "Your activation code is: " + activationCode +
                         ". Visit this site for registration: " + hostname;
                 mailSenderService.sendByMail(employee.getEmail(), emailSubject, emailText);
 
                 System.out.println("Activation code email sent successfully.");
+            } else {
+                System.out.println("Dear HR, please check the role for employee.");
             }
         }
 

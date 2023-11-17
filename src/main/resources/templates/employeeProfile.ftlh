@@ -50,12 +50,15 @@
         </div>
     </div>
 
-    <form action="/employee/sendActivationCode" method="post">
-        <div class="ms-3">
-            <input type="hidden" name="employeeId" value="${employee.id?c}" />
-            <input type="hidden" name="_csrf" value="${_csrf.token}" />
-            <button type="submit">Send Activation Code</button>
-        </div>
-    </form>
+    <#if employee.employeeRoles?size!=0>
+        <form action="/employee/sendActivationCode" method="post">
+            <div class="ms-3">
+                <input type="hidden" name="employeeId" value="${employee.id?c}" />
+                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                <button type="submit">Send Activation Code</button>
+            </div>
+        </form>
+    </#if>
+
 
 </@g.page>
