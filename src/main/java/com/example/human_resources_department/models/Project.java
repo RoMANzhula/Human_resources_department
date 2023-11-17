@@ -21,6 +21,7 @@ public class Project {
     private String customer;
     private LocalDateTime deadline;
     private String projectDirection;
+    private String author;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false)
@@ -110,6 +111,14 @@ public class Project {
 
     public void setProjectDirection(String projectDirection) {
         this.projectDirection = projectDirection;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public Date getDateOfRegistration() {

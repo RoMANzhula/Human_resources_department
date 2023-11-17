@@ -37,7 +37,7 @@
                 </#if>
                 <#if isAdmin || isHR_Manager || isProjectManager>
                     <li class="nav-item">
-                        <a class="nav-link" href="/projects">Projects</a>
+                        <a class="nav-link" href="/project">Projects</a>
                     </li>
                 </#if>
                 <#if user??>
