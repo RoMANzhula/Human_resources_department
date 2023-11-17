@@ -6,9 +6,8 @@ import com.example.human_resources_department.services.ProjectService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -47,11 +46,30 @@ public class ProjectController {
     ) {
         Project project = projectService.findProjectById(project_id);
 
-
         model.addAttribute("project", project);
 
-
         return "projectInfo";
+    }
+
+    @GetMapping("/create")
+    public String showCreateProjectForm(
+            Model model
+    ) {
+        Project project = new Project();
+        model.addAttribute("project", project);
+        return "createProject";
+    }
+
+    @PostMapping("/create")
+    public String createProject(
+            @RequestParam("file") MultipartFile fileContractName,
+            @ModelAttribute("project") Project project
+    ) {
+        if (project != null) {
+            projectService.saveProject(project, fileContractName);
+        }
+
+        return "redirect:/project";
     }
 
 }

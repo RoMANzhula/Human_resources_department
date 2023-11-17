@@ -7,7 +7,7 @@
     </div>
 
     <div class="container text-center">
-        <a href="/project/create" class="btn btn-primary">Create New Project</a>
+        <a href="/project/create" class="btn btn-dark">Create New Project</a>
     </div>
 
     <#if projects??>

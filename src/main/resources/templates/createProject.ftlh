@@ -3,112 +3,80 @@
 
 <@g.page>
 
-    <h2>Create a New Project</h2>
-
-    <div class="ms-3 me-3 mt-3">
-        <form method="post" action="/project/create" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Input topic</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1"
-                       value="<#if project??>${project.name}</#if>" name="name"
-                       placeholder="Be sure to enter the topic of the project.">
-            </div>
-
-            <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">Input description</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                          value="<#if project??>${project.description}</#if>" name="description"
-                          placeholder="Be sure to enter the text of the description."></textarea>
-            </div>
-
-            <div class="input-group mb-3 mt-5" >
-                <input type="file" name="fileContractName" class="form-control" id="inputGroupFile04"
-                       aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
-                <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                <input type="hidden" name="id" value="<#if project??>${project.id?c}</#if>" />
-                <button type="submit" class="btn btn-outline-danger">Save message</button>
-            </div>
-
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Input budget</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1"
-                       value="<#if project??>${project.budget}</#if>" name="budget"
-                       placeholder="Be sure to enter the budget of the project.">
-            </div>
-
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Make choice</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1"
-                       value="${project.isActive()?string('yes', 'no')}" name="isActive"
-                       placeholder="Be sure to enter yes/no if the project active or no.">
-            </div>
-
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Input customer</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1"
-                       value="<#if project??>${project.customer}</#if>" name="customer"
-                       placeholder="Be sure to enter the budget of the project.">
-            </div>
-
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Input deadline</label>
-                <input type="datetime-local" class="form-control" id="exampleFormControlInput1"
-                       value="<#if project??>${project.deadline}</#if>" name="deadline"
-                       placeholder="Be sure to enter the deadline of the project.">
-            </div>
-
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Input project direction</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1"
-                       value="<#if project??>${project.projectDirection}</#if>" name="projectDirection"
-                       placeholder="Be sure to enter the direction of the project.">
-            </div>
-
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Input project responsible for the project</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1"
-                       value="<#if project??>${project.author}</#if>" name="author"
-                       placeholder="Be sure to enter the responsible for the project.">
-            </div>
-
-            <div class="mb-3">
-                <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                <input type="hidden" name="id" value="<#if project??>${project.id?c}</#if>" />
-                <button type="submit" class="btn btn-outline-danger">Save project</button>
-            </div>
-        </form>
+    <div class="container text-center">
+        <h2>Create a New Project</h2>
     </div>
 
+    <div class="ms-3 me-3 mt-3">
+            <form method="post" action="/project/create" enctype="multipart/form-data">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Input topic</span>
+                    <input type="text" class="form-control" id="exampleFormControlInput1"
+                           value="<#if project??>${project.name!""}</#if>" name="name"
+                           placeholder="Be sure to enter the topic of the project.">
+                </div>
 
-<#--    <form action="/project/create" method="post">-->
-<#--        <label for="name">Project Name:</label>-->
-<#--        <input type="text" id="name" name="name" required><br>-->
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Input description</span>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"
+                              placeholder="Be sure to enter the text of the description."
+                              value="<#if project??>${project.description!""}</#if>"></textarea>
+                </div>
 
-<#--        <label for="description">Description:</label>-->
-<#--        <textarea id="description" name="description" required></textarea><br>-->
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Input budget</span>
+                    <input type="text" class="form-control" id="exampleFormControlInput1"
+                           value="<#if project??>${project.budget!""}</#if>" name="budget"
+                           placeholder="Be sure to enter the budget of the project.">
+                </div>
 
-<#--        <label for="fileContractName">File Contract Name:</label>-->
-<#--        <input type="text" id="fileContractName" name="fileContractName" required><br>-->
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Make choice</span>
+                    <input type="text" class="form-control" id="exampleFormControlInput1"
+                           value="${project.isActive()?string('yes', 'no')}" name="isActive"
+                           placeholder="Be sure to enter yes/no if the project active or no.">
+                </div>
 
-<#--        <label for="budget">Budget:</label>-->
-<#--        <input type="number" id="budget" name="budget" required><br>-->
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Input customer</span>
+                    <input type="text" class="form-control" id="exampleFormControlInput1"
+                           value="<#if project??>${project.customer!""}</#if>" name="customer"
+                           placeholder="Be sure to enter the budget of the project.">
+                </div>
 
-<#--        <label for="isActive">Active:</label>-->
-<#--        <input type="checkbox" id="isActive" name="isActive"><br>-->
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Input deadline</span>
+                    <input type="datetime-local" class="form-control" id="exampleFormControlInput1"
+                           value="<#if project??>${project.deadline!""}</#if>" name="deadline"
+                           placeholder="Be sure to enter the deadline of the project.">
+                </div>
 
-<#--        <label for="customer">Customer:</label>-->
-<#--        <input type="text" id="customer" name="customer" required><br>-->
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Input project direction</span>
+                    <input type="text" class="form-control" id="exampleFormControlInput1"
+                           value="<#if project??>${project.projectDirection!""}</#if>" name="projectDirection"
+                           placeholder="Be sure to enter the direction of the project.">
+                </div>
 
-<#--        <label for="deadline">Deadline:</label>-->
-<#--        <input type="datetime-local" id="deadline" name="deadline" required><br>-->
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Input project responsible for the project</span>
+                    <input type="text" class="form-control" id="exampleFormControlInput1"
+                           value="<#if project??>${project.author!""}</#if>" name="author"
+                           placeholder="Be sure to enter the responsible for the project.">
+                </div>
 
-<#--        <label for="projectDirection">Project Direction:</label>-->
-<#--        <input type="text" id="projectDirection" name="projectDirection" required><br>-->
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon2">Loading document</span>
+                    <input type="file" name="file" class="form-control" />
+                </div>
 
-<#--        <label for="author">Author:</label>-->
-<#--        <input type="text" id="author" name="author" required><br>-->
+                <div class="container text-center">
+                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                    <input type="hidden" name="id" value="<#if project?has_content && project.id?has_content>${project.id?c}</#if>" />
+                    <button type="submit" class="btn btn-outline-danger">Save project</button>
+                </div>
+            </form>
+    </div>
 
-<#--        <button type="submit">Create Project</button>-->
-<#--    </form>-->
 
 </@g.page>

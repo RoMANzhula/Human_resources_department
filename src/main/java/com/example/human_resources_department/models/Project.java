@@ -9,14 +9,13 @@ import java.util.Date;
 @Entity
 public class Project {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
     private String description;
     private String fileContractName;
-    private int budget;
+    private String budget;
     private boolean isActive;
     private String customer;
     private LocalDateTime deadline;
@@ -73,11 +72,11 @@ public class Project {
         this.fileContractName = fileContractName;
     }
 
-    public int getBudget() {
+    public String getBudget() {
         return budget;
     }
 
-    public void setBudget(int budget) {
+    public void setBudget(String budget) {
         this.budget = budget;
     }
 
