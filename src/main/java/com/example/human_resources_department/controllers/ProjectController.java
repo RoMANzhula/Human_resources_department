@@ -3,6 +3,7 @@ package com.example.human_resources_department.controllers;
 import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.repositories.ProjectRepository;
 import com.example.human_resources_department.services.ProjectService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,9 @@ import java.util.List;
 @RequestMapping("/project")
 @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HR_MANAGER') || hasAuthority('PROJECT_MANAGER')")
 public class ProjectController {
+    @Value("${hostname}")
+    private String path;
+
     private final ProjectService projectService;
     private final ProjectRepository projectRepository;
 
@@ -47,6 +51,7 @@ public class ProjectController {
         Project project = projectService.findProjectById(project_id);
 
         model.addAttribute("project", project);
+        model.addAttribute("path", path);
 
         return "projectInfo";
     }

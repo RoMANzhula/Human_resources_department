@@ -19,7 +19,10 @@ public class MessageController {
     private final MessageRepository messageRepository;
     private final MessageService messageService;
 
-    public MessageController(MessageRepository messageRepository, MessageService messageService) {
+    public MessageController(
+            MessageRepository messageRepository,
+            MessageService messageService
+    ) {
         this.messageRepository = messageRepository;
         this.messageService = messageService;
     }
