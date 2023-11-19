@@ -104,4 +104,16 @@ public class ProjectController {
         return "redirect:/project/project_info/{projectId}";
     }
 
+    @GetMapping("/{projectId}/show-team")
+    public String showTeamPage(
+            @PathVariable Long projectId,
+            Model model
+    ) {
+        Project project = projectService.getProjectById(projectId);
+
+        model.addAttribute("project", project);
+
+        return "showTeamPage";
+    }
+
 }
