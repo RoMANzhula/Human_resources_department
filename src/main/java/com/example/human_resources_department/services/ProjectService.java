@@ -1,13 +1,18 @@
 package com.example.human_resources_department.services;
 
 import com.example.human_resources_department.models.Project;
+import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.repositories.ProjectRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class ProjectService {
@@ -48,4 +53,29 @@ public class ProjectService {
 
     }
 
+
+    public void createTeam(Long projectId, Map<Role, Integer> rolesAndCounts) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found"));
+
+        project.getRolesAndCounts().clear();
+
+        // Додайте нові ролі та їх кількість
+        project.getRolesAndCounts().putAll(rolesAndCounts);
+
+        projectRepository.save(project);
+    }
+
+    public Project getProjectById(Long projectId) {
+        return projectRepository.findById(projectId).orElse(null);
+    }
+
+    public Map<Role, Integer> getAllRoles() {
+        Role[] allRoles = Role.values();
+
+        Map<Role, Integer> roles = new HashMap<>();
+        Arrays.stream(allRoles).forEach(role -> roles.put(role, 0));
+
+        return roles;
+    }
 }

@@ -3,8 +3,7 @@ package com.example.human_resources_department.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 public class Project {
@@ -29,6 +28,14 @@ public class Project {
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "completion_date")
     private Date dateOfCompletion;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "project_roles",
+            joinColumns = @JoinColumn(name = "project_id"))
+    @MapKeyEnumerated(EnumType.STRING)
+    @Column(name = "user_count")
+    private Map<Role, Integer> rolesAndCounts = new HashMap<>();
 
     @ManyToMany
     @JoinTable(
@@ -142,5 +149,13 @@ public class Project {
 
     public void setCoworkers(Collection<User> coworkers) {
         this.coworkers = coworkers;
+    }
+
+    public Map<Role, Integer> getRolesAndCounts() {
+        return rolesAndCounts;
+    }
+
+    public void setRolesAndCounts(Map<Role, Integer> rolesAndCounts) {
+        this.rolesAndCounts = rolesAndCounts;
     }
 }

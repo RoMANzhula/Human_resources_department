@@ -1,6 +1,8 @@
 package com.example.human_resources_department.controllers;
 
+import com.example.human_resources_department.dto.TeamCreationDto;
 import com.example.human_resources_department.models.Project;
+import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.repositories.ProjectRepository;
 import com.example.human_resources_department.services.ProjectService;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/project")
@@ -75,6 +78,30 @@ public class ProjectController {
         }
 
         return "redirect:/project";
+    }
+
+    @GetMapping("/{projectId}/create-team")
+    public String showCreateTeamPage(
+            @PathVariable Long projectId,
+            Model model
+    ) {
+        Project project = projectService.getProjectById(projectId);
+        Map<Role, Integer> availableRoles = projectService.getAllRoles();
+
+        model.addAttribute("project", project);
+        model.addAttribute("availableRoles", availableRoles);
+
+        return "createTeamPage";
+    }
+
+    @PostMapping("/{projectId}/create-team")
+    public String createTeam(
+            @PathVariable Long projectId,
+            @ModelAttribute TeamCreationDto teamDTO
+    ) {
+        projectService.createTeam(projectId, teamDTO.getRolesAndCounts());
+
+        return "redirect:/project/project_info/{projectId}";
     }
 
 }
