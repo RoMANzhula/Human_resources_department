@@ -152,9 +152,11 @@ public class ProjectController {
     public String chooseCoworkers(
             @PathVariable Long projectId,
             @RequestParam Integer count,
-            @RequestParam List<Long> selectedUserIds
+            @RequestParam(name = "selectedUserIds", required = false) List<Long> selectedUserIds
     ) {
-        projectService.addSelectedUsersToProject(projectId, count, selectedUserIds);
+        if (selectedUserIds != null) {
+            projectService.addSelectedUsersToProject(projectId, count, selectedUserIds);
+        }
 
         return "redirect:/project/project_info/{projectId}";
     }
