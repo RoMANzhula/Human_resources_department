@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
@@ -21,4 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE :role MEMBER OF u.userRoles")
     List<User> findByUserRoles(@Param("role") Role role);
+
+    @Query("SELECT u FROM User u JOIN u.projects p WHERE p.id = :projectId")
+    List<User> findTeamMembersByProjectId(@Param("projectId") Long projectId);
 }

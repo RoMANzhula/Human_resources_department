@@ -3,8 +3,10 @@ package com.example.human_resources_department.controllers;
 import com.example.human_resources_department.dto.TeamCreationDto;
 import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.Role;
+import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.ProjectRepository;
 import com.example.human_resources_department.services.ProjectService;
+import com.example.human_resources_department.services.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -24,11 +26,15 @@ public class ProjectController {
 
     private final ProjectService projectService;
     private final ProjectRepository projectRepository;
+    private final UserService userService;
 
     public ProjectController(ProjectService projectService,
-                             ProjectRepository projectRepository) {
+                             ProjectRepository projectRepository,
+                             UserService userService
+    ) {
         this.projectService = projectService;
         this.projectRepository = projectRepository;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -111,9 +117,46 @@ public class ProjectController {
     ) {
         Project project = projectService.getProjectById(projectId);
 
+        Map<String, List<String>> teamMembersByRole = projectService.findTeamMembersByRoleAndProject(projectId);
+
+        model.addAttribute("teamMembersByRole", teamMembersByRole);
         model.addAttribute("project", project);
 
         return "showTeamPage";
+    }
+
+    @GetMapping("/{projectId}/choose-coworkers")
+    public String showChooseCoworkersPage(
+            @PathVariable Long projectId,
+            @RequestParam Integer count,
+            @RequestParam(required = false) String role,
+            Model model
+    ) {
+
+        Project project = projectService.getProjectById(projectId);
+
+        if (role != null) {
+            List<User> usersByRole = userService.findUsersByRole(Role.valueOf(role));
+            model.addAttribute("availableUsers", usersByRole);
+        } else {
+            System.out.println("Role in project table is not found!");
+        }
+
+        model.addAttribute("project", project);
+        model.addAttribute("count", count);
+
+        return "chooseCoworkersPage";
+    }
+
+    @PostMapping("/{projectId}/choose-coworkers")
+    public String chooseCoworkers(
+            @PathVariable Long projectId,
+            @RequestParam Integer count,
+            @RequestParam List<Long> selectedUserIds
+    ) {
+        projectService.addSelectedUsersToProject(projectId, count, selectedUserIds);
+
+        return "redirect:/project/project_info/{projectId}";
     }
 
 }

@@ -12,6 +12,7 @@
                 <tr>
                     <th>Role</th>
                     <th>Number of Members</th>
+                    <th>Chose Member(s) of Project</th>
                 </tr>
             </thead>
 
@@ -20,7 +21,18 @@
                     <#if count != 0>
                         <tr>
                             <td>${role}</td>
-                            <td>${count}</td>
+                            <td>
+                                <a href="/project/${project.id}/choose-coworkers?count=${count}&role=${role}">${count}</a>
+                            </td>
+                            <td>
+                                <#list teamMembersByRole as member,users>
+                                    <#if role == member>
+                                        <#list users as user>
+                                            ${user}<#sep>,
+                                        </#list>
+                                    </#if>
+                                </#list>
+                            </td>
                         </tr>
                     </#if>
                 </#list>
