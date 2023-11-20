@@ -114,4 +114,14 @@ public class ProjectService {
         return teamMembersByRole;
     }
 
+    @Transactional(readOnly = true)
+    public List<User> getSelectedUsersForProject(Long projectId) {
+        Project project = projectRepository.getProjectById(projectId);
+
+        if (project != null && project.getCoworkers() != null) {
+            return new ArrayList<>(project.getCoworkers());
+        } else {
+            return Collections.emptyList();
+        }
+    }
 }

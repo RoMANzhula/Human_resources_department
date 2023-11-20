@@ -134,8 +134,13 @@ public class ProjectController {
     ) {
         Project project = projectService.getProjectById(projectId);
 
+        List<User> selectedUsers = projectService.getSelectedUsersForProject(projectId);
+
         if (role != null) {
             List<User> usersByRole = userService.findUsersByRole(Role.valueOf(role));
+
+            usersByRole.removeAll(selectedUsers);
+
             model.addAttribute("availableUsers", usersByRole);
         } else {
             System.out.println("Role in project table is not found!");
