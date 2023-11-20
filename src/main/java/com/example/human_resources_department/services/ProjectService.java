@@ -96,8 +96,8 @@ public class ProjectService {
     }
 
     @Transactional(readOnly = true)
-    public Map<String, List<String>> findTeamMembersByRoleAndProject(Long projectId) {
-        Map<String, List<String>> teamMembersByRole = new HashMap<>();
+    public Map<String, List<User>> findTeamMembersByRoleAndProject(Long projectId) {
+        Map<String, List<User>> teamMembersByRole = new HashMap<>();
 
         Project project = projectRepository.getProjectById(projectId);
 
@@ -106,7 +106,7 @@ public class ProjectService {
 
             for (User user : teamMembers) {
                 for (Role role : user.getUserRoles()) {
-                    teamMembersByRole.computeIfAbsent(role.toString(), k -> new ArrayList<>()).add(user.getUsername());
+                    teamMembersByRole.computeIfAbsent(role.toString(), k -> new ArrayList<>()).add(user);
                 }
             }
         }

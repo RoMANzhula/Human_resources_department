@@ -27,8 +27,9 @@
                             <td>
                                 <#list teamMembersByRole as member,users>
                                     <#if role == member>
-                                        <#list users as user>
-                                            ${user}<#sep>,
+                                        <#list users as userMember>
+<#--                                            ${userName}<#sep>,-->
+                                            <a href="/coworker/profile/${userMember.getId()}">${userMember.getUsername()}</a><#sep>,
                                         </#list>
                                     </#if>
                                 </#list>

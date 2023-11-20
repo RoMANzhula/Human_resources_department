@@ -117,7 +117,7 @@ public class ProjectController {
     ) {
         Project project = projectService.getProjectById(projectId);
 
-        Map<String, List<String>> teamMembersByRole = projectService.findTeamMembersByRoleAndProject(projectId);
+        Map<String, List<User>> teamMembersByRole = projectService.findTeamMembersByRoleAndProject(projectId);
 
         model.addAttribute("teamMembersByRole", teamMembersByRole);
         model.addAttribute("project", project);
@@ -132,7 +132,6 @@ public class ProjectController {
             @RequestParam(required = false) String role,
             Model model
     ) {
-
         Project project = projectService.getProjectById(projectId);
 
         if (role != null) {

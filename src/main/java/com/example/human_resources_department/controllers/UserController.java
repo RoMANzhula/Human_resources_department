@@ -106,4 +106,20 @@ public class UserController {
         return "userOwnPage";
     }
 
+    @GetMapping("/profile/{userId}")
+    public String userOwnPage(
+            @PathVariable Long userId,
+            Model model
+    ) {
+        User requestedUser = userService.getUserById(userId);
+
+        if (requestedUser == null) {
+            return "errorPage";
+        }
+
+        model.addAttribute("user", requestedUser);
+
+        return "userOwnPage";
+    }
+
 }
