@@ -37,7 +37,7 @@ public class Project {
     @Column(name = "user_count")
     private Map<Role, Integer> rolesAndCounts = new HashMap<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "project_user",
             joinColumns = @JoinColumn(name = "project_id"),

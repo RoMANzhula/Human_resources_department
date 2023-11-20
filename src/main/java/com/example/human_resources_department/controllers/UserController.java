@@ -8,6 +8,7 @@ import com.example.human_resources_department.services.EmployeeService;
 import com.example.human_resources_department.services.MessageService;
 import com.example.human_resources_department.services.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -87,7 +88,6 @@ public class UserController {
         String employeeFullName = employee.getFirstName() + " " + employee.getSecondName();
 
         if (coworker != null) {
-            // Передати інформацію про коворкера на сторінку
             model.addAttribute("coworker", coworker);
             model.addAttribute("messages", listOfMessagesThisCoworker);
             model.addAttribute("employeeName", employeeFullName);
@@ -96,4 +96,14 @@ public class UserController {
             return "allMessages";
         }
     }
+
+    @GetMapping("/profile")
+    public String userOwnPage(
+            Model model,
+            @AuthenticationPrincipal User currentUser
+    ) {
+        model.addAttribute("user", currentUser);
+        return "userOwnPage";
+    }
+
 }

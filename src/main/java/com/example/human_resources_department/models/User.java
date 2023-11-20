@@ -39,7 +39,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Collection<Scheduler> scheduler = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "coworkers")
+    @ManyToMany(mappedBy = "coworkers", fetch = FetchType.EAGER)
     private Set<Project> projects = new HashSet<>();
 
     public User() {
