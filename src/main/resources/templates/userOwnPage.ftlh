@@ -20,4 +20,10 @@
         My skills:
     </div>
 
+    <div class="container text-center">
+        <#if user??>
+            <a href="/coworker/edit">Edit Profile</a>
+        </#if>
+    </div>
+
 </@g.page>

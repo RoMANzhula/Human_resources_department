@@ -98,7 +98,7 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String userOwnPage(
+    public String myOwnPage(
             Model model,
             @AuthenticationPrincipal User currentUser
     ) {
@@ -120,6 +120,30 @@ public class UserController {
         model.addAttribute("user", requestedUser);
 
         return "userOwnPage";
+    }
+
+    @GetMapping("/edit")
+    public String editProfile(
+            Model model,
+            @AuthenticationPrincipal User currentUser
+    ) {
+        model.addAttribute("user", currentUser);
+
+        return "userOwnPageProfile";
+    }
+
+    @PostMapping("/update")
+    public String updateProfile(
+            @ModelAttribute User updatedUser,
+            @AuthenticationPrincipal User currentUser
+    ) {
+        currentUser.setUsername(updatedUser.getUsername());
+        currentUser.setEmail(updatedUser.getEmail());
+        currentUser.setPhone(updatedUser.getPhone());
+
+        userService.saveUser(currentUser);
+
+        return "redirect:/coworker/profile";
     }
 
 }
