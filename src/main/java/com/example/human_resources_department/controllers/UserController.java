@@ -102,7 +102,7 @@ public class UserController {
             Model model,
             @AuthenticationPrincipal User currentUser
     ) {
-        model.addAttribute("user", currentUser);
+        model.addAttribute("coworker", currentUser);
         return "userOwnPage";
     }
 
@@ -117,7 +117,7 @@ public class UserController {
             return "errorPage";
         }
 
-        model.addAttribute("user", requestedUser);
+        model.addAttribute("coworker", requestedUser);
 
         return "userOwnPage";
     }
