@@ -113,12 +113,21 @@ public class ProjectController {
     @GetMapping("/{projectId}/show-team")
     public String showTeamPage(
             @PathVariable Long projectId,
+            @RequestParam(name = "clearSelection", required = false) Boolean clearSelection,
             Model model
     ) {
         Project project = projectService.getProjectById(projectId);
 
         Map<String, List<User>> teamMembersByRole = projectService.findTeamMembersByRoleAndProject(projectId);
 
+        if (clearSelection != null && clearSelection) {
+            System.out.println("Clearing selection for project: " + projectId);
+            projectService.clearSelectedUsersForProject(projectId);
+
+            return "redirect:/project/" + projectId + "/show-team";
+        }
+
+        model.addAttribute("errorMessage", "Your error message here");
         model.addAttribute("teamMembersByRole", teamMembersByRole);
         model.addAttribute("project", project);
 
@@ -162,7 +171,7 @@ public class ProjectController {
             projectService.addSelectedUsersToProject(projectId, count, selectedUserIds);
         }
 
-        return "redirect:/project/project_info/{projectId}";
+        return "redirect:/project/{projectId}/show-team";
     }
 
 }

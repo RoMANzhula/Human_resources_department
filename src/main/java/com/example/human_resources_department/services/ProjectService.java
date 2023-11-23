@@ -124,4 +124,14 @@ public class ProjectService {
             return Collections.emptyList();
         }
     }
+
+    @Transactional
+    public void clearSelectedUsersForProject(Long projectId) {
+        Project project = projectRepository.getProjectById(projectId);
+
+        if (project != null) {
+            project.setCoworkers(Collections.emptySet());
+            projectRepository.save(project);
+        }
+    }
 }

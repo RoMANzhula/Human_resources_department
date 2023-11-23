@@ -21,7 +21,7 @@
         My skills:
     </div>
 
-    <#if coworker??>
+    <#if coworker?? && user??>
         <div class="container text-center">
             <a href="/coworker/edit">Edit My Profile</a>
         </div>

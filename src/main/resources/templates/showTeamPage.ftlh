@@ -28,7 +28,6 @@
                                 <#list teamMembersByRole as member,users>
                                     <#if role == member>
                                         <#list users as userMember>
-<#--                                            ${userName}<#sep>,-->
                                             <a href="/coworker/profile/${userMember.getId()}">${userMember.getUsername()}</a><#sep>,
                                         </#list>
                                     </#if>
@@ -47,6 +46,10 @@
             </#list>
             ${totalEmployees}
         </p>
+
+        <#assign errorMessage = errorMessage!''>
+        <a href="/project/${project.id}/show-team?clearSelection=true" class="btn btn-secondary">Clear Chose Members</a>
+
     </div>
 
 </@g.page>
