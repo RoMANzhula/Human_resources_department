@@ -2,6 +2,7 @@ package com.example.human_resources_department.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,7 +30,7 @@ public class Meeting {
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "event_date")
-    private Date dateOfEvent;
+    private LocalDateTime dateOfEvent;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "staff_of_meeting")
     private Set<User> staff = new HashSet<>();
@@ -89,11 +90,11 @@ public class Meeting {
         this.authorOfMeeting = authorOfMeeting;
     }
 
-    public Date getDateOfEvent() {
+    public LocalDateTime getDateOfEvent() {
         return dateOfEvent;
     }
 
-    public void setDateOfEvent(Date dateOfEvent) {
+    public void setDateOfEvent(LocalDateTime dateOfEvent) {
         this.dateOfEvent = dateOfEvent;
     }
 

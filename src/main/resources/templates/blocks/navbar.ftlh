@@ -39,6 +39,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/project">Projects</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/meetings/create">Create Meeting</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/meetings">Meetings</a>
+                    </li>
+
                 </#if>
                 <#if user??>
                     <li class="nav-item">
