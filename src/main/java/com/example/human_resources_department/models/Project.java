@@ -44,6 +44,9 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Collection<User> coworkers;
 
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    private Set<Meeting> meetings = new HashSet<>();
+
     public Project() {
     }
 
@@ -157,5 +160,13 @@ public class Project {
 
     public void setRolesAndCounts(Map<Role, Integer> rolesAndCounts) {
         this.rolesAndCounts = rolesAndCounts;
+    }
+
+    public Set<Meeting> getMeetings() {
+        return meetings;
+    }
+
+    public void setMeetings(Set<Meeting> meetings) {
+        this.meetings = meetings;
     }
 }

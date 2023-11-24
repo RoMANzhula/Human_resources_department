@@ -42,6 +42,17 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "coworkers", fetch = FetchType.EAGER)
     private Set<Project> projects = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "meeting_id")
+    private Meeting meetingSpeakers;
+
+    @OneToOne(mappedBy = "authorOfMeeting", cascade = CascadeType.ALL)
+    private Meeting meeting;
+
+    @ManyToOne
+    @JoinColumn(name = "meeting_staff_id")
+    private Meeting staff_of_meeting;
+
     public User() {
     }
 
@@ -186,4 +197,29 @@ public class User implements UserDetails {
     public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
+
+    public Meeting getMeetingSpeakers() {
+        return meetingSpeakers;
+    }
+
+    public void setMeetingSpeakers(Meeting meetingSpeakers) {
+        this.meetingSpeakers = meetingSpeakers;
+    }
+
+    public Meeting getMeeting() {
+        return meeting;
+    }
+
+    public void setMeeting(Meeting meeting) {
+        this.meeting = meeting;
+    }
+
+    public Meeting getStaff_of_meeting() {
+        return staff_of_meeting;
+    }
+
+    public void setStaff_of_meeting(Meeting staff_of_meeting) {
+        this.staff_of_meeting = staff_of_meeting;
+    }
+
 }
