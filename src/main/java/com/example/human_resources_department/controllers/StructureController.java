@@ -16,7 +16,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/structure")
-@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HR_MANAGER')")
 public class StructureController {
     private final UserService userService;
     private final EmployeeService employeeService;
@@ -35,6 +34,7 @@ public class StructureController {
     }
 
     @GetMapping("/position/{role}")
+    @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HR_MANAGER')")
     public String showEmployeesByPosition(
             @PathVariable Role role,
             Model model

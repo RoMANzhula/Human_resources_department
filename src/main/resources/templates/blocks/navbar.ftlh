@@ -12,56 +12,65 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <#if isHR_Manager>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/main">Add Employee</a>
+                <#if isAdmin || isHR_Manager>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            HR Department
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/main">Add employee</a></li>
+                            <li><a class="dropdown-item" href="/employee">All employees</a></li>
+                            <li><a class="dropdown-item" href="/professions">Staff schedule</a></li>
+                            <li><a class="dropdown-item" href="/coworker">All coworkers</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/employee">All Employees</a>
-                    </li>
+
                 </#if>
                 <#if currentUserId lt 0>
                     <li class="nav-item">
                         <a class="nav-link" href="/registration">Registration</a>
-                    </li>
-                <#elseif isAdmin || isHR_Manager>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/structure">Structure</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/coworker">All coworkers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/professions">Staff schedule</a>
                     </li>
                 </#if>
                 <#if isAdmin || isHR_Manager || isProjectManager>
                     <li class="nav-item">
                         <a class="nav-link" href="/project">Projects</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/meetings/create">Create Meeting</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/meetings">Meetings</a>
+                </#if>
+
+                <#if user??>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Messages
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/messages">All messages</a></li>
+                            <li><a class="dropdown-item" href="/coworker-messages-list/${currentUserId?c}">My messages</a></li>
+                            <li><a class="dropdown-item" href="/new-message">New message</a></li>
+                        </ul>
                     </li>
 
-                </#if>
-                <#if user??>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/messages">All messages</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            For ME
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/coworker/profile">My info</a></li>
+                            <li><a class="dropdown-item" href="/scheduler">Scheduler</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/coworker-messages-list/${currentUserId?c}">My messages</a>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Meetings
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/meetings">All meetings</a></li>
+                            <li><a class="dropdown-item" href="/meetings/create">Create meeting</a></li>
+                        </ul>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link" href="/new-message">New message</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/scheduler">Scheduler</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/coworker/profile">My Info</a>
+                        <a class="nav-link" href="/structure">Structure</a>
                     </li>
                 </#if>
 

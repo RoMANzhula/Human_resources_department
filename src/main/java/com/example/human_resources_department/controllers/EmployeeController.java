@@ -5,6 +5,7 @@ import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.services.EmployeeService;
 import com.example.human_resources_department.services.MailSenderService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/employee")
+@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('HR_MANAGER')")
 public class EmployeeController {
     @Value("${hostname}")
     private String hostname;
@@ -21,7 +23,8 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     public EmployeeController(
-            MailSenderService mailSenderService, EmployeeService employeeService
+            MailSenderService mailSenderService,
+            EmployeeService employeeService
     ) {
         this.mailSenderService = mailSenderService;
         this.employeeService = employeeService;
