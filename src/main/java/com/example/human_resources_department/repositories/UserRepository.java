@@ -22,4 +22,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u JOIN u.projects p WHERE p.id = :projectId")
     List<User> findTeamMembersByProjectId(@Param("projectId") Long projectId);
+
+    @Query("SELECT DISTINCT u FROM User u " +
+            "JOIN u.projects p " +
+            "WHERE p.id IN :projectIds")
+    List<User> findCoworkersByProjectIds(@Param("projectIds") List<Long> projectIds);
 }

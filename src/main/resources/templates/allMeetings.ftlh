@@ -7,8 +7,10 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>Ident</th>
                 <th>Topic</th>
                 <th>Date of Event</th>
+                <th>Author</th>
 
 
 
@@ -17,8 +19,10 @@
             <tbody>
             <#list meetings as meeting>
                 <tr>
+                    <td>${meeting.id}</td>
                     <td>${meeting.topic}</td>
                     <td>${meeting.dateOfEvent}</td>
+                    <td>${meeting.authorOfMeeting.getUsername()}</td>
 
 
 

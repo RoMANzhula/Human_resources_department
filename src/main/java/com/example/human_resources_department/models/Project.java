@@ -44,7 +44,7 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Collection<User> coworkers;
 
-    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "projects", fetch = FetchType.LAZY)
     private Set<Meeting> meetings = new HashSet<>();
 
     public Project() {

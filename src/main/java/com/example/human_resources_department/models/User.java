@@ -42,16 +42,14 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "coworkers", fetch = FetchType.EAGER)
     private Set<Project> projects = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "meeting_id")
-    private Meeting meetingSpeakers;
+    @ManyToMany(mappedBy = "speakers")
+    private Set<Meeting> meetings = new HashSet<>();
 
-    @OneToOne(mappedBy = "authorOfMeeting", cascade = CascadeType.ALL)
-    private Meeting meeting;
+    @OneToMany(mappedBy = "authorOfMeeting", cascade = CascadeType.ALL)
+    private Set<Meeting> meeting;
 
-    @ManyToOne
-    @JoinColumn(name = "meeting_staff_id")
-    private Meeting staff_of_meeting;
+    @ManyToMany(mappedBy = "staff")
+    private List<Meeting> staff_of_meeting;
 
     public User() {
     }
@@ -198,28 +196,27 @@ public class User implements UserDetails {
         this.projects = projects;
     }
 
-    public Meeting getMeetingSpeakers() {
-        return meetingSpeakers;
+    public Set<Meeting> getMeetings() {
+        return meetings;
     }
 
-    public void setMeetingSpeakers(Meeting meetingSpeakers) {
-        this.meetingSpeakers = meetingSpeakers;
+    public void setMeetings(Set<Meeting> meetings) {
+        this.meetings = meetings;
     }
 
-    public Meeting getMeeting() {
+    public Set<Meeting> getMeeting() {
         return meeting;
     }
 
-    public void setMeeting(Meeting meeting) {
+    public void setMeeting(Set<Meeting> meeting) {
         this.meeting = meeting;
     }
 
-    public Meeting getStaff_of_meeting() {
+    public List<Meeting> getStaff_of_meeting() {
         return staff_of_meeting;
     }
 
-    public void setStaff_of_meeting(Meeting staff_of_meeting) {
+    public void setStaff_of_meeting(List<Meeting> staff_of_meeting) {
         this.staff_of_meeting = staff_of_meeting;
     }
-
 }

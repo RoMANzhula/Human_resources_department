@@ -3,9 +3,7 @@ package com.example.human_resources_department.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Meeting {
@@ -17,27 +15,41 @@ public class Meeting {
     private String topic;
     private String description;
 
-    @OneToMany(mappedBy = "meetingSpeakers", cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "meeting_speakers",
+            joinColumns = @JoinColumn(name = "meeting_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private Set<User> speakers = new HashSet<>();
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false)
     private Date dateOfRegistration;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User authorOfMeeting;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "event_date")
     private LocalDateTime dateOfEvent;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "staff_of_meeting")
-    private Set<User> staff = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "meeting_staff",
+            joinColumns = @JoinColumn(name = "meeting_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> staff = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id")
-    private Project project;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "meeting_projects",
+            joinColumns = @JoinColumn(name = "meeting_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private List<Project> projects = new ArrayList<>();
 
     public Meeting() {
     }
@@ -98,19 +110,19 @@ public class Meeting {
         this.dateOfEvent = dateOfEvent;
     }
 
-    public Set<User> getStaff() {
+    public List<User> getStaff() {
         return staff;
     }
 
-    public void setStaff(Set<User> staff) {
+    public void setStaff(List<User> staff) {
         this.staff = staff;
     }
 
-    public Project getProject() {
-        return project;
+    public List<Project> getProjects() {
+        return projects;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 }

@@ -176,4 +176,14 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
+    @Transactional(readOnly = true)
+    public List<User> getAllUsers() {
+        List<User> allUsers = userRepository.findAll();
+        return allUsers;
+    }
+
+    @Transactional(readOnly = true)
+    public List<User> getCoworkersByProjectId(List<Long>  projects) {
+        return userRepository.findCoworkersByProjectIds(projects);
+    }
 }

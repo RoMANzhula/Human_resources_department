@@ -19,10 +19,30 @@
                 <input type="datetime-local" class="form-control" id="dateOfEvent" name="dateOfEvent" required>
             </div>
 
+            <div class="form-group">
+                <label for="project">Project</label>
+                <div>
+                    <#list allProjects as project>
+                        <input type="checkbox" class="form-check-input" id="project_${project.id}" name="selectedProjects"
+                               value="${project.id}">
+                        <label class="form-check-label" for="project_${project.id}">${project.name}</label>
+                    </#list>
+                </div>
+            </div>
 
+            <div class="form-group">
+                <label for="coworkers">Coworkers</label>
+                <div>
+                    <#list allUsers as user>
+                        <input type="checkbox" class="form-check-input" id="coworker_${user.id}" name="meeting.coworkers"
+                               value="${user.id}">
+                        <label class="form-check-label" for="coworker_${user.id}">${user.username}</label>
+                    </#list>
+                </div>
+            </div>
 
             <div class="mt-3">
-                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                 <button type="submit" class="btn btn-secondary">Create Meeting</button>
             </div>
         </form>
