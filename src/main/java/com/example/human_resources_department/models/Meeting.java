@@ -14,6 +14,7 @@ public class Meeting {
 
     private String topic;
     private String description;
+    private String link;
 
     @ManyToMany
     @JoinTable(
@@ -21,7 +22,7 @@ public class Meeting {
             joinColumns = @JoinColumn(name = "meeting_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> speakers = new HashSet<>();
+    private List<User> speakers = new ArrayList<>();
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false)
@@ -78,11 +79,19 @@ public class Meeting {
         this.description = description;
     }
 
-    public Set<User> getSpeakers() {
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public List<User> getSpeakers() {
         return speakers;
     }
 
-    public void setSpeakers(Set<User> speakers) {
+    public void setSpeakers(List<User> speakers) {
         this.speakers = speakers;
     }
 

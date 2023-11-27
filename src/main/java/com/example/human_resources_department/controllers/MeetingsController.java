@@ -50,8 +50,11 @@ public class MeetingsController {
     ) {
         Meeting newMeeting = new Meeting();
         List<Project> allProjects = projectService.getAllProjects();
+        List<User> allUsers = userService.getAllUsers();
+
         model.addAttribute("meeting", newMeeting);
         model.addAttribute("allProjects", allProjects);
+        model.addAttribute("allUsers", allUsers);
 
         return "createMeeting";
     }
@@ -60,10 +63,11 @@ public class MeetingsController {
     public String saveMeeting(
             @AuthenticationPrincipal User user,
             @ModelAttribute Meeting meeting,
-            @RequestParam(name = "selectedProjects", required = false) List<Long> selectedProjects
+            @RequestParam(name = "selectedProjects", required = false) List<Long> selectedProjects,
+            @RequestParam(name = "selectedUsers", required = false) List<Long> selectedUsers
     ) {
         try {
-            meetingService.createMeeting(meeting, user, selectedProjects);
+            meetingService.createMeeting(meeting, user, selectedProjects, selectedUsers);
             return "redirect:/meetings/details/" + meeting.getId();
         } catch (IllegalArgumentException e) {
             System.out.println("Deadline must be in the future.");

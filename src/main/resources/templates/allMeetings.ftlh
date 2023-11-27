@@ -11,6 +11,8 @@
                 <th>Topic</th>
                 <th>Date of Event</th>
                 <th>Author</th>
+                <th>Speakers</th>
+                <th>Link</th>
 
 
 
@@ -23,6 +25,12 @@
                     <td>${meeting.topic}</td>
                     <td>${meeting.dateOfEvent}</td>
                     <td>${meeting.authorOfMeeting.getUsername()}</td>
+                    <td>
+                        <#list meeting.speakers as speaker>
+                            ${speaker.username}<#sep>,
+                        </#list>
+                    </td>
+                    <td><a href="${meeting.link}">${meeting.link}</a></td>
 
 
 

@@ -8,6 +8,12 @@
         <p>Topic: ${meeting.topic}</p>
         <p>Description: ${meeting.description}</p>
         <p>Date of Event: ${meeting.dateOfEvent}</p>
+        <p>Speaker(s):
+            <#list meeting.speakers as speaker>
+                ${speaker.username}<#sep>,
+            </#list>
+        </p>
+        <p>Link: <a href="${meeting.link}">${meeting.link}</a></p>
 
         <h3>Select Coworkers</h3>
         <form action="/meetings/details/${meeting.id}/addCoworkers" method="post">
@@ -18,7 +24,6 @@
                         <input type="checkbox" class="form-check-input" id="coworker_${user.id}" name="coworkers"
                                value="${user.id}">
                         <label class="form-check-label" for="coworker_${user.id}">${user.username}</label>
-                        <br>
                     </#list>
                 </div>
             </div>

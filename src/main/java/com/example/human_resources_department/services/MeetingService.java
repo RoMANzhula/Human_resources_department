@@ -5,6 +5,7 @@ import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.MeetingRepository;
 import com.example.human_resources_department.repositories.ProjectRepository;
+import com.example.human_resources_department.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,30 +20,35 @@ public class MeetingService {
     private final MeetingRepository meetingRepository;
     private final ProjectRepository projectRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     public MeetingService(
             MeetingRepository meetingRepository,
             ProjectRepository projectRepository,
-            UserService userService
-    ) {
+            UserService userService,
+            UserRepository userRepository) {
         this.meetingRepository = meetingRepository;
         this.projectRepository = projectRepository;
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @Transactional
     public void createMeeting(
             Meeting meeting,
             User user,
-            List<Long> selectedProjects
+            List<Long> selectedProjects,
+            List<Long> selectedUsers
     ) {
         List<Project> allSelectedProjects = projectRepository.findAllById(selectedProjects);
+        List<User> allSelectedUsers = userRepository.findAllById(selectedUsers);
 
         if (meeting.getDateOfEvent().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Deadline must be in the future");
         }
 
         meeting.setProjects(allSelectedProjects);
+        meeting.setSpeakers(allSelectedUsers);
         meeting.setAuthorOfMeeting(user);
         meeting.setDateOfRegistration(new Date());
 
