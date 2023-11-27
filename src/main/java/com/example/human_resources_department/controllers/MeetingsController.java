@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/meetings")
@@ -24,45 +26,11 @@ public class MeetingsController {
     public MeetingsController(
             MeetingService meetingService,
             UserService userService,
-            ProjectService projectService) {
+            ProjectService projectService
+    ) {
         this.meetingService = meetingService;
         this.userService = userService;
         this.projectService = projectService;
-    }
-
-    @GetMapping("/create")
-    public String showCreatingMeetingForm(
-            Model model
-    ) {
-        Meeting newMeeting = new Meeting();
-        List<User> allUsers = userService.getAllUsers();
-        List<Project> allCheckedProjects = projectService.getAllProjects();
-
-        model.addAttribute("meeting", newMeeting);
-        model.addAttribute("allUsers", allUsers);
-        model.addAttribute("allProjects", allCheckedProjects);
-
-        return "createMeeting";
-    }
-
-    @PostMapping("/create")
-    public String createMeeting(
-            @AuthenticationPrincipal User user,
-            @ModelAttribute Meeting meeting,
-            @RequestParam(name = "selectedProjects", required = false) List<Long> selectedProjects,
-            @RequestParam(name = "meeting.coworkers", required = false) List<Long> coworkersOnMeeting
-    ) {
-        try {
-            if (selectedProjects != null && !selectedProjects.isEmpty()
-                || coworkersOnMeeting != null && coworkersOnMeeting.isEmpty()
-            ) {
-                meetingService.createMeeting(meeting, user, selectedProjects, coworkersOnMeeting);
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Deadline must be in the future.");
-        }
-
-        return "redirect:/meetings";
     }
 
     @GetMapping
@@ -75,4 +43,73 @@ public class MeetingsController {
 
         return "allMeetings";
     }
+
+    @GetMapping("/create")
+    public String showCreatingMeetingForm(
+            Model model
+    ) {
+        Meeting newMeeting = new Meeting();
+        List<Project> allProjects = projectService.getAllProjects();
+        model.addAttribute("meeting", newMeeting);
+        model.addAttribute("allProjects", allProjects);
+
+        return "createMeeting";
+    }
+
+    @PostMapping("/save")
+    public String saveMeeting(
+            @AuthenticationPrincipal User user,
+            @ModelAttribute Meeting meeting,
+            @RequestParam(name = "selectedProjects", required = false) List<Long> selectedProjects
+    ) {
+        try {
+            meetingService.createMeeting(meeting, user, selectedProjects);
+            return "redirect:/meetings/details/" + meeting.getId();
+        } catch (IllegalArgumentException e) {
+            System.out.println("Deadline must be in the future.");
+            return "redirect:/meetings/create";
+        }
+    }
+
+    @GetMapping("/details/{meetingId}")
+    public String showMeetingDetails(
+            @PathVariable Long meetingId,
+            Model model
+    ) {
+        Meeting meeting = meetingService.getMeetingById(meetingId);
+        List<Project> meetingProjects = meeting.getProjects();
+
+        if (!meetingProjects.isEmpty()) {
+            List<User> coworkersByProjects = userService.getCoworkersByProjectId(
+                    meetingProjects.stream().map(Project::getId).collect(Collectors.toList())
+            );
+
+            model.addAttribute("meeting", meeting);
+            model.addAttribute("allUsers", coworkersByProjects);
+        } else {
+            model.addAttribute("meeting", meeting);
+            model.addAttribute("allUsers", Collections.emptyList());
+            model.addAttribute("errorMessage", "No projects selected");
+        }
+
+        return "meetingDetails";
+    }
+
+    @PostMapping("/details/{meetingId}/addCoworkers")
+    public String addCoworkersToMeeting(
+            @PathVariable Long meetingId,
+            @RequestParam(name = "coworkers", required = false) List<Long> coworkers,
+            Model model
+    ) {
+        Meeting meeting = meetingService.getMeetingById(meetingId);
+
+        if (coworkers != null && !coworkers.isEmpty()) {
+            meetingService.addCoworkersToMeeting(meeting, coworkers);
+        } else {
+            model.addAttribute("error", "Please select coworkers.");
+        }
+
+        return "redirect:/meetings";
+    }
+
 }

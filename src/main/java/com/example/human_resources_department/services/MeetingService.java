@@ -5,7 +5,6 @@ import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.MeetingRepository;
 import com.example.human_resources_department.repositories.ProjectRepository;
-import com.example.human_resources_department.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,32 +18,30 @@ public class MeetingService {
 
     private final MeetingRepository meetingRepository;
     private final ProjectRepository projectRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     public MeetingService(
             MeetingRepository meetingRepository,
             ProjectRepository projectRepository,
-            UserRepository userRepository) {
+            UserService userService
+    ) {
         this.meetingRepository = meetingRepository;
         this.projectRepository = projectRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Transactional
     public void createMeeting(
             Meeting meeting,
             User user,
-            List<Long> selectedProjects,
-            List<Long> coworkersOnMeeting
+            List<Long> selectedProjects
     ) {
         List<Project> allSelectedProjects = projectRepository.findAllById(selectedProjects);
-        List<User> allSelectedCoworkers = userRepository.findAllById(coworkersOnMeeting);
 
         if (meeting.getDateOfEvent().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Deadline must be in the future");
         }
 
-        meeting.setStaff(allSelectedCoworkers);
         meeting.setProjects(allSelectedProjects);
         meeting.setAuthorOfMeeting(user);
         meeting.setDateOfRegistration(new Date());
@@ -61,5 +58,23 @@ public class MeetingService {
         } else {
             return Collections.emptyList();
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Meeting getMeetingById(Long meetingId) {
+        return meetingRepository.findById(meetingId).orElse(null);
+    }
+
+    @Transactional
+    public void addCoworkersToMeeting(Meeting meeting, List<Long> projectIds) {
+        List<User> currentCoworkers = meeting.getStaff();
+
+        List<User> newCoworkers = userService.getCoworkersByProjectId(projectIds);
+
+        currentCoworkers.addAll(newCoworkers);
+
+        meeting.setStaff(currentCoworkers);
+
+        meetingRepository.save(meeting);
     }
 }

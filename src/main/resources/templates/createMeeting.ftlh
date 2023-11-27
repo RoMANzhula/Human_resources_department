@@ -5,7 +5,7 @@
 
     <div class="container">
         <h2>Create Meeting</h2>
-        <form action="/meetings/create" method="post">
+        <form action="/meetings/save" method="post">
             <div class="form-group">
                 <label for="topic">Topic:</label>
                 <input type="text" class="form-control" id="topic" name="topic" required>
@@ -30,21 +30,11 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="coworkers">Coworkers</label>
-                <div>
-                    <#list allUsers as user>
-                        <input type="checkbox" class="form-check-input" id="coworker_${user.id}" name="meeting.coworkers"
-                               value="${user.id}">
-                        <label class="form-check-label" for="coworker_${user.id}">${user.username}</label>
-                    </#list>
-                </div>
-            </div>
-
             <div class="mt-3">
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                <button type="submit" class="btn btn-secondary">Create Meeting</button>
+                <button type="submit" class="btn btn-secondary">Add Coworkers</button>
             </div>
         </form>
     </div>
+
 </@g.page>
