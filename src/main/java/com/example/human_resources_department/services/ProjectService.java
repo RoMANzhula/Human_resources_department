@@ -61,7 +61,6 @@ public class ProjectService {
 
         project.getRolesAndCounts().clear();
 
-        // Додайте нові ролі та їх кількість
         project.getRolesAndCounts().putAll(rolesAndCounts);
 
         projectRepository.save(project);
@@ -82,14 +81,30 @@ public class ProjectService {
         return roles;
     }
 
+
     @Transactional
     public void addSelectedUsersToProject(Long projectId, Integer count, List<Long> selectedUserIds) {
         Project project = getProjectById(projectId);
+        if (project == null) {
+            throw new EntityNotFoundException("Project with ID " + projectId + " not found");
+        }
 
         List<User> selectedUsers = userRepository.findAllById(selectedUserIds);
+        if (selectedUsers.isEmpty()) {
+            throw new EntityNotFoundException("No users found with the provided IDs");
+        }
 
-        for (int i = 0; i < count; i++) {
-            project.getCoworkers().addAll(selectedUsers);
+        int addedUsersCount = 0;
+        for (User user : selectedUsers) {
+            if (!project.getCoworkers().contains(user)) {
+                project.getCoworkers().add(user);
+                user.getProjects().add(project);
+                addedUsersCount++;
+            }
+
+            if (addedUsersCount == count) {
+                break;
+            }
         }
 
         projectRepository.save(project);
