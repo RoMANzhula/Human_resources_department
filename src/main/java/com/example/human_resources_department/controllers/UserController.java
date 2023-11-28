@@ -99,10 +99,11 @@ public class UserController {
 
     @GetMapping("/profile")
     public String myOwnPage(
-            Model model,
-            @AuthenticationPrincipal User currentUser
+            @AuthenticationPrincipal User currentUser,
+            Model model
     ) {
         model.addAttribute("coworker", currentUser);
+
         return "userOwnPage";
     }
 

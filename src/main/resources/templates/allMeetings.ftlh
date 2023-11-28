@@ -3,7 +3,9 @@
 
 <@g.page>
     <div class="container">
-        <h2>Meetings</h2>
+        <div class="container text-center">
+            <h2>Meetings</h2>
+        </div>
         <table class="table table-striped">
             <thead>
             <tr>

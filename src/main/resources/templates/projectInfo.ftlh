@@ -14,7 +14,12 @@
         Project Deadline: ${project.deadline}<br>
         Project Direction: ${project.projectDirection}<br>
         Responsible for the Project: ${project.author}<br>
-        Contract document: <a href="${path}/img/${project.fileContractName}" target="_blank">Open doc</a><br>
+        Contract document:
+        <#if project.fileContractName??>
+            <a href="${path}/img/${project.fileContractName}" target="_blank">Open doc</a>
+        <#else>
+            No document.
+        </#if><br>
 
         <a href="${path}/project/${project.id}/create-team">Create Team</a><br>
         <a href="${path}/project/${project.id}/show-team">Show Team</a>

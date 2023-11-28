@@ -16,9 +16,10 @@
         Date of registration: ${coworker.getDateOfRegistration()}<br>
         Specialization: <#list coworker.userRoles as role>${role}<#sep>, </#list><br>
         Email: ${coworker.getEmail()}<br>
-        Member of project(s): <#list coworker.projects as project>${project.name}<#sep>, </#list><br>
+        Member of project(s):<#list coworker.projects as project>${project.name}<#sep>, </#list><br>
         Phone number: ${coworker.getPhone()}<br>
-        My skills:
+        My skills:  <br>
+
     </div>
 
     <#if coworker?? && user??>
