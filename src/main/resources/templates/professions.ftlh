@@ -9,11 +9,19 @@
             <tr>
                 <th>Profession</th>
                 <th>Count</th>
+                <th>Coworkers</th>
             </tr>
             <#list professionCounts as profession, count>
                 <tr>
                     <td>${profession}</td>
                     <td>${count}</td>
+                    <td>
+                        <#list coworkersByRole[profession] as coworker>
+                            <a href="/coworker/profile/${coworker.id}">
+                                ${coworker.firstName} ${coworker.lastName}<#sep>;
+                            </a>
+                        </#list>
+                    </td>
                 </tr>
             </#list>
         </table>
@@ -25,6 +33,18 @@
             </#list>
             ${totalEmployees}
         </p>
+
+<#--        <h2>Coworkers by Role</h2>-->
+
+<#--        <#list coworkersByRole as role, coworkers>-->
+<#--            <h3>${role}</h3>-->
+<#--            <ul>-->
+<#--                <#list coworkers as coworker>-->
+<#--                    <li><a href="/coworker/profile/${coworker.id}">${coworker.firstName} ${coworker.lastName}</a></li>-->
+<#--                </#list>-->
+<#--            </ul>-->
+<#--        </#list>-->
+
     </div>
 
 </@g.page>
