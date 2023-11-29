@@ -56,6 +56,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/coworker/profile/${currentUserId?c}">My info</a></li>
                             <li><a class="dropdown-item" href="/scheduler">Scheduler</a></li>
+                            <li><a class="dropdown-item" href="/project/my-projects/${currentUserId?c}">My projects</a></li>
                         </ul>
                     </li>
 

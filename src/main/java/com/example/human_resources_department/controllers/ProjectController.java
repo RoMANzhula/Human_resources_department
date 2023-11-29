@@ -52,6 +52,18 @@ public class ProjectController {
         return "projects";
     }
 
+    @GetMapping("/my-projects/{currentUserId}")
+    public String showAllMyProjects(
+            @PathVariable Long currentUserId,
+            Model model
+    ){
+        List<Project> listOfProjectsByCurrentUser = projectRepository.findAllByCoworkersId(currentUserId);
+
+        model.addAttribute("projects", listOfProjectsByCurrentUser);
+
+        return "projects";
+    }
+
     @GetMapping("/project_info/{project_id}")
     public String showProjectInfo(
             @PathVariable Long project_id,
