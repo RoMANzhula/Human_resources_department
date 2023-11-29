@@ -61,7 +61,7 @@ public class ProjectController {
 
         model.addAttribute("projects", listOfProjectsByCurrentUser);
 
-        return "projects";
+        return "myProjects";
     }
 
     @GetMapping("/project_info/{project_id}")
