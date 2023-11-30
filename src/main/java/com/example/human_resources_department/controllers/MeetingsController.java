@@ -116,4 +116,13 @@ public class MeetingsController {
         return "redirect:/meetings";
     }
 
+    @GetMapping("/user-meetings")
+    public String showUserMeetings(@AuthenticationPrincipal User user, Model model) {
+        List<Meeting> userMeetings = meetingService.getUserMeetings(user);
+
+        model.addAttribute("userMeetings", userMeetings);
+        return "userMeetings";
+    }
+
+
 }

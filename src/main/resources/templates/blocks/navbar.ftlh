@@ -67,6 +67,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/meetings">All meetings</a></li>
                             <li><a class="dropdown-item" href="/meetings/create">Create meeting</a></li>
+                            <li><a class="dropdown-item" href="/meetings/user-meetings">My meetings</a></li>
                         </ul>
                     </li>
 

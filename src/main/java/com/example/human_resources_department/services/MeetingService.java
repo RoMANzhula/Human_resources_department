@@ -83,4 +83,10 @@ public class MeetingService {
 
         meetingRepository.save(meeting);
     }
+
+    public List<Meeting> getUserMeetings(User user) {
+        List<Meeting> listOfUserMeetings = meetingRepository.findAllByStaffContaining(user);
+
+        return listOfUserMeetings;
+    }
 }
