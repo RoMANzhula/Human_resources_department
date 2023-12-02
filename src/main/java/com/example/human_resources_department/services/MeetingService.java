@@ -89,4 +89,53 @@ public class MeetingService {
 
         return listOfUserMeetings;
     }
+
+    @Transactional
+    public void editMeeting(
+            User currentUser,
+            Long meetingId,
+            Meeting editedMeeting,
+            List<Long> selectedProjects,
+            List<Long> selectedUsers
+    ) {
+        Meeting existingMeeting = getMeetingById(meetingId);
+
+        if (existingMeeting.getAuthorOfMeeting().equals(currentUser)) {
+            throw new IllegalArgumentException("You don't have permission to edit this meeting.");
+        }
+
+        List<Project> allSelectedProjects = projectRepository.findAllById(selectedProjects);
+        List<User> allSelectedUsers = userRepository.findAllById(selectedUsers);
+
+        existingMeeting.setTopic(editedMeeting.getTopic());
+        existingMeeting.setDateOfEvent(editedMeeting.getDateOfEvent());
+        existingMeeting.setLink(editedMeeting.getLink());
+
+        existingMeeting.getProjects().clear();
+        existingMeeting.getSpeakers().clear();
+
+        existingMeeting.setProjects(allSelectedProjects);
+        existingMeeting.setSpeakers(allSelectedUsers);
+
+        meetingRepository.save(existingMeeting);
+    }
+
+    @Transactional
+    public void addCoworkersToMeetingEdit(
+            Meeting existingMeeting,
+            List<Long> selectedCoworkers
+    ) {
+        existingMeeting.getStaff().clear();
+
+        List<User> currentCoworkers = existingMeeting.getStaff();
+
+        List<User> allThisMeetingCoworkers = userRepository.findAllById(selectedCoworkers);
+
+        currentCoworkers.addAll(allThisMeetingCoworkers);
+
+        existingMeeting.setStaff(currentCoworkers);
+
+        meetingRepository.save(existingMeeting);
+    }
+
 }

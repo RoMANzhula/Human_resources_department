@@ -2,6 +2,7 @@ package com.example.human_resources_department.services;
 
 import com.example.human_resources_department.configurations.EncodersConfig;
 import com.example.human_resources_department.models.Employee;
+import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.EmployeeRepository;
@@ -186,4 +187,10 @@ public class UserService implements UserDetailsService {
     public List<User> getCoworkersByProjectId(List<Long>  projects) {
         return userRepository.findCoworkersByProjectIds(projects);
     }
+
+    @Transactional(readOnly = true)
+    public List<User> getCoworkersByProjects(List<Project>  projects) {
+        return userRepository.findCoworkersByProjects(projects);
+    }
+
 }

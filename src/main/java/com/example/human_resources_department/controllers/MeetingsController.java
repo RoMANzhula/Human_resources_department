@@ -3,6 +3,7 @@ package com.example.human_resources_department.controllers;
 import com.example.human_resources_department.models.Meeting;
 import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.User;
+import com.example.human_resources_department.repositories.UserRepository;
 import com.example.human_resources_department.services.MeetingService;
 import com.example.human_resources_department.services.ProjectService;
 import com.example.human_resources_department.services.UserService;
@@ -22,15 +23,17 @@ public class MeetingsController {
     private final MeetingService meetingService;
     private final UserService userService;
     private final ProjectService projectService;
+    private final UserRepository userRepository;
 
     public MeetingsController(
             MeetingService meetingService,
             UserService userService,
-            ProjectService projectService
-    ) {
+            ProjectService projectService,
+            UserRepository userRepository) {
         this.meetingService = meetingService;
         this.userService = userService;
         this.projectService = projectService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -117,12 +120,88 @@ public class MeetingsController {
     }
 
     @GetMapping("/user-meetings")
-    public String showUserMeetings(@AuthenticationPrincipal User user, Model model) {
+    public String showUserMeetings(
+            @AuthenticationPrincipal User user,
+            Model model
+    ) {
         List<Meeting> userMeetings = meetingService.getUserMeetings(user);
 
         model.addAttribute("userMeetings", userMeetings);
         return "userMeetings";
     }
 
+    @GetMapping("/edit/{meetingId}")
+    public String showEditMeetingForm(
+            @AuthenticationPrincipal User currentUser,
+            @PathVariable Long meetingId,
+            Model model
+    ) {
+        Meeting meeting = meetingService.getMeetingById(meetingId);
+
+        List<Project> allProjects = projectService.getAllProjects();
+        List<User> allSpeakers = userService.getAllUsers();
+
+        model.addAttribute("allProjects", allProjects);
+        model.addAttribute("allSpeakers", allSpeakers);
+        model.addAttribute("meeting", meeting);
+
+        return "editMeeting";
+    }
+
+    @PostMapping("/edit/{meetingId}")
+    public String saveEditedMeeting(
+            @AuthenticationPrincipal User user,
+            @PathVariable Long meetingId,
+            @ModelAttribute Meeting editedMeeting,
+            @RequestParam(name = "selectedProjects", required = false) List<Long> selectedProjects,
+            @RequestParam(name = "selectedUsers", required = false) List<Long> selectedUsers
+    ) {
+        try {
+            meetingService.editMeeting(user, meetingId, editedMeeting, selectedProjects, selectedUsers);
+            return "redirect:/meetings/details_edit/" + meetingId;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error editing meeting: " + e.getMessage());
+            return "redirect:/meetings/edit/" + meetingId;
+        }
+    }
+
+    @GetMapping("/details_edit/{meetingId}")
+    public String showMeetingDetailsEdit(
+            @PathVariable Long meetingId,
+            Model model
+    ) {
+        Meeting meeting = meetingService.getMeetingById(meetingId);
+        List<Project> meetingProjects = meeting.getProjects();
+
+        if (!meetingProjects.isEmpty()) {
+            List<User> allCoworkers = userRepository.findCoworkersByProjects(meeting.getProjects());
+
+            model.addAttribute("meeting", meeting);
+            model.addAttribute("allCoworkers", allCoworkers);
+        } else {
+            model.addAttribute("meeting", meeting);
+            model.addAttribute("allUsers", Collections.emptyList());
+            model.addAttribute("errorMessage", "No projects selected");
+        }
+
+        return "meetingDetailsEdit";
+    }
+
+    @PostMapping("/details_edit/{meetingId}/addCoworkers")
+    public String addCoworkersToMeetingEdit(
+            @PathVariable Long meetingId,
+            @RequestParam(name = "selectedCoworkers", required = false) List<Long> selectedCoworkers,
+            Model model
+    ) {
+        Meeting meeting = meetingService.getMeetingById(meetingId);
+
+        if (selectedCoworkers != null && !selectedCoworkers.isEmpty()) {
+            meetingService.addCoworkersToMeetingEdit(meeting, selectedCoworkers);
+        } else {
+            model.addAttribute("error", "Please select coworkers.");
+        }
+
+        return "redirect:/meetings";
+    }
 
 }

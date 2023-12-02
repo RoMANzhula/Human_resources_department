@@ -6,7 +6,7 @@
         <div class="container text-center">
             <h2>My meetings</h2>
         </div>
-        <table class="table table-striped">
+        <table class="table table-dark table-sm">
             <thead>
             <tr>
                 <th>Ident</th>

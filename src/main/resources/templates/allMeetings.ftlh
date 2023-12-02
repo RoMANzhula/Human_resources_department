@@ -15,6 +15,15 @@
                 <th>Author</th>
                 <th>Speakers</th>
                 <th>Link</th>
+                <#assign showActions = false>
+                <#list meetings as meeting>
+                    <#if meeting.authorOfMeeting.id == currentUserId>
+                        <#assign showActions = true>
+                    </#if>
+                </#list>
+                <#if showActions>
+                    <th>Actions</th>
+                </#if>
 
 
 
@@ -33,6 +42,11 @@
                         </#list>
                     </td>
                     <td><a href="${meeting.link}">${meeting.link}</a></td>
+                    <td>
+                        <#if meeting.authorOfMeeting.id == currentUserId>
+                            <a href="/meetings/edit/${meeting.id}">Edit</a>
+                        </#if>
+                    </td>
 
 
 

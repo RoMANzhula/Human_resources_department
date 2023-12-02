@@ -1,5 +1,6 @@
 package com.example.human_resources_department.repositories;
 
+import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,4 +28,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "JOIN u.projects p " +
             "WHERE p.id IN :projectIds")
     List<User> findCoworkersByProjectIds(@Param("projectIds") List<Long> projectIds);
+
+    @Query("SELECT DISTINCT u FROM User u " +
+            "JOIN u.projects p " +
+            "WHERE p IN :projects")
+    List<User> findCoworkersByProjects(@Param("projects") List<Project> projects);
+
 }

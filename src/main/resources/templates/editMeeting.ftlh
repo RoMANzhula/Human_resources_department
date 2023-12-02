@@ -4,7 +4,9 @@
 <@g.page>
 
     <div class="container">
-        <h2>Edit Meeting</h2>
+        <div class="container text-center mt-2">
+            <h2>Edit Meeting</h2>
+        </div>
         <form action="/meetings/edit/${meeting.id}" method="post">
             <div class="form-group">
                 <label for="topic">Topic:</label>
@@ -45,21 +47,9 @@
                 </div>
             </div>
 
-
-            <div class="form-group">
-                <label for="coworkers">Coworker(s)</label>
-                <div>
-                    <#list allCoworkers as coworker>
-                        <input type="checkbox" class="form-check-input" id="coworker_${coworker.id}" name="selectedCoworkers"
-                               value="${coworker.id}"<#if meeting.staff?seq_contains(coworker)> checked</#if>>
-                        <label class="form-check-label" for="coworker_${coworker.id}">${coworker.username}</label>
-                    </#list>
-                </div>
-            </div>
-
             <div class="mt-3">
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                <button type="submit" class="btn btn-secondary">Save Changes</button>
+                <button type="submit" class="btn btn-secondary">Save Changes and go to Coworkers</button>
             </div>
         </form>
     </div>
