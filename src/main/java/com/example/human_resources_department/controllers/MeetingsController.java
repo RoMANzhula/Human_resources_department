@@ -67,10 +67,10 @@ public class MeetingsController {
             @AuthenticationPrincipal User user,
             @ModelAttribute Meeting meeting,
             @RequestParam(name = "selectedProjects", required = false) List<Long> selectedProjects,
-            @RequestParam(name = "selectedUsers", required = false) List<Long> selectedUsers
+            @RequestParam(name = "selectedSpeakers", required = false) List<Long> selectedSpeakers
     ) {
         try {
-            meetingService.createMeeting(meeting, user, selectedProjects, selectedUsers);
+            meetingService.createMeeting(meeting, user, selectedProjects, selectedSpeakers);
             return "redirect:/meetings/details/" + meeting.getId();
         } catch (IllegalArgumentException e) {
             System.out.println("Deadline must be in the future.");

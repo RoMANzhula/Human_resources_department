@@ -38,17 +38,17 @@ public class MeetingService {
             Meeting meeting,
             User user,
             List<Long> selectedProjects,
-            List<Long> selectedUsers
+            List<Long> selectedSpeakers
     ) {
         List<Project> allSelectedProjects = projectRepository.findAllById(selectedProjects);
-        List<User> allSelectedUsers = userRepository.findAllById(selectedUsers);
+        List<User> allSelectedSpeakers = userRepository.findAllById(selectedSpeakers);
 
         if (meeting.getDateOfEvent().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Deadline must be in the future");
         }
 
         meeting.setProjects(allSelectedProjects);
-        meeting.setSpeakers(allSelectedUsers);
+        meeting.setSpeakers(allSelectedSpeakers);
         meeting.setAuthorOfMeeting(user);
         meeting.setDateOfRegistration(new Date());
 
@@ -72,10 +72,10 @@ public class MeetingService {
     }
 
     @Transactional
-    public void addCoworkersToMeeting(Meeting meeting, List<Long> projectIds) {
+    public void addCoworkersToMeeting(Meeting meeting, List<Long> coworkerIds) {
         List<User> currentCoworkers = meeting.getStaff();
 
-        List<User> newCoworkers = userService.getCoworkersByProjectId(projectIds);
+        List<User> newCoworkers = userService.getUsersByIds(coworkerIds);
 
         currentCoworkers.addAll(newCoworkers);
 

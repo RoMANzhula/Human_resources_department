@@ -27,7 +27,7 @@
                 <label for="speakers">Speaker(s)</label>
                 <div>
                     <#list allUsers as user>
-                        <input type="checkbox" class="form-check-input" id="user_${user.id}" name="selectedUsers"
+                        <input type="checkbox" class="form-check-input" id="user_${user.id}" name="selectedSpeakers"
                                value="${user.id}">
                         <label class="form-check-label" for="user_${user.id}">${user.username}</label>
                     </#list>

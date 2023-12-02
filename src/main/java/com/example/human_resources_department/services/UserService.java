@@ -193,4 +193,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findCoworkersByProjects(projects);
     }
 
+    public List<User> getUsersByIds(List<Long> coworkerIds) {
+        return userRepository.findAllById(coworkerIds);
+    }
 }
