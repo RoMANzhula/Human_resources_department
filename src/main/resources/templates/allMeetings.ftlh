@@ -44,7 +44,8 @@
                     <td><a href="${meeting.link}">${meeting.link}</a></td>
                     <td>
                         <#if meeting.authorOfMeeting.id == currentUserId>
-                            <a href="/meetings/edit/${meeting.id}">Edit</a>
+                            <a href="/meetings/edit/${meeting.id}">Edit</a>,
+                            <a href="/meetings/${meeting.id}">Info</a>
                         </#if>
                     </td>
 

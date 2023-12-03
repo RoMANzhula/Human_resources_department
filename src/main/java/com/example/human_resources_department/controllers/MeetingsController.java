@@ -47,6 +47,18 @@ public class MeetingsController {
         return "allMeetings";
     }
 
+    @GetMapping("/{meetingId}")
+    public String showMeetingInfo(
+        @PathVariable Long meetingId,
+        Model model
+    ) {
+        Meeting meeting = meetingService.getMeetingById(meetingId);
+
+        model.addAttribute("meeting", meeting);
+
+        return "meetingInfoPage";
+    }
+
     @GetMapping("/create")
     public String showCreatingMeetingForm(
             Model model
@@ -79,7 +91,7 @@ public class MeetingsController {
     }
 
     @GetMapping("/details/{meetingId}")
-    public String showMeetingDetails(
+    public String showMeetingCoworkers(
             @PathVariable Long meetingId,
             Model model
     ) {
@@ -99,7 +111,7 @@ public class MeetingsController {
             model.addAttribute("errorMessage", "No projects selected");
         }
 
-        return "meetingDetails";
+        return "meetingAddCoworkers";
     }
 
     @PostMapping("/details/{meetingId}/addCoworkers")
@@ -166,7 +178,7 @@ public class MeetingsController {
     }
 
     @GetMapping("/details_edit/{meetingId}")
-    public String showMeetingDetailsEdit(
+    public String showMeetingAddCoworkersEdit(
             @PathVariable Long meetingId,
             Model model
     ) {
@@ -184,7 +196,7 @@ public class MeetingsController {
             model.addAttribute("errorMessage", "No projects selected");
         }
 
-        return "meetingDetailsEdit";
+        return "meetingAddCoworkersEdit";
     }
 
     @PostMapping("/details_edit/{meetingId}/addCoworkers")

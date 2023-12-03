@@ -1,12 +1,13 @@
 <#import "blocks/general.ftlh" as g>
+<#include "blocks/security.ftlh">
 
 <@g.page>
 
     <div class="container">
-        <div class="container text-center">
+        <div class="container text-center mb-3">
             <h2>My meetings</h2>
         </div>
-        <table class="table table-dark table-sm">
+        <table class="table table-success table-sm">
             <thead>
             <tr>
                 <th>Ident</th>
@@ -15,7 +16,7 @@
                 <th>Author</th>
                 <th>Speakers</th>
                 <th>Link</th>
-
+                <th>Actions</th>
 
 
             </tr>
@@ -32,8 +33,13 @@
                             ${speaker.username}<#sep>,
                         </#list>
                     </td>
-                    <td><a href="${meeting.link}">${meeting.link}</a></td>
-
+                    <td><a href="${meeting.link}">${meeting.link}></a></td>
+                    <td>
+                        <#if meeting.authorOfMeeting.id == currentUserId>
+                            <a href="/meetings/edit/${meeting.id}">Edit</a>,
+                        </#if>
+                        <a href="/meetings/${meeting.id}">Info</a>
+                    </td>
 
 
                 </tr>
