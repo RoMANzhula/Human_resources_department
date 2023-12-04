@@ -41,7 +41,13 @@
                             ${speaker.username}<#sep>,
                         </#list>
                     </td>
-                    <td><a href="${meeting.link}">${meeting.link}</a></td>
+                    <td>
+                        <#list meeting.staff as member>
+                            <#if member.id == currentUserId>
+                                <a href="${meeting.link}">${meeting.link}</a>
+                            </#if>
+                        </#list>
+                    </td>
                     <td>
                         <#if meeting.authorOfMeeting.id == currentUserId>
                             <a href="/meetings/edit/${meeting.id}">Edit</a>,
