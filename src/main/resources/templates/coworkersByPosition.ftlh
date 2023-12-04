@@ -3,7 +3,7 @@
 
 <@g.page>
     <div class="container text-center">
-        <h1>Coworkers by Position</h1>
+        <h2>Coworkers by position ${role}</h2>
     </div>
 
     <#if coworkers?has_content>

@@ -42,9 +42,11 @@
                         </#list>
                     </td>
                     <td>
+                        <#assign linkAlreadyPrinted = false>
                         <#list meeting.staff as member>
-                            <#if member.id == currentUserId>
+                            <#if (member.id == currentUserId) && !linkAlreadyPrinted>
                                 <a href="${meeting.link}">${meeting.link}</a>
+                                <#assign linkAlreadyPrinted = true>
                             </#if>
                         </#list>
                     </td>

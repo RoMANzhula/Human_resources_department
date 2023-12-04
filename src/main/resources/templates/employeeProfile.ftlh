@@ -11,7 +11,7 @@
             <input type="text" name="isActive" value="${employee.isActive()?string('yes', 'no')}" />
             <input type="text" name="firstName" value="${employee.firstName}" />
             <input type="text" name="secondName" value="${employee.secondName}" />
-            <input type="text" name="lastName" value="${employee.firstName}" />
+            <input type="text" name="lastName" value="${employee.lastName}" />
 
 
             <div class="mb-2 mt-2">
