@@ -51,13 +51,8 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "staff")
     private List<Meeting> staff_of_meeting;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_skills",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "skill_id")
-    )
-    private Set<User> skills = new HashSet<>();
+    @ManyToMany(mappedBy = "coworkers")
+    private Set<Skill> skills = new HashSet<>();
 
     public User() {
     }
@@ -228,11 +223,11 @@ public class User implements UserDetails {
         this.staff_of_meeting = staff_of_meeting;
     }
 
-    public Set<User> getSkills() {
+    public Set<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(Set<User> skills) {
+    public void setSkills(Set<Skill> skills) {
         this.skills = skills;
     }
 }

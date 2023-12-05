@@ -14,7 +14,12 @@ public class Skill {
 
     private String name;
 
-    @ManyToMany(mappedBy = "skills")
+    @ManyToMany
+    @JoinTable(
+            name = "coworkers",
+            joinColumns = @JoinColumn(name = "skill_id"),
+            inverseJoinColumns = @JoinColumn(name = "coworker_id")
+    )
     private Set<User> coworkers = new HashSet<>();
 
     public Skill() {
