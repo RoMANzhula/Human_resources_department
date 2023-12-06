@@ -26,7 +26,13 @@ public class SkillService {
         return skillRepository.save(newSkill);
     }
 
-    public List<Skill> searchSkillsByName(String name) {
-        return skillRepository.findByNameContainingIgnoreCase(name);
+    @Transactional(readOnly = true)
+    public List<Skill> searchSkillsByName(String filterName) {
+        if (filterName != null && !filterName.isEmpty()) {
+            return skillRepository.findByNameContainingIgnoreCase(filterName);
+        } else {
+            return skillRepository.findAll();
+        }
+
     }
 }

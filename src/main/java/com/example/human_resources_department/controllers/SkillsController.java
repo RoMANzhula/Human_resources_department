@@ -1,7 +1,9 @@
 package com.example.human_resources_department.controllers;
 
 import com.example.human_resources_department.models.Skill;
+import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.services.SkillService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +32,8 @@ public class SkillsController {
 
     @PostMapping("/create")
     public String createSkill(
-            @ModelAttribute Skill newSkill
+            @AuthenticationPrincipal User user,
+            @ModelAttribute("newSkill") Skill newSkill
     ) {
         skillService.createSkill(newSkill);
 
@@ -39,19 +42,13 @@ public class SkillsController {
 
     @GetMapping("/search")
     public String searchSkills(
-            @RequestParam(required = false) String name,
+            @RequestParam(required = false, defaultValue = "") String filterName,
             Model model
     ) {
-        List<Skill> skills;
-
-        if (name != null) {
-            skills = skillService.searchSkillsByName(name);
-        } else {
-            skills = skillService.getAllSkills();
-        }
+        List<Skill> skills = skillService.searchSkillsByName(filterName);
 
         if (skills != null && !skills.isEmpty()) {
-            model.addAttribute("skills", skills);
+            model.addAttribute("allSkills", skills);
         } else {
             model.addAttribute("allSkills", Collections.emptyList());
         }
