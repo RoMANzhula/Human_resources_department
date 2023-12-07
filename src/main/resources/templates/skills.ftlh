@@ -8,32 +8,62 @@
     </div>
 
     <div class="container mt-4">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-            <div class="col">
-                <div class="d-grid gap-2">
-                    <button class="btn btn-dark btn-lg btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample"
-                            aria-expanded="false" aria-controls="collapseWidthExample">
-                        Create New Skill
-                    </button>
+        <div class="container mt-4">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                <div class="col"></div>
+                <div class="col">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-dark btn-lg btn-sm" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseWidthExample"
+                                aria-expanded="false" aria-controls="collapseWidthExample">
+                            Create New Skill
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <form action="/skills/search" method="get">
+                        <div class="input-group input-group-sm">
+                            <input type="text" name="filterName" class="form-control" placeholder="Search by Name" />
+                            <input type="text" name="filterTag" class="form-control" placeholder="Search by Tag" />
+                            <button type="submit" class="btn btn-secondary">Search</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            <div class="col">
-                <form action="/skills/search" method="get">
-                    <div class="input-group input-group-sm">
-                        <input type="text" name="filterName" class="form-control" placeholder="Search Skill">
-                        <button type="submit" class="btn btn-secondary">Search</button>
-                    </div>
-                </form>
-            </div>
         </div>
+
+<#--        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">-->
+<#--            <div class="col">-->
+<#--                <div class="d-grid gap-2">-->
+<#--                    <button class="btn btn-dark btn-lg btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample"-->
+<#--                            aria-expanded="false" aria-controls="collapseWidthExample">-->
+<#--                        Create New Skill-->
+<#--                    </button>-->
+<#--                </div>-->
+<#--            </div>-->
+
+<#--            <div class="col">-->
+<#--                <form action="/skills/search" method="get">-->
+<#--                    <div class="input-group input-group-sm">-->
+<#--                        <input type="text" name="filterName" class="form-control" placeholder="Search Skill">-->
+<#--                        <button type="submit" class="btn btn-secondary">Search</button>-->
+<#--                    </div>-->
+<#--                </form>-->
+<#--            </div>-->
+<#--        </div>-->
 
         <div class="collapse collapse-horizontal" id="collapseWidthExample">
             <div class="card card-body" style="width: 800px;">
                 <form action="/skills/create" method="post">
                     <div class="input-group">
+                        <span class="input-group-text" id="basic-addon2">Input Tag</span>
+                        <input type="text" class="form-control" name="tag" placeholder="Be sure to enter the skill tag." aria-describedby="basic-addon2" required="" />
+
+                    </div>
+                    <div class="input-group">
                         <span class="input-group-text" id="basic-addon2">Input Skill</span>
-                        <input type="text" class="form-control" name="name" placeholder="Be sure to enter the skill." aria-describedby="basic-addon2" required="" />
+                        <input type="text" class="form-control" name="name" placeholder="Be sure to enter the skill name." aria-describedby="basic-addon2" required="" />
                         <input type="hidden" name="_csrf" value="${_csrf.token}" />
                         <button type="submit" class="btn btn-primary">Create Skill</button>
                     </div>

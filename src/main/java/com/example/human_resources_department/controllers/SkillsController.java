@@ -43,9 +43,10 @@ public class SkillsController {
     @GetMapping("/search")
     public String searchSkills(
             @RequestParam(required = false, defaultValue = "") String filterName,
+            @RequestParam(required = false, defaultValue = "") String filterTag,
             Model model
     ) {
-        List<Skill> skills = skillService.searchSkillsByName(filterName);
+        List<Skill> skills = skillService.searchSkillsByNameAndTag(filterName, filterTag);
 
         if (skills != null && !skills.isEmpty()) {
             model.addAttribute("allSkills", skills);
