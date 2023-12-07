@@ -54,6 +54,9 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "coworkers")
     private Set<Skill> skills = new HashSet<>();
 
+    @OneToMany(mappedBy = "authorVacancy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Collection<Vacancy> vacancies = new ArrayList<>();
+
     public User() {
     }
 
@@ -229,5 +232,13 @@ public class User implements UserDetails {
 
     public void setSkills(Set<Skill> skills) {
         this.skills = skills;
+    }
+
+    public Collection<Vacancy> getVacancies() {
+        return vacancies;
+    }
+
+    public void setVacancies(Collection<Vacancy> vacancies) {
+        this.vacancies = vacancies;
     }
 }

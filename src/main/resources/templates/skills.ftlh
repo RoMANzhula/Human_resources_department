@@ -33,26 +33,6 @@
             </div>
         </div>
 
-<#--        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">-->
-<#--            <div class="col">-->
-<#--                <div class="d-grid gap-2">-->
-<#--                    <button class="btn btn-dark btn-lg btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample"-->
-<#--                            aria-expanded="false" aria-controls="collapseWidthExample">-->
-<#--                        Create New Skill-->
-<#--                    </button>-->
-<#--                </div>-->
-<#--            </div>-->
-
-<#--            <div class="col">-->
-<#--                <form action="/skills/search" method="get">-->
-<#--                    <div class="input-group input-group-sm">-->
-<#--                        <input type="text" name="filterName" class="form-control" placeholder="Search Skill">-->
-<#--                        <button type="submit" class="btn btn-secondary">Search</button>-->
-<#--                    </div>-->
-<#--                </form>-->
-<#--            </div>-->
-<#--        </div>-->
-
         <div class="collapse collapse-horizontal" id="collapseWidthExample">
             <div class="card card-body" style="width: 800px;">
                 <form action="/skills/create" method="post">

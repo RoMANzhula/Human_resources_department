@@ -47,6 +47,9 @@ public class Project {
     @ManyToMany(mappedBy = "projects", fetch = FetchType.LAZY)
     private Set<Meeting> meetings = new HashSet<>();
 
+    @OneToMany(mappedBy = "vacancyProject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Collection<Vacancy> vacancies = new ArrayList<>();
+
     public Project() {
     }
 
@@ -168,5 +171,13 @@ public class Project {
 
     public void setMeetings(Set<Meeting> meetings) {
         this.meetings = meetings;
+    }
+
+    public Collection<Vacancy> getVacancies() {
+        return vacancies;
+    }
+
+    public void setVacancies(Collection<Vacancy> vacancies) {
+        this.vacancies = vacancies;
     }
 }
