@@ -80,6 +80,18 @@
                     </li>
                 </#if>
 
+                <#if isAdmin || isHR_Manager || isProjectManager>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Vacancies
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/vacancies">All Vacancies</a></li>
+                            <li><a class="dropdown-item" href="/vacancies/create">Create Vacancy</a></li>
+                        </ul>
+                    </li>
+                </#if>
+
 
 <#--                <li class="nav-item dropdown">-->
 <#--                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
