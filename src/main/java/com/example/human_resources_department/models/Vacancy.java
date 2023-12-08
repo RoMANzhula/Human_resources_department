@@ -15,6 +15,7 @@ public class Vacancy {
     private String profLevel;
     private String englishLevel;
     private String vacancyDescription;
+    private String skillsDescription;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false)
@@ -73,6 +74,14 @@ public class Vacancy {
 
     public void setVacancyDescription(String vacancyDescription) {
         this.vacancyDescription = vacancyDescription;
+    }
+
+    public String getSkillsDescription() {
+        return skillsDescription;
+    }
+
+    public void setSkillsDescription(String skillsDescription) {
+        this.skillsDescription = skillsDescription;
     }
 
     public Date getDateOfCreate() {
