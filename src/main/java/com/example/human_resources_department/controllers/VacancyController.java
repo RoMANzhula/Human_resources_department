@@ -1,13 +1,14 @@
 package com.example.human_resources_department.controllers;
 
-import com.example.human_resources_department.models.Meeting;
+import com.example.human_resources_department.models.Project;
+import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.models.Vacancy;
+import com.example.human_resources_department.services.ProjectService;
 import com.example.human_resources_department.services.VacancyService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,9 +16,14 @@ import java.util.List;
 @RequestMapping("/vacancies")
 public class VacancyController {
     private final VacancyService vacancyService;
+    private final ProjectService projectService;
 
-    public VacancyController(VacancyService vacancyService) {
+    public VacancyController(
+            VacancyService vacancyService,
+            ProjectService projectService
+    ) {
         this.vacancyService = vacancyService;
+        this.projectService = projectService;
     }
 
     @GetMapping
@@ -42,4 +48,32 @@ public class VacancyController {
 
         return "vacancyInfoPage";
     }
+
+    @GetMapping("/create")
+    public String showCreateVacancyForm(
+            Model model
+    ) {
+        List<Project> allProjects = projectService.getAllProjects();
+
+        model.addAttribute("allProjects", allProjects);
+        model.addAttribute("vacancy", new Vacancy());
+
+        return "createVacancy";
+    }
+
+    @PostMapping("/create")
+    public String createVacancy(
+            @AuthenticationPrincipal User user,
+            @RequestParam("selectedProject") Long selectedProjectId,
+            @ModelAttribute Vacancy vacancy
+    ) {
+        try {
+            vacancyService.createVacancy(user, vacancy, selectedProjectId);
+            return "redirect:/vacancies";
+        } catch (IllegalArgumentException e) {
+            System.out.println("Start job must be in the future.");
+            return "redirect:/vacancies/create";
+        }
+    }
+
 }

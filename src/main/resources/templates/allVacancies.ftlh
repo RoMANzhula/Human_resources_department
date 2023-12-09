@@ -15,9 +15,6 @@
                     <th>Prof Level</th>
                     <th>Date of start job</th>
                     <th>Actions</th>
-
-
-
                 </tr>
                 </thead>
                 <tbody>
@@ -29,13 +26,10 @@
                         <td>${vacancy.dateOfStartJob}</td>
                         <td>
                             <#if vacancy.authorVacancy.id == currentUserId>
-                                <a href="/meetings/${vacancy.id}/edit">Edit</a>,
+                                <a href="/vacancies/${vacancy.id}/edit">Edit</a>,
                             </#if>
-                            <a href="/meetings/${vacancy.id}">Info</a>
+                            <a href="/vacancies/${vacancy.id}">Info</a>
                         </td>
-
-
-
                     </tr>
                 </#list>
                 </tbody>

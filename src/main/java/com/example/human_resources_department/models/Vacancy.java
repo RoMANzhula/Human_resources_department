@@ -2,6 +2,7 @@ package com.example.human_resources_department.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -23,7 +24,7 @@ public class Vacancy {
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "start_job_date")
-    private Date dateOfStartJob;
+    private LocalDateTime dateOfStartJob;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -92,11 +93,11 @@ public class Vacancy {
         this.dateOfCreate = dateOfCreate;
     }
 
-    public Date getDateOfStartJob() {
+    public LocalDateTime getDateOfStartJob() {
         return dateOfStartJob;
     }
 
-    public void setDateOfStartJob(Date dateOfStartJob) {
+    public void setDateOfStartJob(LocalDateTime dateOfStartJob) {
         this.dateOfStartJob = dateOfStartJob;
     }
 

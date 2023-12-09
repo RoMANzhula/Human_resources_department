@@ -53,7 +53,6 @@ public class SkillService {
 
         List<Predicate> predicates = new ArrayList<>();
 
-        // Додавання умов для пошуку за ім'ям
         if (name != null && !name.isEmpty()) {
             predicates.add(
                     criteriaBuilder
@@ -62,7 +61,6 @@ public class SkillService {
             );
         }
 
-        // Додавання умов для пошуку за тегом
         if (tag != null && !tag.isEmpty()) {
             predicates.add(
                     criteriaBuilder
@@ -71,10 +69,8 @@ public class SkillService {
             );
         }
 
-        // Формування умови для пошуку
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
 
-        // Виконання запиту
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
 }
