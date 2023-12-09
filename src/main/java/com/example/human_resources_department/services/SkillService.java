@@ -32,6 +32,12 @@ public class SkillService {
 
     @Transactional
     public Skill createSkill(Skill newSkill) {
+        Skill existingSkill = skillRepository.findByName(newSkill.getName());
+
+        if (existingSkill != null) {
+            return existingSkill;
+        }
+
         return skillRepository.save(newSkill);
     }
 
