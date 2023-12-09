@@ -25,10 +25,12 @@
                         <td>${vacancy.profLevel}</td>
                         <td>${vacancy.dateOfStartJob}</td>
                         <td>
-                            <#if vacancy.authorVacancy.id == currentUserId>
-                                <a href="/vacancies/${vacancy.id}/edit">Edit</a>,
+                            <#if vacancy.authorVacancy.id == currentUserId || isHR_Manager>
+                                <a href="/vacancies/${vacancy.id}/edit">Edit</a>
                             </#if>
-                            <a href="/vacancies/${vacancy.id}">Info</a>
+                            <#if vacancy.isActive()>
+                                <a href="/vacancies/${vacancy.id}">Info</a>
+                            </#if>
                         </td>
                     </tr>
                 </#list>

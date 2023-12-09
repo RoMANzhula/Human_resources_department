@@ -76,4 +76,32 @@ public class VacancyController {
         }
     }
 
+    @GetMapping("/{id}/edit")
+    public String showEditVacancyForm(
+            @PathVariable Long id,
+            Model model
+    ) {
+        Vacancy vacancy = vacancyService.getVacancyById(id);
+
+        List<Project> allProjects = projectService.getAllProjects();
+
+        model.addAttribute("allProjects", allProjects);
+        model.addAttribute("vacancy", vacancy);
+
+        return "editVacancy";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String editVacancy(
+            @AuthenticationPrincipal User currentUser,
+            @PathVariable Long id,
+            @RequestParam(name = "selectedProject", required = false) Long selectedProjectId,
+            @RequestParam(value = "isActive", required = false) Boolean isActive,
+            @ModelAttribute Vacancy updatedVacancy
+    ) {
+        vacancyService.editVacancy(currentUser, id, selectedProjectId, isActive, updatedVacancy);
+
+        return "redirect:/vacancies";
+    }
+
 }

@@ -17,6 +17,7 @@ public class Vacancy {
     private String englishLevel;
     private String vacancyDescription;
     private String skillsDescription;
+    private boolean isActive;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false)
@@ -83,6 +84,14 @@ public class Vacancy {
 
     public void setSkillsDescription(String skillsDescription) {
         this.skillsDescription = skillsDescription;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        this.isActive = active;
     }
 
     public Date getDateOfCreate() {

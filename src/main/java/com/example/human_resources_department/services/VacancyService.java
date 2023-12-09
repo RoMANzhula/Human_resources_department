@@ -42,7 +42,11 @@ public class VacancyService {
     }
 
     @Transactional
-    public void createVacancy(User currentUser, Vacancy vacancy, Long selectedProjectId) {
+    public void createVacancy(
+            User currentUser,
+            Vacancy vacancy,
+            Long selectedProjectId
+    ) {
         Project selectedProject = projectRepository.findById(selectedProjectId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid project ID: " + selectedProjectId));
 
@@ -50,10 +54,48 @@ public class VacancyService {
             throw new IllegalArgumentException("Start job must be in the future");
         }
 
+        vacancy.setActive(true);
         vacancy.setDateOfCreate(new Date());
         vacancy.setAuthorVacancy(currentUser);
         vacancy.setVacancyProject(selectedProject);
 
         vacancyRepository.save(vacancy);
+    }
+
+    @Transactional
+    public void editVacancy(
+            User currentUser,
+            Long id,
+            Long selectedProjectId,
+            Boolean isActive,
+            Vacancy updatedVacancy
+    ) {
+        Vacancy existingVacancy = vacancyRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid vacancy ID: " + id));
+
+        if (existingVacancy.getAuthorVacancy().equals(currentUser)) {
+            throw new IllegalArgumentException("You don't have permission to edit this vacancy.");
+        }
+
+        existingVacancy.setProfession(updatedVacancy.getProfession());
+        existingVacancy.setProfLevel(updatedVacancy.getProfLevel());
+        existingVacancy.setEnglishLevel(updatedVacancy.getEnglishLevel());
+        existingVacancy.setVacancyDescription(updatedVacancy.getVacancyDescription());
+        existingVacancy.setSkillsDescription(updatedVacancy.getSkillsDescription());
+
+        existingVacancy.setDateOfCreate(new Date());
+        existingVacancy.setDateOfStartJob(updatedVacancy.getDateOfStartJob());
+
+        existingVacancy.setActive(isActive);
+
+        if (selectedProjectId != null) {
+            Project selectedProject = projectRepository.findById(selectedProjectId)
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid project ID: " + selectedProjectId));
+
+            existingVacancy.setVacancyProject(selectedProject);
+        }
+
+        vacancyRepository.save(existingVacancy);
+
     }
 }
