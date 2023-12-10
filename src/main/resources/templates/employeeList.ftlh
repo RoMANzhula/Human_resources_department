@@ -46,7 +46,7 @@
     </div>
 
     <div>
-        <button class="ms-3" type="button" onclick="window.location.href='/main'">Go to Main page</button>
+        <button class="ms-3" type="button" onclick="window.location.href='/main'">Go to create employee</button>
     </div>
 
 </@g.page>
