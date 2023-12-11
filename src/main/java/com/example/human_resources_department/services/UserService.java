@@ -172,11 +172,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUserRoles(role);
     }
 
-    @Transactional
-    public User saveUser(User user) {
-        return userRepository.save(user);
-    }
-
     @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         List<User> allUsers = userRepository.findAll();
@@ -195,5 +190,14 @@ public class UserService implements UserDetailsService {
 
     public List<User> getUsersByIds(List<Long> coworkerIds) {
         return userRepository.findAllById(coworkerIds);
+    }
+
+    @Transactional
+    public void updateMyInformation(User updatedUser, User currentUser) {
+        currentUser.setUsername(updatedUser.getUsername());
+        currentUser.setEmail(updatedUser.getEmail());
+        currentUser.setPhone(updatedUser.getPhone());
+
+        userRepository.save(currentUser);
     }
 }

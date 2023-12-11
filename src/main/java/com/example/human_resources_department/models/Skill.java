@@ -17,7 +17,7 @@ public class Skill {
 
     @ManyToMany
     @JoinTable(
-            name = "coworkers",
+            name = "coworkers_skills",
             joinColumns = @JoinColumn(name = "skill_id"),
             inverseJoinColumns = @JoinColumn(name = "coworker_id")
     )

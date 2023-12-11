@@ -124,7 +124,7 @@ public class UserController {
     }
 
     @GetMapping("/edit")
-    public String editProfile(
+    public String editMyOwnProfile(
             Model model,
             @AuthenticationPrincipal User currentUser
     ) {
@@ -134,15 +134,11 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String updateProfile(
+    public String updateMyOwnProfile(
             @ModelAttribute User updatedUser,
             @AuthenticationPrincipal User currentUser
     ) {
-        currentUser.setUsername(updatedUser.getUsername());
-        currentUser.setEmail(updatedUser.getEmail());
-        currentUser.setPhone(updatedUser.getPhone());
-
-        userService.saveUser(currentUser);
+        userService.updateMyInformation(updatedUser, currentUser);
 
         return "redirect:/coworker/profile";
     }
