@@ -11,20 +11,36 @@
         </#if>
     </div>
 
-    <div class="ms-3">
-        Username: ${coworker.getUsername()}<br>
-        Date of registration: ${coworker.getDateOfRegistration()}<br>
-        Specialization: <#list coworker.userRoles as role>${role}<#sep>, </#list><br>
-        Email: ${coworker.getEmail()}<br>
-        Member of project(s):<#list coworker.projects as project>${project.name}<#sep>, </#list><br>
-        Phone number: ${coworker.getPhone()}<br>
-        My skills:  <br>
+    <div class="container ms-3">
+        <dl class="row">
+            <dt class="col-sm-3">Username:</dt>
+            <dd class="col-sm-9">${coworker.getUsername()}</dd>
 
+            <dt class="col-sm-3">Date of registration:</dt>
+            <dd class="col-sm-9">${coworker.getDateOfRegistration()?string("dd/MM/yyyy")}</dd>
+
+            <dt class="col-sm-3">Specialization:</dt>
+            <dd class="col-sm-9"><#list coworker.userRoles as role>${role}<#sep>, </#list></dd>
+
+            <dt class="col-sm-3">Email:</dt>
+            <dd class="col-sm-9">${coworker.getEmail()}</dd>
+
+            <dt class="col-sm-3">Member of project(s):</dt>
+            <dd class="col-sm-9"><#list coworker.projects as project>${project.name}<#sep>, </#list></dd>
+
+            <dt class="col-sm-3">Phone number:</dt>
+            <dd class="col-sm-9">${coworker.getPhone()}</dd>
+
+            <dt class="col-sm-3">My skills:</dt>
+            <dd class="col-sm-9">
+                <!-- Додайте код для відображення навичок coworker тут -->
+            </dd>
+        </dl>
     </div>
 
     <#if coworker?? && user??>
         <div class="container text-center">
-            <a href="/coworker/edit">Edit My Profile</a>
+            <a href="/coworker/edit" class="btn btn-primary">Edit My Profile</a>
         </div>
     </#if>
 
