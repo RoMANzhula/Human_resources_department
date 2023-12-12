@@ -57,6 +57,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "authorVacancy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Collection<Vacancy> vacancies = new ArrayList<>();
 
+
+    @OneToMany(mappedBy = "owner")
+    private Set<UsefulLink> usefulLinks = new HashSet<>();
+
     public User() {
     }
 
@@ -240,5 +244,13 @@ public class User implements UserDetails {
 
     public void setVacancies(Collection<Vacancy> vacancies) {
         this.vacancies = vacancies;
+    }
+
+    public Set<UsefulLink> getUsefulLinks() {
+        return usefulLinks;
+    }
+
+    public void setUsefulLinks(Set<UsefulLink> usefulLinks) {
+        this.usefulLinks = usefulLinks;
     }
 }
