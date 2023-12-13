@@ -31,13 +31,15 @@ public class UsefulLinkController {
             @AuthenticationPrincipal User currentUser,
             Model model
     ) {
+        if (currentUser != null) {
+            List<UsefulLink> usefulLinks = usefulLinkService.findAllLinksByOwner(currentUser.getId());
 
-        List<UsefulLink> usefulLinks = usefulLinkService.findAllLinksByOwner(currentUser);
-
-        model.addAttribute("usefulLinkList", usefulLinks);
+            model.addAttribute("usefulLinks", usefulLinks);
+        }
 
         return "usefulLinks";
     }
+
 
     @GetMapping("/add")
     public String showAddUsefulLinkForm() {
@@ -50,8 +52,7 @@ public class UsefulLinkController {
             @ModelAttribute UsefulLink usefulLink
     ) {
         if (currenUser != null) {
-            usefulLink.setOwner(currenUser);
-            usefulLinkRepository.save(usefulLink);
+            usefulLinkService.addNewUsefulLink(currenUser, usefulLink);
         }
 
         return "redirect:/useful-links";
