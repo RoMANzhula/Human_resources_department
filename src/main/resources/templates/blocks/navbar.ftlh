@@ -92,6 +92,20 @@
                     </li>
                 </#if>
 
+                <#if user??>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Useful Links
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/useful-links/add">Add New Link</a></li>
+                            <li><a class="dropdown-item" href="/useful-links">All Links</a></li>
+                        </ul>
+                    </li>
+                </#if>
+
 
 <#--                <li class="nav-item dropdown">-->
 <#--                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->

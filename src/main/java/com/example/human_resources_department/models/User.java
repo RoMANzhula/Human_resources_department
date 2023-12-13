@@ -58,7 +58,7 @@ public class User implements UserDetails {
     private Collection<Vacancy> vacancies = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UsefulLink> usefulLinks = new HashSet<>();
 
     public User() {
