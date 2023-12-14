@@ -9,6 +9,7 @@ import com.example.human_resources_department.services.ProjectService;
 import com.example.human_resources_department.services.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -96,6 +97,35 @@ public class ProjectController {
         }
 
         return "redirect:/project";
+    }
+
+    @GetMapping("/edit/{projectId}")
+    public String showEditProjectForm(
+            @PathVariable Long projectId,
+            Model model
+    ) {
+        Project project = projectService.getProjectById(projectId);
+
+        model.addAttribute("project", project);
+
+        return "editProject";
+    }
+
+    @PostMapping("/edit/{projectId}")
+    public String saveEditedProject(
+            @AuthenticationPrincipal User currentUser,
+            @PathVariable Long projectId,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "isActive", required = false) Boolean isActive,
+            @ModelAttribute Project editedProject
+    ) {
+        try {
+            projectService.editProject(currentUser, projectId, file, isActive, editedProject);
+            return "redirect:/project";
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error editing project: " + e.getMessage());
+            return "redirect:/project/edit/" + projectId;
+        }
     }
 
     @GetMapping("/{projectId}/create-team")

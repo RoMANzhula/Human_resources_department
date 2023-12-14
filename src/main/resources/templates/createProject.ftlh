@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Make choice</span>
+                    <span class="input-group-text" id="basic-addon1">This project is active</span>
                     <input type="text" class="form-control" id="exampleFormControlInput1"
                            value="${project.isActive()?string('yes', 'no')}" name="isActive"
                            placeholder="Be sure to enter yes/no if the project active or no.">
@@ -56,13 +56,6 @@
                     <input type="text" class="form-control" id="exampleFormControlInput1"
                            value="<#if project??>${project.projectDirection!""}</#if>" name="projectDirection"
                            placeholder="Be sure to enter the direction of the project.">
-                </div>
-
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Input project responsible for the project</span>
-                    <input type="text" class="form-control" id="exampleFormControlInput1"
-                           value="<#if project??>${project.author!""}</#if>" name="author"
-                           placeholder="Be sure to enter the responsible for the project.">
                 </div>
 
                 <div class="input-group mb-3">
