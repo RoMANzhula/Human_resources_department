@@ -4,7 +4,7 @@
 <@g.page>
 
     <div class="container text-center">
-        <h2>Useful Links</h2>
+        <h2>My Useful Links</h2>
     </div>
 
 

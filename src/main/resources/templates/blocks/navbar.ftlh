@@ -101,7 +101,7 @@
                         <ul class="dropdown-menu">
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/useful-links/add">Add New Link</a></li>
-                            <li><a class="dropdown-item" href="/useful-links">All Links</a></li>
+                            <li><a class="dropdown-item" href="/useful-links">My Links</a></li>
                         </ul>
                     </li>
                 </#if>

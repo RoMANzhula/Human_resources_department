@@ -15,10 +15,11 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Project Id</th>
+                    <th>Project id</th>
                     <th>Project name</th>
                     <th>Created on</th>
                     <th>Status</th>
+                    <th>Go to</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,9 +27,15 @@
                     <#list projects as project>
                         <tr>
                             <td>${project.id}</td>
-                            <td><a href="/project/project_info/${project.id}">${project.name}</a></td>
+                            <td>${project.name}</td>
                             <td>${project.getDateOfRegistration()?string("dd/MM/yyyy")}</td>
                             <td>${project.active?string("In progress", "No active")}</td>
+                            <td>
+                                <#if project.author.id == currentUserId>
+                                    <a href="/project/edit/${project.id}">Edit</a>,
+                                </#if>
+                                <a href="/project/project_info/${project.id}">Info</a>
+                            </td>
                         </tr>
                     </#list>
                 <#else>

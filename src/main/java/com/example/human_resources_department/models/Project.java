@@ -19,7 +19,10 @@ public class Project {
     private String customer;
     private LocalDateTime deadline;
     private String projectDirection;
-    private String author;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User authorProject;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false)
@@ -39,7 +42,7 @@ public class Project {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "project_user",
+            name = "project_members",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Collection<User> coworkers;
@@ -125,12 +128,12 @@ public class Project {
         this.projectDirection = projectDirection;
     }
 
-    public String getAuthor() {
-        return author;
+    public User getAuthor() {
+        return authorProject;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthor(User authorProject) {
+        this.authorProject = authorProject;
     }
 
     public Date getDateOfRegistration() {

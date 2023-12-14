@@ -61,6 +61,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UsefulLink> usefulLinks = new HashSet<>();
 
+    @OneToMany(mappedBy = "authorProject", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Project> projectsByAuthor = new HashSet<>();
+
     public User() {
     }
 
