@@ -83,7 +83,11 @@ public class ProjectService {
 
 
     @Transactional
-    public void addSelectedUsersToProject(Long projectId, Integer count, List<Long> selectedUserIds) {
+    public void addSelectedUsersToProject(
+            Long projectId,
+            Integer count,
+            List<Long> selectedUserIds
+    ) {
         Project project = getProjectById(projectId);
         if (project == null) {
             throw new EntityNotFoundException("Project with ID " + projectId + " not found");
@@ -154,4 +158,36 @@ public class ProjectService {
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
     }
+
+    @Transactional
+    public void editProject(
+            User currentUser,
+            Long projectId,
+            MultipartFile fileContractName,
+            Boolean isActive,
+            Project editedProject
+    ) {
+        Project existingProject = projectRepository.getProjectById(projectId);
+
+        if (existingProject.getAuthor().equals(currentUser)) {
+            throw new IllegalArgumentException("You don't have permission to edit this meeting.");
+        }
+
+        existingProject.setName(editedProject.getName());
+        existingProject.setDescription(editedProject.getDescription());
+        existingProject.setBudget(editedProject.getBudget());
+        existingProject.setActive(isActive);
+        existingProject.setCustomer(editedProject.getCustomer());
+        existingProject.setDeadline(editedProject.getDeadline());
+        existingProject.setProjectDirection(editedProject.getProjectDirection());
+
+        if (fileContractName != null && !fileContractName.getOriginalFilename().isEmpty()) {
+            String uniqueFileName = localFileStorageService.storeFile(fileContractName);
+            existingProject.setFileContractName(uniqueFileName);
+        }
+
+        projectRepository.save(existingProject);
+
+    }
+
 }

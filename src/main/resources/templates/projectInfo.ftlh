@@ -13,8 +13,9 @@
                     <strong>Project Status:</strong> ${project.active?string("In progress", "No active")}<br>
                     <strong>Project Customer:</strong> ${project.customer}<br>
                     <strong>Project Deadline:</strong> ${project.deadline}<br>
+                    <strong>Project Budget:</strong> ${project.budget}<br>
                     <strong>Project Direction:</strong> ${project.projectDirection}<br>
-                    <strong>Responsible for the Project:</strong> ${project.author}<br>
+                    <strong>Responsible for the Project:</strong> ${project.author.username}<br>
                     <strong>Contract document:</strong>
                     <#if project.fileContractName??>
                         <a href="${path}/img/${project.fileContractName}" target="_blank">Open doc</a>
