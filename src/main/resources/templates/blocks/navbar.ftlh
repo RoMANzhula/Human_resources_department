@@ -104,6 +104,10 @@
                             <li><a class="dropdown-item" href="/useful-links">My Links</a></li>
                         </ul>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://chat.openai.com/c/588ab382-ba38-42f7-b1d1-4737620c9f63" target="_blank">Chat GPT</a>
+                    </li>
                 </#if>
 
 
