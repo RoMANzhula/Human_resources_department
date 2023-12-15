@@ -37,7 +37,7 @@
                     <td>${coworker.isActive()?string('yes', 'no')}</td>
                     <td>${coworker.getUsername()}</td>
                     <td><#list coworker.userRoles as role>${role}<#sep>, </#list></td>
-                    <#if isAdmin>
+                    <#if isAdmin || isHR_Manager>
                         <td><a href="/coworker/${coworker.id?c}">profile_page</a></td>
                     </#if>
                 </tr>

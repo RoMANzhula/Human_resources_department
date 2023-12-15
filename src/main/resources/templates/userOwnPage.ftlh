@@ -28,12 +28,21 @@
             <dt class="col-sm-3">Member of project(s):</dt>
             <dd class="col-sm-9"><#list coworker.projects as project>${project.name}<#sep>, </#list></dd>
 
+            <dt class="col-sm-3">Current Project:</dt>
+            <dd class="col-sm-9">
+                <#list coworker.projects as project>
+                    <#if project.isActive()>
+                        ${project.name}
+                    </#if>
+                </#list>
+            </dd>
+
             <dt class="col-sm-3">Phone number:</dt>
             <dd class="col-sm-9">${coworker.getPhone()}</dd>
 
             <dt class="col-sm-3">My skills:</dt>
             <dd class="col-sm-9">
-                <!-- Додайте код для відображення навичок coworker тут -->
+
             </dd>
         </dl>
     </div>
