@@ -32,10 +32,13 @@
             <dd class="col-sm-9">
                 <#list coworker.projects as project>
                     <#if project.isActive()>
-                        ${project.name}
+                        ${project.name} - DeadLine: ${project.deadline}<#sep>,
                     </#if>
                 </#list>
             </dd>
+
+            <dt class="col-sm-3">Phone number:</dt>
+            <dd class="col-sm-9">${coworker.getPhone()}</dd>
 
             <dt class="col-sm-3">Phone number:</dt>
             <dd class="col-sm-9">${coworker.getPhone()}</dd>
