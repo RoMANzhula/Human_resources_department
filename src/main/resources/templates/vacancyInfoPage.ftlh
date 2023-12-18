@@ -8,7 +8,7 @@
 
     <div class="container mt-3">
         <p><strong>Id:</strong> ${vacancy.id}</p>
-        <p><strong>Date of Create:</strong> ${vacancy.dateOfCreate}</p>
+        <p><strong>Date of Create:</strong> ${vacancy.dateOfCreate?string('dd.MM.yyyy HH:mm:ss')}</p>
         <p><strong>Author:</strong> ${vacancy.authorVacancy.username}</p>
         <p><strong>Topic:</strong> ${vacancy.profession}</p>
         <p><strong>Description:</strong> ${vacancy.authorVacancy.username}</p>

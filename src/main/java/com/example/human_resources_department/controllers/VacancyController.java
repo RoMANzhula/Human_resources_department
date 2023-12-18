@@ -48,8 +48,9 @@ public class VacancyController {
             Model model
     ) {
         Vacancy vacancy = vacancyService.getVacancyById(vacancyId);
+        VacancyDTO vacancyDTO = VacancyDTO.fromVacancy(vacancy);
 
-        model.addAttribute("vacancy", vacancy);
+        model.addAttribute("vacancy", vacancyDTO);
 
         return "vacancyInfoPage";
     }
