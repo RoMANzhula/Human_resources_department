@@ -71,9 +71,10 @@ public class VacancyController {
     public String createVacancy(
             @AuthenticationPrincipal User user,
             @RequestParam("selectedProject") Long selectedProjectId,
-            @ModelAttribute Vacancy vacancy
+            @ModelAttribute VacancyDTO vacancyDTO
     ) {
         try {
+            Vacancy vacancy = vacancyDTO.toVacancy();
             vacancyService.createVacancy(user, vacancy, selectedProjectId);
             return "redirect:/vacancies";
         } catch (IllegalArgumentException e) {

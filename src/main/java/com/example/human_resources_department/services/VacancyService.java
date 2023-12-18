@@ -58,7 +58,7 @@ public class VacancyService {
             throw new IllegalArgumentException("Start job must be in the future");
         }
 
-        vacancy.setActive(true);
+        vacancy.setActive(Boolean.TRUE);
         vacancy.setDateOfCreate(new Date());
         vacancy.setAuthorVacancy(currentUser);
         vacancy.setVacancyProject(selectedProject);

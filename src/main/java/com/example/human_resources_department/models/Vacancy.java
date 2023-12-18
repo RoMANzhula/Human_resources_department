@@ -17,7 +17,7 @@ public class Vacancy {
     private String englishLevel;
     private String vacancyDescription;
     private String skillsDescription;
-    private boolean isActive;
+    private boolean isActive = true;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false)

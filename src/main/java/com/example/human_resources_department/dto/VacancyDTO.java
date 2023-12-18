@@ -14,7 +14,7 @@ public class VacancyDTO {
     private final String englishLevel;
     private final String vacancyDescription;
     private final String skillsDescription;
-    private final boolean isActive;
+    private final Boolean isActive;
     private final Date dateOfCreate;
     private final LocalDateTime dateOfStartJob;
     private final User authorVacancy;
@@ -28,7 +28,7 @@ public class VacancyDTO {
             String englishLevel,
             String vacancyDescription,
             String skillsDescription,
-            boolean isActive,
+            Boolean isActive,
             Date dateOfCreate,
             LocalDateTime dateOfStartJob,
             User authorVacancy,
@@ -40,7 +40,7 @@ public class VacancyDTO {
         this.englishLevel = englishLevel;
         this.vacancyDescription = vacancyDescription;
         this.skillsDescription = skillsDescription;
-        this.isActive = isActive;
+        this.isActive = (isActive != null) ? isActive : true;
         this.dateOfCreate = dateOfCreate != null ? new Date(dateOfCreate.getTime()) : null;
         this.dateOfStartJob = dateOfStartJob;
         this.authorVacancy = authorVacancy;
@@ -71,7 +71,7 @@ public class VacancyDTO {
         return skillsDescription;
     }
 
-    public boolean isActive() {
+    public Boolean isActive() {
         return isActive;
     }
 
