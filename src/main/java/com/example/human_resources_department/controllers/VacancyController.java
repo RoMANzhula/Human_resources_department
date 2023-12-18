@@ -47,7 +47,7 @@ public class VacancyController {
             @PathVariable Long vacancyId,
             Model model
     ) {
-        Vacancy vacancy = vacancyService.getVacancyById(vacancyId);
+        Vacancy vacancy = vacancyService.getVacancyDTOById(vacancyId).toVacancy();
         VacancyDTO vacancyDTO = VacancyDTO.fromVacancy(vacancy);
 
         model.addAttribute("vacancy", vacancyDTO);
@@ -75,7 +75,7 @@ public class VacancyController {
     ) {
         try {
             Vacancy vacancy = vacancyDTO.toVacancy();
-            vacancyService.createVacancy(user, vacancy, selectedProjectId);
+            vacancyService.createVacancy(user, VacancyDTO.fromVacancy(vacancy), selectedProjectId);
             return "redirect:/vacancies";
         } catch (IllegalArgumentException e) {
             System.out.println("Start job must be in the future.");
@@ -88,7 +88,7 @@ public class VacancyController {
             @PathVariable Long id,
             Model model
     ) {
-        Vacancy vacancy = vacancyService.getVacancyById(id);
+        Vacancy vacancy = vacancyService.getVacancyDTOById(id).toVacancy();
 
         List<Project> allProjects = projectService.getAllProjects();
 
@@ -104,9 +104,10 @@ public class VacancyController {
             @PathVariable Long id,
             @RequestParam(name = "selectedProject", required = false) Long selectedProjectId,
             @RequestParam(value = "isActive", required = false) Boolean isActive,
-            @ModelAttribute Vacancy updatedVacancy
+            @ModelAttribute VacancyDTO updatedVacancyDTO
     ) {
-        vacancyService.editVacancy(currentUser, id, selectedProjectId, isActive, updatedVacancy);
+        Vacancy updatedVacancy = updatedVacancyDTO.toVacancy();
+        vacancyService.editVacancy(currentUser, id, selectedProjectId, isActive, VacancyDTO.fromVacancy(updatedVacancy));
 
         return "redirect:/vacancies";
     }

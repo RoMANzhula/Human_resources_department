@@ -41,23 +41,27 @@ public class VacancyService {
     }
 
     @Transactional(readOnly = true)
-    public Vacancy getVacancyById(Long vacancyId) {
-        return vacancyRepository.findById(vacancyId).orElse(null);
+    public VacancyDTO getVacancyDTOById(Long vacancyId) {
+        Vacancy vacancy = vacancyRepository.findById(vacancyId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid vacancy ID: " + vacancyId));
+
+        return VacancyDTO.fromVacancy(vacancy);
     }
 
     @Transactional
     public void createVacancy(
             User currentUser,
-            Vacancy vacancy,
+            VacancyDTO vacancyDTO,
             Long selectedProjectId
     ) {
         Project selectedProject = projectRepository.findById(selectedProjectId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid project ID: " + selectedProjectId));
 
-        if (vacancy.getDateOfStartJob().isBefore(LocalDateTime.now())) {
+        if (vacancyDTO.getDateOfStartJob().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Start job must be in the future");
         }
 
+        Vacancy vacancy = vacancyDTO.toVacancy();
         vacancy.setActive(Boolean.TRUE);
         vacancy.setDateOfCreate(new Date());
         vacancy.setAuthorVacancy(currentUser);
@@ -72,7 +76,7 @@ public class VacancyService {
             Long id,
             Long selectedProjectId,
             Boolean isActive,
-            Vacancy updatedVacancy
+            VacancyDTO updatedVacancyDTO
     ) {
         Vacancy existingVacancy = vacancyRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid vacancy ID: " + id));
@@ -81,14 +85,14 @@ public class VacancyService {
             throw new IllegalArgumentException("You don't have permission to edit this vacancy.");
         }
 
-        existingVacancy.setProfession(updatedVacancy.getProfession());
-        existingVacancy.setProfLevel(updatedVacancy.getProfLevel());
-        existingVacancy.setEnglishLevel(updatedVacancy.getEnglishLevel());
-        existingVacancy.setVacancyDescription(updatedVacancy.getVacancyDescription());
-        existingVacancy.setSkillsDescription(updatedVacancy.getSkillsDescription());
+        existingVacancy.setProfession(updatedVacancyDTO.getProfession());
+        existingVacancy.setProfLevel(updatedVacancyDTO.getProfLevel());
+        existingVacancy.setEnglishLevel(updatedVacancyDTO.getEnglishLevel());
+        existingVacancy.setVacancyDescription(updatedVacancyDTO.getVacancyDescription());
+        existingVacancy.setSkillsDescription(updatedVacancyDTO.getSkillsDescription());
 
         existingVacancy.setDateOfCreate(new Date());
-        existingVacancy.setDateOfStartJob(updatedVacancy.getDateOfStartJob());
+        existingVacancy.setDateOfStartJob(updatedVacancyDTO.getDateOfStartJob());
 
         existingVacancy.setActive(isActive);
 
