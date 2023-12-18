@@ -1,5 +1,6 @@
 package com.example.human_resources_department.services;
 
+import com.example.human_resources_department.dto.VacancyDTO;
 import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.models.Vacancy;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -26,11 +28,13 @@ public class VacancyService {
     }
 
     @Transactional(readOnly = true)
-    public List<Vacancy> getAllVacancies() {
+    public List<VacancyDTO> getAllVacancies() {
         List<Vacancy> allVacancies = vacancyRepository.findAll();
 
         if (allVacancies != null && !allVacancies.isEmpty()) {
-            return allVacancies;
+            return allVacancies.stream()
+                    .map(VacancyDTO::fromVacancy)
+                    .collect(Collectors.toList());
         } else {
             return Collections.emptyList();
         }

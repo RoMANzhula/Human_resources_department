@@ -1,5 +1,6 @@
 package com.example.human_resources_department.controllers;
 
+import com.example.human_resources_department.dto.VacancyDTO;
 import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.models.Vacancy;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/vacancies")
@@ -30,7 +32,10 @@ public class VacancyController {
     public String showAllVacancies(
             Model model
     ) {
-        List<Vacancy> allVacancies = vacancyService.getAllVacancies();
+        List<Vacancy> allVacancies = vacancyService.getAllVacancies()
+                .stream()
+                .map(VacancyDTO::toVacancy)
+                .collect(Collectors.toList());
 
         model.addAttribute("allVacancies", allVacancies);
 
