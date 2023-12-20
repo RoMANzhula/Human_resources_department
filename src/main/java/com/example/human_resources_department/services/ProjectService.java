@@ -1,5 +1,7 @@
 package com.example.human_resources_department.services;
 
+import com.example.human_resources_department.dto.ProjectDTO;
+import com.example.human_resources_department.dto.VacancyDTO;
 import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.models.User;
@@ -12,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
@@ -154,9 +157,22 @@ public class ProjectService {
         }
     }
 
+//    @Transactional(readOnly = true)
+//    public List<Project> getAllProjects() {
+//        return projectRepository.findAll();
+//    }
+
     @Transactional(readOnly = true)
-    public List<Project> getAllProjects() {
-        return projectRepository.findAll();
+    public List<ProjectDTO> getAllProjects() {
+        List<Project> projects = projectRepository.findAll();
+
+        if (projects != null && !projects.isEmpty()) {
+            return projects.stream()
+                    .map(ProjectDTO::fromProjectDTO)
+                    .collect(Collectors.toList());
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Transactional

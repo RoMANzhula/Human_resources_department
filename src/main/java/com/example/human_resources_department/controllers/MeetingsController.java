@@ -1,5 +1,6 @@
 package com.example.human_resources_department.controllers;
 
+import com.example.human_resources_department.dto.ProjectDTO;
 import com.example.human_resources_department.models.Meeting;
 import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.User;
@@ -64,7 +65,10 @@ public class MeetingsController {
             Model model
     ) {
         Meeting newMeeting = new Meeting();
-        List<Project> allProjects = projectService.getAllProjects();
+        List<Project> allProjects = projectService.getAllProjects()
+                .stream()
+                .map(ProjectDTO::toProjectDTO)
+                .collect(Collectors.toList());
         List<User> allUsers = userService.getAllUsers();
 
         model.addAttribute("meeting", newMeeting);
@@ -150,7 +154,10 @@ public class MeetingsController {
     ) {
         Meeting meeting = meetingService.getMeetingById(meetingId);
 
-        List<Project> allProjects = projectService.getAllProjects();
+        List<Project> allProjects = projectService.getAllProjects()
+                .stream()
+                .map(ProjectDTO::toProjectDTO)
+                .collect(Collectors.toList());
         List<User> allSpeakers = userService.getAllUsers();
 
         model.addAttribute("allProjects", allProjects);

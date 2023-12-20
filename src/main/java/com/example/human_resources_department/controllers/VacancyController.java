@@ -1,5 +1,6 @@
 package com.example.human_resources_department.controllers;
 
+import com.example.human_resources_department.dto.ProjectDTO;
 import com.example.human_resources_department.dto.VacancyDTO;
 import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.User;
@@ -59,9 +60,12 @@ public class VacancyController {
     public String showCreateVacancyForm(
             Model model
     ) {
-        List<Project> allProjects = projectService.getAllProjects();
+        List<Project> allProjectDTOs = projectService.getAllProjects()
+                .stream()
+                .map(ProjectDTO::toProjectDTO)
+                .collect(Collectors.toList());
 
-        model.addAttribute("allProjects", allProjects);
+        model.addAttribute("allProjects", allProjectDTOs);
         model.addAttribute("vacancy", new Vacancy());
 
         return "createVacancy";
@@ -90,10 +94,13 @@ public class VacancyController {
     ) {
         Vacancy vacancy = vacancyService.getVacancyDTOById(id).toVacancy();
 
-        List<Project> allProjects = projectService.getAllProjects();
+        List<Project> allProjects = projectService.getAllProjects()
+                .stream()
+                .map(ProjectDTO::toProjectDTO)
+                .collect(Collectors.toList());
 
         model.addAttribute("allProjects", allProjects);
-        model.addAttribute("vacancy", vacancy);
+        model.addAttribute("vacancy", VacancyDTO.fromVacancy(vacancy));
 
         return "editVacancy";
     }
