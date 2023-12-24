@@ -1,7 +1,6 @@
 package com.example.human_resources_department.services;
 
 import com.example.human_resources_department.dto.ProjectDTO;
-import com.example.human_resources_department.dto.VacancyDTO;
 import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.models.User;
@@ -32,8 +31,9 @@ public class ProjectService {
     }
 
     @Transactional(readOnly = true)
-    public Project findProjectById(Long projectId) {
-        return projectRepository.findById(projectId).orElse(null);
+    public ProjectDTO findProjectDTOById(Long projectId) {
+        Project project = projectRepository.findById(projectId).orElse(null);
+        return (project != null) ? ProjectDTO.fromProjectDTO(project) : null;
     }
 
     @Transactional
@@ -70,8 +70,13 @@ public class ProjectService {
     }
 
     @Transactional(readOnly = true)
-    public Project getProjectById(Long projectId) {
-        return projectRepository.findById(projectId).orElse(null);
+    public ProjectDTO getProjectDTOById(Long projectId) {
+        Project project = projectRepository.findById(projectId).orElse(null);
+        if (project != null) {
+            return ProjectDTO.fromProjectDTO(project);
+        } else {
+            return null;
+        }
     }
 
     @Transactional(readOnly = true)
@@ -87,11 +92,12 @@ public class ProjectService {
 
     @Transactional
     public void addSelectedUsersToProject(
-            Long projectId,
+            ProjectDTO projectDTO,
             Integer count,
             List<Long> selectedUserIds
     ) {
-        Project project = getProjectById(projectId);
+        Long projectId = projectDTO.getId();
+        Project project = getProjectDTOById(projectId).toProjectDTO();
         if (project == null) {
             throw new EntityNotFoundException("Project with ID " + projectId + " not found");
         }
@@ -121,10 +127,10 @@ public class ProjectService {
     public Map<String, List<User>> findTeamMembersByRoleAndProject(Long projectId) {
         Map<String, List<User>> teamMembersByRole = new HashMap<>();
 
-        Project project = projectRepository.getProjectById(projectId);
+        ProjectDTO projectDTO = ProjectDTO.fromProjectDTO(projectRepository.getProjectById(projectId));
 
-        if (project != null) {
-            Collection<User> teamMembers = project.getCoworkers();
+        if (projectDTO != null) {
+            Collection<User> teamMembers = projectDTO.getCoworkers();
 
             for (User user : teamMembers) {
                 for (Role role : user.getUserRoles()) {
@@ -138,17 +144,19 @@ public class ProjectService {
 
     @Transactional(readOnly = true)
     public List<User> getSelectedUsersForProject(Long projectId) {
-        Project project = projectRepository.getProjectById(projectId);
+        ProjectDTO projectDTO = ProjectDTO.fromProjectDTO(projectRepository.getProjectById(projectId));
 
-        if (project != null && project.getCoworkers() != null) {
-            return new ArrayList<>(project.getCoworkers());
+        if (projectDTO != null && projectDTO.getCoworkers() != null) {
+            return new ArrayList<>(projectDTO.getCoworkers());
         } else {
             return Collections.emptyList();
         }
     }
 
+
     @Transactional
-    public void clearSelectedUsersForProject(Long projectId) {
+    public void clearSelectedUsersForProject(ProjectDTO projectDTO) {
+        Long projectId = projectDTO.getId();
         Project project = projectRepository.getProjectById(projectId);
 
         if (project != null) {
@@ -157,10 +165,6 @@ public class ProjectService {
         }
     }
 
-//    @Transactional(readOnly = true)
-//    public List<Project> getAllProjects() {
-//        return projectRepository.findAll();
-//    }
 
     @Transactional(readOnly = true)
     public List<ProjectDTO> getAllProjects() {
@@ -181,7 +185,7 @@ public class ProjectService {
             Long projectId,
             MultipartFile fileContractName,
             Boolean isActive,
-            Project editedProject
+            ProjectDTO editedProjectDTO
     ) {
         Project existingProject = projectRepository.getProjectById(projectId);
 
@@ -189,13 +193,13 @@ public class ProjectService {
             throw new IllegalArgumentException("You don't have permission to edit this meeting.");
         }
 
-        existingProject.setName(editedProject.getName());
-        existingProject.setDescription(editedProject.getDescription());
-        existingProject.setBudget(editedProject.getBudget());
+        existingProject.setName(editedProjectDTO.getName());
+        existingProject.setDescription(editedProjectDTO.getDescription());
+        existingProject.setBudget(editedProjectDTO.getBudget());
         existingProject.setActive(isActive);
-        existingProject.setCustomer(editedProject.getCustomer());
-        existingProject.setDeadline(editedProject.getDeadline());
-        existingProject.setProjectDirection(editedProject.getProjectDirection());
+        existingProject.setCustomer(editedProjectDTO.getCustomer());
+        existingProject.setDeadline(editedProjectDTO.getDeadline());
+        existingProject.setProjectDirection(editedProjectDTO.getProjectDirection());
 
         if (fileContractName != null && !fileContractName.getOriginalFilename().isEmpty()) {
             String uniqueFileName = localFileStorageService.storeFile(fileContractName);

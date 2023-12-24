@@ -1,5 +1,6 @@
 package com.example.human_resources_department.controllers;
 
+import com.example.human_resources_department.dto.ProjectDTO;
 import com.example.human_resources_department.dto.TeamCreationDto;
 import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.Role;
@@ -70,7 +71,7 @@ public class ProjectController {
             @PathVariable Long project_id,
             Model model
     ) {
-        Project project = projectService.findProjectById(project_id);
+        Project project = projectService.findProjectDTOById(project_id).toProjectDTO();
 
         model.addAttribute("project", project);
         model.addAttribute("path", path);
@@ -104,7 +105,7 @@ public class ProjectController {
             @PathVariable Long projectId,
             Model model
     ) {
-        Project project = projectService.getProjectById(projectId);
+        Project project = projectService.getProjectDTOById(projectId).toProjectDTO();
 
         model.addAttribute("project", project);
 
@@ -117,10 +118,10 @@ public class ProjectController {
             @PathVariable Long projectId,
             @RequestParam("file") MultipartFile file,
             @RequestParam(value = "isActive", required = false) Boolean isActive,
-            @ModelAttribute Project editedProject
+            @ModelAttribute ProjectDTO editedProjectDTO
     ) {
         try {
-            projectService.editProject(currentUser, projectId, file, isActive, editedProject);
+            projectService.editProject(currentUser, projectId, file, isActive, editedProjectDTO);
             return "redirect:/project";
         } catch (IllegalArgumentException e) {
             System.out.println("Error editing project: " + e.getMessage());
@@ -133,7 +134,7 @@ public class ProjectController {
             @PathVariable Long projectId,
             Model model
     ) {
-        Project project = projectService.getProjectById(projectId);
+        Project project = projectService.getProjectDTOById(projectId).toProjectDTO();
         Map<Role, Integer> availableRoles = projectService.getAllRoles();
 
         model.addAttribute("project", project);
@@ -158,20 +159,20 @@ public class ProjectController {
             @RequestParam(name = "clearSelection", required = false) Boolean clearSelection,
             Model model
     ) {
-        Project project = projectService.getProjectById(projectId);
+        ProjectDTO projectDTO = projectService.getProjectDTOById(projectId);
 
         Map<String, List<User>> teamMembersByRole = projectService.findTeamMembersByRoleAndProject(projectId);
 
         if (clearSelection != null && clearSelection) {
             System.out.println("Clearing selection for project: " + projectId);
-            projectService.clearSelectedUsersForProject(projectId);
+            projectService.clearSelectedUsersForProject(projectDTO);
 
             return "redirect:/project/" + projectId + "/show-team";
         }
 
         model.addAttribute("errorMessage", "Your error message here");
         model.addAttribute("teamMembersByRole", teamMembersByRole);
-        model.addAttribute("project", project);
+        model.addAttribute("project", projectDTO);
 
         return "showTeamPage";
     }
@@ -183,7 +184,7 @@ public class ProjectController {
             @RequestParam(required = false) String role,
             Model model
     ) {
-        Project project = projectService.getProjectById(projectId);
+        Project project = projectService.getProjectDTOById(projectId).toProjectDTO();
 
         List<User> selectedUsers = projectService.getSelectedUsersForProject(projectId);
 
@@ -209,8 +210,10 @@ public class ProjectController {
             @RequestParam Integer count,
             @RequestParam(name = "selectedUserIds", required = false) List<Long> selectedUserIds
     ) {
+        ProjectDTO projectDTO = projectService.getProjectDTOById(projectId);
+
         if (selectedUserIds != null) {
-            projectService.addSelectedUsersToProject(projectId, count, selectedUserIds);
+            projectService.addSelectedUsersToProject(projectDTO, count, selectedUserIds);
         }
 
         return "redirect:/project/{projectId}/show-team";
