@@ -34,7 +34,7 @@ public class Employee {
     @Column(name = "reg_date", nullable = false)
     private Date dateOfRegistration;
 
-    private boolean active; //or released
+    private Boolean active; //or released
     private String filePhoto;
     @Column(name = "secret_code_for_role")
     private String secretCodeForRole;
@@ -107,11 +107,11 @@ public class Employee {
         this.email = email;
     }
 
-    public boolean isActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 

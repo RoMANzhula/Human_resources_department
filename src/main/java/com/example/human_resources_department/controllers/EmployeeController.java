@@ -1,5 +1,6 @@
 package com.example.human_resources_department.controllers;
 
+import com.example.human_resources_department.dto.EmployeeDTO;
 import com.example.human_resources_department.models.Employee;
 import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.services.EmployeeService;
@@ -35,7 +36,7 @@ public class EmployeeController {
             @RequestParam(required = false, defaultValue = "") String lastNameFilter,
             Model model
     ) {
-        Iterable<Employee> listOfEmployeesByFilter = employeeService.getEmployees(lastNameFilter);
+        Iterable<EmployeeDTO> listOfEmployeesByFilter = employeeService.getEmployeesDTO(lastNameFilter);
 
         model.addAttribute("employees", listOfEmployeesByFilter);
         model.addAttribute("lastNameFilter", lastNameFilter);
@@ -45,11 +46,11 @@ public class EmployeeController {
 
     @GetMapping("/{employeeId}")
     public String employeeProfileEditor(
-            @PathVariable("employeeId") Employee employeeId,
+            @PathVariable("employeeId") Long employeeId,
             Model model
     ) {
-        Employee employee = employeeService.getEmployeeById(employeeId.getId());
-        model.addAttribute("employee", employee);
+        EmployeeDTO employeeDTO = employeeService.getEmployeeDTOById(employeeId);
+        model.addAttribute("employee", employeeDTO);
         model.addAttribute("roles", Role.values());
 
         return "employeeProfile";
@@ -76,16 +77,16 @@ public class EmployeeController {
     public String sendActivationCodeEmail(
             @RequestParam("employeeId") Long employeeId
     ) {
-        Employee employee = employeeService.getEmployeeById(employeeId);
+        EmployeeDTO employeeDTO = employeeService.getEmployeeDTOById(employeeId);
 
-        if (employee != null) {
-            String activationCode = employee.getSecretCodeForRole();
+        if (employeeDTO != null) {
+            String activationCode = employeeDTO.getSecretCodeForRole();
 
-            if (activationCode != null && !employee.getEmployeeRoles().isEmpty()) {
+            if (activationCode != null && !employeeDTO.getEmployeeRoles().isEmpty()) {
                 String emailSubject = "Activation Code";
                 String emailText = "Your activation code is: " + activationCode +
                         ". Visit this site for registration: " + hostname;
-                mailSenderService.sendByMail(employee.getEmail(), emailSubject, emailText);
+                mailSenderService.sendByMail(employeeDTO.getEmail(), emailSubject, emailText);
 
                 System.out.println("Activation code email sent successfully.");
             } else {

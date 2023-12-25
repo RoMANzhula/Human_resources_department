@@ -256,4 +256,12 @@ public class User implements UserDetails {
     public void setUsefulLinks(Set<UsefulLink> usefulLinks) {
         this.usefulLinks = usefulLinks;
     }
+
+    public Set<Project> getProjectsByAuthor() {
+        return projectsByAuthor;
+    }
+
+    public void setProjectsByAuthor(Set<Project> projectsByAuthor) {
+        this.projectsByAuthor = projectsByAuthor;
+    }
 }

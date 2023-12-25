@@ -49,7 +49,6 @@ public class EmployeeDTO {
         this.secretCodeForRole = secretCodeForRole;
     }
 
-    // Геттери для всіх полів
 
     public Long getId() {
         return id;

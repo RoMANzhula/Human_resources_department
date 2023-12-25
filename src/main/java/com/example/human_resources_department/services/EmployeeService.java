@@ -1,5 +1,6 @@
 package com.example.human_resources_department.services;
 
+import com.example.human_resources_department.dto.EmployeeDTO;
 import com.example.human_resources_department.models.Employee;
 import com.example.human_resources_department.models.Role;
 import com.example.human_resources_department.models.User;
@@ -10,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 public class EmployeeService {
@@ -140,5 +143,23 @@ public class EmployeeService {
     @Transactional(readOnly = true)
     public Employee findEmployeeBySecretCodeForRole(User coworker) {
         return employeeRepository.findEmployeeBySecretCodeForRole(coworker.getSecretCodeWithRegistration());
+    }
+
+    @Transactional(readOnly = true)
+    public EmployeeDTO getEmployeeDTOById(Long employeeId) {
+        Employee employee = getEmployeeById(employeeId);
+        return EmployeeDTO.fromEmployeeDTO(employee);
+    }
+
+    @Transactional(readOnly = true)
+    public List<EmployeeDTO> getEmployeesDTO(String lastNameFilter) {
+        Iterable<Employee> employeesIterable = getEmployees(lastNameFilter);
+
+        // Convert Iterable to Stream
+        Stream<Employee> employeeStream = StreamSupport.stream(employeesIterable.spliterator(), false);
+
+        return employeeStream
+                .map(EmployeeDTO::fromEmployeeDTO)
+                .collect(Collectors.toList());
     }
 }
