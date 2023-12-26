@@ -7,6 +7,7 @@ import com.example.human_resources_department.models.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class MeetingDTO {
@@ -18,11 +19,15 @@ public class MeetingDTO {
     private final LocalDateTime dateOfEvent;
     private final List<User> staff;
     private final List<Project> projects;
+    private final User authorOfMeeting;
+    private final Date dateOfRegistration;
+
 
     public MeetingDTO(
             Long id, String topic, String description, String link,
             List<User> speakers, LocalDateTime dateOfEvent,
-            List<User> staff, List<Project> projects
+            List<User> staff, List<Project> projects,
+            User authorOfMeeting, Date dateOfRegistration
     ) {
         this.id = id;
         this.topic = topic;
@@ -32,6 +37,8 @@ public class MeetingDTO {
         this.dateOfEvent = dateOfEvent;
         this.staff = new ArrayList<>(staff);
         this.projects = new ArrayList<>(projects);
+        this.authorOfMeeting = authorOfMeeting;
+        this.dateOfRegistration = dateOfRegistration;
     }
 
     public Long getId() {
@@ -51,7 +58,7 @@ public class MeetingDTO {
     }
 
     public List<User> getSpeakers() {
-        return Collections.unmodifiableList(speakers);
+        return new ArrayList<>(speakers);
     }
 
     public LocalDateTime getDateOfEvent() {
@@ -59,11 +66,19 @@ public class MeetingDTO {
     }
 
     public List<User> getStaff() {
-        return Collections.unmodifiableList(staff);
+        return new ArrayList<>(staff);
     }
 
     public List<Project> getProjects() {
-        return Collections.unmodifiableList(projects);
+        return new ArrayList<>(projects);
+    }
+
+    public User getAuthorOfMeeting() {
+        return authorOfMeeting;
+    }
+
+    public Date getDateOfRegistration() {
+        return dateOfRegistration;
     }
 
     public static MeetingDTO fromMeetingEntity(Meeting meeting) {
@@ -75,7 +90,9 @@ public class MeetingDTO {
                 new ArrayList<>(meeting.getSpeakers()),
                 meeting.getDateOfEvent(),
                 new ArrayList<>(meeting.getStaff()),
-                new ArrayList<>(meeting.getProjects())
+                new ArrayList<>(meeting.getProjects()),
+                meeting.getAuthorOfMeeting(),
+                meeting.getDateOfRegistration()
         );
     }
 
@@ -94,6 +111,21 @@ public class MeetingDTO {
         meeting.setSpeakers(speakers);
         meeting.setStaff(staff);
         meeting.setProjects(projects);
+        meeting.setAuthorOfMeeting(this.getAuthorOfMeeting());
+        meeting.setDateOfRegistration(this.getDateOfRegistration());
+
         return meeting;
     }
+
+    public MeetingDTO withAdditionalStaff(List<User> additionalStaff) {
+        List<User> newStaff = new ArrayList<>(this.staff);
+        newStaff.addAll(additionalStaff);
+        return new MeetingDTO(
+                this.id, this.topic, this.description, this.link,
+                new ArrayList<>(this.speakers), this.dateOfEvent,
+                newStaff, new ArrayList<>(this.projects),
+                this.authorOfMeeting, this.dateOfRegistration
+        );
+    }
+
 }

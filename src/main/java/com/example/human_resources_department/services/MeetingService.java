@@ -1,5 +1,7 @@
 package com.example.human_resources_department.services;
 
+import com.example.human_resources_department.dto.MeetingDTO;
+import com.example.human_resources_department.dto.ProjectDTO;
 import com.example.human_resources_department.models.Meeting;
 import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.User;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MeetingService {
@@ -55,12 +58,24 @@ public class MeetingService {
         meetingRepository.save(meeting);
     }
 
+//    @Transactional(readOnly = true)
+//    public List<Meeting> getAllMeetings() {
+//        List<Meeting> allMeetings = meetingRepository.findAll();
+//
+//        if (allMeetings != null && !allMeetings.isEmpty()) {
+//            return allMeetings;
+//        } else {
+//            return Collections.emptyList();
+//        }
+//    }
     @Transactional(readOnly = true)
-    public List<Meeting> getAllMeetings() {
+    public List<MeetingDTO> getAllMeetings() {
         List<Meeting> allMeetings = meetingRepository.findAll();
 
         if (allMeetings != null && !allMeetings.isEmpty()) {
-            return allMeetings;
+            return allMeetings.stream()
+                    .map(MeetingDTO::fromMeetingEntity)
+                    .collect(Collectors.toList());
         } else {
             return Collections.emptyList();
         }
@@ -72,18 +87,18 @@ public class MeetingService {
     }
 
     @Transactional
-    public void addCoworkersToMeeting(Meeting meeting, List<Long> coworkerIds) {
-        List<User> currentCoworkers = meeting.getStaff();
-
+    public void addCoworkersToMeeting(MeetingDTO meetingDTO, List<Long> coworkerIds) {
         List<User> newCoworkers = userService.getUsersByIds(coworkerIds);
 
-        currentCoworkers.addAll(newCoworkers);
+        MeetingDTO updatedMeetingDTO = meetingDTO.withAdditionalStaff(newCoworkers);
 
-        meeting.setStaff(currentCoworkers);
+        Meeting updatedMeeting = updatedMeetingDTO.toMeetingEntity();
 
-        meetingRepository.save(meeting);
+        meetingRepository.save(updatedMeeting);
     }
 
+
+    @Transactional(readOnly = true)
     public List<Meeting> getUserMeetings(User user) {
         List<Meeting> listOfUserMeetings = meetingRepository.findAllByStaffContaining(user);
 
@@ -135,7 +150,28 @@ public class MeetingService {
 
         existingMeeting.setStaff(currentCoworkers);
 
+
         meetingRepository.save(existingMeeting);
     }
 
+    @Transactional(readOnly = true)
+    public MeetingDTO getMeetingDTOById(Long meetingId) {
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow();
+
+        return MeetingDTO.fromMeetingEntity(meeting);
+    }
+
+    public List<MeetingDTO> getUserMeetingsDTO(User user) {
+        List<Meeting> userMeetings = meetingRepository.findAllByStaffContaining(user);
+
+        return userMeetings.stream()
+                .map(MeetingDTO::fromMeetingEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<Project> getMeetingProjectsDTO(Long meetingId) {
+        MeetingDTO meetingDTO = getMeetingDTOById(meetingId);
+        return meetingDTO.getProjects();
+    }
 }

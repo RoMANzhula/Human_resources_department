@@ -1,5 +1,6 @@
 package com.example.human_resources_department.controllers;
 
+import com.example.human_resources_department.dto.MeetingDTO;
 import com.example.human_resources_department.dto.ProjectDTO;
 import com.example.human_resources_department.models.Meeting;
 import com.example.human_resources_department.models.Project;
@@ -41,9 +42,9 @@ public class MeetingsController {
     public String showAllMeetings(
             Model model
     ) {
-        List<Meeting> meetings = meetingService.getAllMeetings();
+        List<MeetingDTO> meetingDTOs = meetingService.getAllMeetings();
 
-        model.addAttribute("meetings", meetings);
+        model.addAttribute("meetings", meetingDTOs);
 
         return "allMeetings";
     }
@@ -53,9 +54,9 @@ public class MeetingsController {
         @PathVariable Long meetingId,
         Model model
     ) {
-        Meeting meeting = meetingService.getMeetingById(meetingId);
+        MeetingDTO meetingDTO = meetingService.getMeetingDTOById(meetingId);
 
-        model.addAttribute("meeting", meeting);
+        model.addAttribute("meeting", meetingDTO);
 
         return "meetingInfoPage";
     }
@@ -99,18 +100,18 @@ public class MeetingsController {
             @PathVariable Long meetingId,
             Model model
     ) {
-        Meeting meeting = meetingService.getMeetingById(meetingId);
-        List<Project> meetingProjects = meeting.getProjects();
+        MeetingDTO meetingDTO = meetingService.getMeetingDTOById(meetingId);
+        List<Project> meetingProjects = meetingDTO.getProjects();
 
         if (!meetingProjects.isEmpty()) {
             List<User> coworkersByProjects = userService.getCoworkersByProjectId(
                     meetingProjects.stream().map(Project::getId).collect(Collectors.toList())
             );
 
-            model.addAttribute("meeting", meeting);
+            model.addAttribute("meeting", meetingDTO);
             model.addAttribute("allUsers", coworkersByProjects);
         } else {
-            model.addAttribute("meeting", meeting);
+            model.addAttribute("meeting", meetingDTO);
             model.addAttribute("allUsers", Collections.emptyList());
             model.addAttribute("errorMessage", "No projects selected");
         }
@@ -124,10 +125,10 @@ public class MeetingsController {
             @RequestParam(name = "coworkers", required = false) List<Long> coworkers,
             Model model
     ) {
-        Meeting meeting = meetingService.getMeetingById(meetingId);
+        MeetingDTO meetingDTO = meetingService.getMeetingDTOById(meetingId);
 
         if (coworkers != null && !coworkers.isEmpty()) {
-            meetingService.addCoworkersToMeeting(meeting, coworkers);
+            meetingService.addCoworkersToMeeting(meetingDTO, coworkers);
         } else {
             model.addAttribute("error", "Please select coworkers.");
         }
@@ -140,9 +141,9 @@ public class MeetingsController {
             @AuthenticationPrincipal User user,
             Model model
     ) {
-        List<Meeting> userMeetings = meetingService.getUserMeetings(user);
+        List<MeetingDTO> userMeetingsDTO = meetingService.getUserMeetingsDTO(user);
 
-        model.addAttribute("userMeetings", userMeetings);
+        model.addAttribute("userMeetings", userMeetingsDTO);
         return "userMeetings";
     }
 
@@ -152,7 +153,7 @@ public class MeetingsController {
             @PathVariable Long meetingId,
             Model model
     ) {
-        Meeting meeting = meetingService.getMeetingById(meetingId);
+        MeetingDTO meetingDTO = meetingService.getMeetingDTOById(meetingId);
 
         List<Project> allProjects = projectService.getAllProjects()
                 .stream()
@@ -162,7 +163,7 @@ public class MeetingsController {
 
         model.addAttribute("allProjects", allProjects);
         model.addAttribute("allSpeakers", allSpeakers);
-        model.addAttribute("meeting", meeting);
+        model.addAttribute("meeting", meetingDTO);
 
         return "editMeeting";
     }
@@ -189,16 +190,16 @@ public class MeetingsController {
             @PathVariable Long meetingId,
             Model model
     ) {
-        Meeting meeting = meetingService.getMeetingById(meetingId);
-        List<Project> meetingProjects = meeting.getProjects();
+        MeetingDTO meetingDTO = meetingService.getMeetingDTOById(meetingId);
+        List<Project> meetingProjects = meetingDTO.getProjects();
 
         if (!meetingProjects.isEmpty()) {
-            List<User> allCoworkers = userRepository.findCoworkersByProjects(meeting.getProjects());
+            List<User> allCoworkers = userRepository.findCoworkersByProjects(meetingProjects);
 
-            model.addAttribute("meeting", meeting);
+            model.addAttribute("meeting", meetingDTO);
             model.addAttribute("allCoworkers", allCoworkers);
         } else {
-            model.addAttribute("meeting", meeting);
+            model.addAttribute("meeting", meetingDTO);
             model.addAttribute("allUsers", Collections.emptyList());
             model.addAttribute("errorMessage", "No projects selected");
         }
