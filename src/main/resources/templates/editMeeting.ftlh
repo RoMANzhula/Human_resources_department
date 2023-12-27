@@ -37,7 +37,7 @@
             </div>
 
             <div class="form-group">
-                <label for="project">Project</label>
+                <label for="project">Project(s)</label>
                 <div>
                     <#list allProjects as project>
                         <input type="checkbox" class="form-check-input" id="project_${project.id}" name="selectedProjects"

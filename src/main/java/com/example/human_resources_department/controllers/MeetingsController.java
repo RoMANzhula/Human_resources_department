@@ -66,10 +66,7 @@ public class MeetingsController {
             Model model
     ) {
         Meeting newMeeting = new Meeting();
-        List<Project> allProjects = projectService.getAllProjects()
-                .stream()
-                .map(ProjectDTO::toProjectDTO)
-                .collect(Collectors.toList());
+        List<Project> allProjects = projectService.getAllProjects();
         List<User> allUsers = userService.getAllUsers();
 
         model.addAttribute("meeting", newMeeting);
@@ -155,10 +152,8 @@ public class MeetingsController {
     ) {
         MeetingDTO meetingDTO = meetingService.getMeetingDTOById(meetingId);
 
-        List<Project> allProjects = projectService.getAllProjects()
-                .stream()
-                .map(ProjectDTO::toProjectDTO)
-                .collect(Collectors.toList());
+        List<Project> allProjects = projectService.getAllProjects();
+
         List<User> allSpeakers = userService.getAllUsers();
 
         model.addAttribute("allProjects", allProjects);

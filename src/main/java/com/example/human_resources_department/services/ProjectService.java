@@ -167,16 +167,9 @@ public class ProjectService {
 
 
     @Transactional(readOnly = true)
-    public List<ProjectDTO> getAllProjects() {
-        List<Project> projects = projectRepository.findAll();
+    public List<Project> getAllProjects() {
+        return projectRepository.findAll();
 
-        if (projects != null && !projects.isEmpty()) {
-            return projects.stream()
-                    .map(ProjectDTO::fromProjectDTO)
-                    .collect(Collectors.toList());
-        } else {
-            return Collections.emptyList();
-        }
     }
 
     @Transactional

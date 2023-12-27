@@ -1,7 +1,6 @@
 package com.example.human_resources_department.services;
 
 import com.example.human_resources_department.dto.MeetingDTO;
-import com.example.human_resources_department.dto.ProjectDTO;
 import com.example.human_resources_department.models.Meeting;
 import com.example.human_resources_department.models.Project;
 import com.example.human_resources_department.models.User;
@@ -58,16 +57,6 @@ public class MeetingService {
         meetingRepository.save(meeting);
     }
 
-//    @Transactional(readOnly = true)
-//    public List<Meeting> getAllMeetings() {
-//        List<Meeting> allMeetings = meetingRepository.findAll();
-//
-//        if (allMeetings != null && !allMeetings.isEmpty()) {
-//            return allMeetings;
-//        } else {
-//            return Collections.emptyList();
-//        }
-//    }
     @Transactional(readOnly = true)
     public List<MeetingDTO> getAllMeetings() {
         List<Meeting> allMeetings = meetingRepository.findAll();
@@ -169,9 +158,4 @@ public class MeetingService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public List<Project> getMeetingProjectsDTO(Long meetingId) {
-        MeetingDTO meetingDTO = getMeetingDTOById(meetingId);
-        return meetingDTO.getProjects();
-    }
 }
