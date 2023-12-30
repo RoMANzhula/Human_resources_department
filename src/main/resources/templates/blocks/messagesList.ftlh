@@ -19,7 +19,7 @@
                         <div class="card-footer">
                             <small class="text-body-secondary">
                                 <p>
-                                    <a href="/coworker/coworker-page/${message.author.id?c}">${message.authorName}</a>
+                                    <a href="/coworker/coworker-page/${message.author.id?c}">${message.getAuthor().getUsername()}</a>
                                     -- "${message.getDateOfRegistration()}
                                 </p>
                             </small>

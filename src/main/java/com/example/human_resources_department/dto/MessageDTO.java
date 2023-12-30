@@ -3,65 +3,41 @@ package com.example.human_resources_department.dto;
 
 import com.example.human_resources_department.models.User;
 
+
 import java.util.Date;
 
 public class MessageDTO {
     private Long id;
     private String topic;
     private String text;
-    private String authorName;
+    private User author;
     private String fileName;
     private Date dateOfRegistration;
 
-    // Default constructor
     public MessageDTO() {
     }
 
-    // Constructor for creating a new message
-    public MessageDTO(String topic, String text, User author, String fileName) {
+    public MessageDTO(User author, String topic, String text, String fileName) {
+        this.author = author;
         this.topic = topic;
         this.text = text;
-        this.authorName = author != null ? author.getUsername() : "<unknown>";
         this.fileName = fileName;
-        // Assuming you want to set the current date for dateOfRegistration
         this.dateOfRegistration = new Date();
     }
 
-    // Constructor for displaying all messages
     public MessageDTO(Long id, String topic, String text, User author, String fileName, Date dateOfRegistration) {
         this.id = id;
         this.topic = topic;
         this.text = text;
-        this.authorName = author != null ? author.getUsername() : "<unknown>";
+        this.author = author;
         this.fileName = fileName;
         this.dateOfRegistration = dateOfRegistration;
     }
 
-    // Constructor for displaying messages after filtering by author
-    public MessageDTO(Long id, String topic, String text, String authorName, String fileName, Date dateOfRegistration) {
+    public MessageDTO(Long id, String topic, String text) {
         this.id = id;
         this.topic = topic;
         this.text = text;
-        this.authorName = authorName;
-        this.fileName = fileName;
-        this.dateOfRegistration = dateOfRegistration;
-    }
-
-    // Constructor for editing a message
-    public MessageDTO(Long id, String topic, String text, String fileName) {
-        this.id = id;
-        this.topic = topic;
-        this.text = text;
-        this.fileName = fileName;
-    }
-
-    // Constructor for displaying user-specific messages
-    public MessageDTO(Long id, String topic, String text, String fileName, Date dateOfRegistration) {
-        this.id = id;
-        this.topic = topic;
-        this.text = text;
-        this.fileName = fileName;
-        this.dateOfRegistration = dateOfRegistration;
     }
 
     public Long getId() {
@@ -88,12 +64,12 @@ public class MessageDTO {
         this.text = text;
     }
 
-    public String getAuthorName() {
-        return authorName;
+    public User getAuthor() {
+        return author;
     }
 
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public String getFileName() {
@@ -111,5 +87,5 @@ public class MessageDTO {
     public void setDateOfRegistration(Date dateOfRegistration) {
         this.dateOfRegistration = dateOfRegistration;
     }
-    // ...
+
 }

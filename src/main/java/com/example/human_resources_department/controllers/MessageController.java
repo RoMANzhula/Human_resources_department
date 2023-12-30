@@ -1,10 +1,9 @@
 package com.example.human_resources_department.controllers;
 
-import com.example.human_resources_department.models.Message;
+import com.example.human_resources_department.dto.MessageDTO;
 import com.example.human_resources_department.models.User;
 import com.example.human_resources_department.repositories.MessageRepository;
 import com.example.human_resources_department.services.MessageService;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,8 +40,9 @@ public class MessageController {
             @RequestParam("file") MultipartFile fileForMessage,
             Model model
     ){
+        MessageDTO messageDTO = new MessageDTO(coworker, topic, text, String.valueOf(fileForMessage));
 
-        if (!messageService.saveNewMessage(coworker, topic, text, fileForMessage)) {
+        if (!messageService.saveNewMessage(messageDTO)) {
             model.addAttribute("message", "Message is not created!");
         }
 
@@ -53,8 +53,7 @@ public class MessageController {
     public String allMessages(
             Model model
     ) {
-        //reverse order for messages by date
-        Iterable<Message> messages = messageRepository.findAll(Sort.by(Sort.Order.desc("dateOfRegistration")));
+        Iterable<MessageDTO> messages = messageService.getAllMessages();
 
         model.addAttribute("messages", messages);
 
@@ -66,7 +65,7 @@ public class MessageController {
             @RequestParam(required = false, defaultValue = "") String filterByAuthor,
             Model model
     ){
-        Iterable<Message> listOfMessagesByFilter = messageService.getEmployees(filterByAuthor);
+        Iterable<MessageDTO> listOfMessagesByFilter = messageService.getEmployeeDTOs(filterByAuthor);
 
         model.addAttribute("messages", listOfMessagesByFilter);
         model.addAttribute("filterByAuthor", filterByAuthor);
@@ -79,9 +78,9 @@ public class MessageController {
             @PathVariable Long messageId,
             Model model
     ) {
-        Message message = messageService.findById(messageId);
+        MessageDTO messageDTO = messageService.findDTOById(messageId);
 
-        model.addAttribute("message", message);
+        model.addAttribute("message", messageDTO);
 
         return "messageEditor";
     }
@@ -93,9 +92,9 @@ public class MessageController {
             @RequestParam MultipartFile file,
             @RequestParam Long messageId
     ) {
-        Message message = messageService.findById(messageId);
+        MessageDTO messageDTO = new MessageDTO(messageId, topic, text);
 
-        messageService.updateMessage(message, topic, text, file);
+        messageService.updateMessage(messageDTO, file);
 
         return "redirect:/messages";
     }
@@ -115,9 +114,9 @@ public class MessageController {
             @PathVariable User userId,
             Model model
     ) {
-        Iterable<Message> userMessages = messageService.messagesListForCurrentUser(currentUser);
+        Iterable<MessageDTO> userMessagesDTO = messageService.messagesListForCurrentUser(currentUser);
 
-        model.addAttribute("messages", userMessages);
+        model.addAttribute("messages", userMessagesDTO);
 
         return "myMessages";
     }

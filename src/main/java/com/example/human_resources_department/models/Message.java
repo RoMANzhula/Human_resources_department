@@ -31,6 +31,13 @@ public class Message {
         this.author = author;
     }
 
+    public Message(String topic, String text, User author, String fileName) {
+        this.topic = topic;
+        this.text = text;
+        this.author = author;
+        this.fileName = fileName;
+    }
+
     public String getAuthorName() {
         return author != null ? author.getUsername() : "<unknown>";
     }
